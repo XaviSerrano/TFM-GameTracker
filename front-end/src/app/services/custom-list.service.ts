@@ -3,66 +3,34 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { CustomList } from '../models/custom-list.model';
 import { environment } from '../../environments/environment';
+
 @Injectable({ providedIn: 'root' })
 export class CustomListService {
-  
-  private apiUrl = `${environment.apiUrl}/custom-lists`;
+private apiUrl = `${environment.apiUrl}/custom-lists`;
 
-  constructor(private http: HttpClient) {}
+constructor(private http: HttpClient) {}
 
-  /* CRUD Custom List*/
-  createList(data: { title: string; description?: string }) {
-    return this.http.post<CustomList>(this.apiUrl, data, {
-      headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
-    });
-  }
+createList(data: { title: string; description?: string }): Observable<CustomList> {
+return this.http.post<CustomList>(this.apiUrl, data);
+}
 
-  getMyLists() {
-    return this.http.get<CustomList[]>(this.apiUrl, {
-      headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
-    });
-  }
+getMyLists(): Observable<CustomList[]> {
+return this.http.get<CustomList[]>(this.apiUrl);
+}
 
+deleteList(listId: number): Observable<void> {
+return this.http.delete<void>(`${this.apiUrl}/${listId}`);
+}
 
-  deleteList(listId: number) {
-    return this.http.delete(`${this.apiUrl}/${listId}`, {
-      headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
-    });
-  }
+toggleGameInList(listId: number, game: any): Observable<any> {
+return this.http.post(`${this.apiUrl}/${listId}/games/toggle`, game);
+}
 
+getListById(id: string | number): Observable<CustomList> {
+return this.http.get<CustomList>(`${this.apiUrl}/${id}`);
+}
 
-  toggleGameInList(listId: number, game: any) {
-    return this.http.post(
-      `${this.apiUrl}/${listId}/games/toggle`,
-      game,
-      {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('token')}`
-        }
-      }
-    );
-  }
-
-  getListById(id: string | number): Observable<CustomList> {
-    return this.http.get<CustomList>(`${this.apiUrl}/${id}`, {
-      headers: {
-          Authorization: `Bearer ${localStorage.getItem('token')}`
-      }
-    })
-  }
-
-  updateList(
-    listId: number,
-    data: { title: string; description?: string }
-  ): Observable<CustomList> {
-    return this.http.patch<CustomList>(
-      `${this.apiUrl}/${listId}`,
-      data,
-      {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('token')}`
-        }
-      }
-    );
-  }
+updateList(listId: number, data: { title: string; description?: string }): Observable<CustomList> {
+return this.http.patch<CustomList>(`${this.apiUrl}/${listId}`, data);
+}
 }

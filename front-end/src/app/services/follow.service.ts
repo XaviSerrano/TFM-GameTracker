@@ -1,59 +1,31 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Follow } from '../models/follow.model';
 import { environment } from '../../environments/environment';
-@Injectable({
-  providedIn: 'root'
-})
+
+@Injectable({ providedIn: 'root' })
 export class FollowService {
-  
-  private apiUrl = `${environment.apiUrl}/follow`;
+private apiUrl = `${environment.apiUrl}/follow`;
 
-  constructor(private http: HttpClient) {}
+constructor(private http: HttpClient) {}
 
-  private getAuthHeaders() {
-    return {
-      headers: new HttpHeaders({
-        Authorization: `Bearer ${localStorage.getItem('token')}`
-      })
-    };
-  }
+followUser(targetUserId: number): Observable<any> {
+return this.http.post(`${this.apiUrl}/${targetUserId}`, {});
+}
 
-  followUser(targetUserId: number): Observable<any> {
-    return this.http.post(
-      `${this.apiUrl}/${targetUserId}`,
-      {},
-      this.getAuthHeaders()
-    );
-  }
-  
-  unfollowUser(targetUserId: number): Observable<any> {
-    return this.http.delete(
-      `${this.apiUrl}/${targetUserId}`,
-      this.getAuthHeaders()
-    );
-  }
+unfollowUser(targetUserId: number): Observable<any> {
+return this.http.delete(`${this.apiUrl}/${targetUserId}`);
+}
 
+isFollowing(targetUserId: number): Observable<{ following: boolean }> {
+return this.http.get<{ following: boolean }>(`${this.apiUrl}/is-following/${targetUserId}`);
+}
 
-  isFollowing(targetUserId: number): Observable<{ following: boolean }> {
-    return this.http.get<{ following: boolean }>(
-      `${this.apiUrl}/is-following/${targetUserId}`,
-      this.getAuthHeaders()
-    );
-  }
+getFollowers(userId: number): Observable<any[]> {
+return this.http.get<any[]>(`${this.apiUrl}/followers/${userId}`);
+}
 
-  getFollowers(userId: number): Observable<any[]> {
-    return this.http.get<any[]>(
-      `${this.apiUrl}/followers/${userId}`,
-      this.getAuthHeaders()
-    );
-  }
-
-  getFollowing(userId: number): Observable<any[]> {
-    return this.http.get<any[]>(
-      `${this.apiUrl}/following/${userId}`,
-      this.getAuthHeaders()
-    );
-  }
+getFollowing(userId: number): Observable<any[]> {
+return this.http.get<any[]>(`${this.apiUrl}/following/${userId}`);
+}
 }

@@ -38,4 +38,11 @@ export class GameCardComponent {
     this.bookmarkToggled.emit(newState);
   }
 
+  get backgroundImage(): string {
+    return this.game?.background_image
+      ? `url(${this.game.background_image})`
+      : `url('assets/images/background.svg')`;
+  }
+
+
 }

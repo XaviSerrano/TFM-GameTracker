@@ -3,7 +3,8 @@ import { CommonModule } from '@angular/common';
 import { UserGameService } from '../../../services/user-game.service';
 import { GameCardComponent } from '../../game-card/game-card.component';
 import { Router, ActivatedRoute } from '@angular/router';
-import { AuthService } from '../../../auth/auth.service'; // Cambiar
+import { AuthService } from '../../../services/auth.service';
+// import { AuthService } from '../../../auth/auth.service'; // Cambiar
 import { CollectionStatusChartComponent } from '../../collection-status-chart/collection-status-chart.component';
 
 @Component({

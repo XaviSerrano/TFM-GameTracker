@@ -7,6 +7,7 @@ export interface WishlistItem {
   gameId: number;
   gameName: string;
   backgroundImage?: string;
+  rating?: number;
 }
 
 @Injectable({
@@ -17,30 +18,24 @@ export class WishlistService {
 
   constructor(private http: HttpClient) {}
 
-  private getHeaders(): HttpHeaders {
-    const token = localStorage.getItem('token');
-    return new HttpHeaders({ Authorization: `Bearer ${token || ''}` });
-  }
-
   getWishlist(): Observable<WishlistItem[]> {
-    return this.http.get<WishlistItem[]>(this.apiUrl, { headers: this.getHeaders() });
+    return this.http.get<WishlistItem[]>(this.apiUrl);
   }
 
-  addToWishlist(game: { gameId: number; gameName: string; backgroundImage?: string }): Observable<WishlistItem> {
-    return this.http.post<WishlistItem>(`${this.apiUrl}/${game.gameId}`, game, { headers: this.getHeaders() });
+  addToWishlist(game: { gameId: number; gameName: string; backgroundImage?: string; rating?: number }): Observable<WishlistItem> {
+    return this.http.post<WishlistItem>(`${this.apiUrl}/${game.gameId}`, game);
   }
 
   removeFromWishlist(gameId: number): Observable<any> {
-    return this.http.delete(`${this.apiUrl}/${gameId}`, { headers: this.getHeaders() });
+    return this.http.delete(`${this.apiUrl}/${gameId}`);
   }
 
   isInWishlist(gameId: number): Observable<boolean> {
-    return this.http.get<boolean>(`${this.apiUrl}/check/${gameId}`, { headers: this.getHeaders() });
+    return this.http.get<boolean>(`${this.apiUrl}/check/${gameId}`);
   }
 
   getWishlistByUser(userId: number): Observable<WishlistItem[]> {
     return this.http.get<WishlistItem[]>(`${this.apiUrl}/user/${userId}`);
   }
 
-  
 }

@@ -15,6 +15,13 @@ export class Wishlist {
   @Column({ nullable: true })
   backgroundImage: string;
 
+  @Column({ nullable: true })
+  rating: number;
+
+  // clave profesional
+  @Column()
+  userId: number;
+
   @ManyToOne(() => User, (user) => user.wishlist, { onDelete: 'CASCADE' })
   @JoinColumn({ name: 'userId' })
   user: User;

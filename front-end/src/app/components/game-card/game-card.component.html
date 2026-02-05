@@ -1,12 +1,18 @@
 <div class="game-card" (click)="onCardClick()">
-  <div class="game-image" [style.backgroundImage]="'url(' + game.background_image + ')'">
+  <div class="game-image" [style.backgroundImage]="backgroundImage">
+
+    <div class="game-rating">
+      ⭐ {{ game.rating }}
+    </div>
+
     <div class="game-info">
       <h3>{{ game.name }}</h3>
-        <app-game-actions
-          [game]="game"
-          [isBookmarked]="isBookmarked"
-          (bookmarkToggled)="onBookmarkChange($event)"
-        ></app-game-actions>
+
+      <app-game-actions
+        [game]="game"
+        [isBookmarked]="isBookmarked"
+        (bookmarkToggled)="onBookmarkChange($event)"
+      ></app-game-actions>
     </div>
   </div>
 </div>

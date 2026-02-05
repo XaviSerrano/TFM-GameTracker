@@ -21,7 +21,8 @@
       [game]="{
         id: game.gameId,
         name: game.gameName,
-        background_image: game.backgroundImage
+        background_image: game.backgroundImage,
+        rating: game.rating
       }"
       [initialBookmarked]="true"
       (bookmarkToggled)="removeFromWishlist($event)"

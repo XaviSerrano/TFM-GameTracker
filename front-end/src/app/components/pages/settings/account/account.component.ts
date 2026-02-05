@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { AuthService } from '../../../../auth/auth.service'; // Cambiar
+import { AuthService } from '../../../../services/auth.service';
+// import { AuthService } from '../../../../auth/auth.service'; // Cambiar
 import { UserService } from '../../../../services/user.service';
 import { AlertService } from '../../../../services/alert.service';
 

@@ -1,7 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
-import { AuthService } from '../../auth/auth.service';
+import { AuthService } from '../../services/auth.service';
+// import { AuthService } from '../../auth/auth.service'; // Cambiar
 import { ModalManagerService } from '../../services/modal-manager.service';
 import { UserGameService } from '../../services/user-game.service';
 import { WishlistService } from '../../services/wishlist.service';
@@ -70,6 +71,7 @@ export class GameActionsComponent implements OnInit {
           gameId: this.game.id,
           gameName: this.game.name,
           backgroundImage: this.game.background_image,
+          rating: this.game.rating
         });
 
     action$.subscribe({

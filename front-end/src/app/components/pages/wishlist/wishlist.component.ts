@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { WishlistService } from '../../../services/wishlist.service';
 import { GameCardComponent } from '../../game-card/game-card.component';
-import { AuthService } from '../../../auth/auth.service'; // Cambiar
+import { AuthService } from '../../../services/auth.service';
+// import { AuthService } from '../../../auth/auth.service'; // Cambiar
 import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
@@ -55,7 +56,8 @@ export class WishlistComponent implements OnInit {
         this.wishlist = data.map(item => ({
           gameId: item.gameId,
           gameName: item.gameName,
-          backgroundImage: item.backgroundImage
+          backgroundImage: item.backgroundImage,
+          rating: item.rating // ✅ ahora incluimos rating
         }));
         this.loading = false;
       },
@@ -66,7 +68,7 @@ export class WishlistComponent implements OnInit {
     });
   }
 
-  // PUBLIC WISHLIST (DE OTRO USUARIO)
+  // PUBLIC WISHLIST
   loadPublicWishlist(userId: number) {
     this.loading = true;
 
@@ -75,7 +77,8 @@ export class WishlistComponent implements OnInit {
         this.wishlist = data.map(item => ({
           gameId: item.gameId,
           gameName: item.gameName,
-          backgroundImage: item.backgroundImage
+          backgroundImage: item.backgroundImage,
+          rating: item.rating // ✅ añadir también aquí
         }));
         this.loading = false;
       },
@@ -86,6 +89,7 @@ export class WishlistComponent implements OnInit {
       }
     });
   }
+
 
   // REMOVE (solo si es wishlist propia)
   removeFromWishlist(game: any) {
