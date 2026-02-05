@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { WishlistService } from '../../../services/wishlist.service';
 import { GameCardComponent } from '../../game-card/game-card.component';
-import { AuthService } from '../../../auth/auth.service';
+import { AuthService } from '../../../auth/auth.service'; // Cambiar
 import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
