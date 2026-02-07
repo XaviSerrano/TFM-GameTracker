@@ -9,7 +9,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { AuthModalComponent } from '../../auth/auth-modal/auth-modal.component';
 import { AuthService, User } from '../../services/auth.service';
-import { RawgService } from '../../services/rawg.service';
+import { RawgService, NormalizedGame } from '../../services/rawg.service'; // ✅ Importa NormalizedGame
 import { Subject, debounceTime, distinctUntilChanged, switchMap, of } from 'rxjs';
 import { UserService } from '../../services/user.service';
 
@@ -22,7 +22,7 @@ import { UserService } from '../../services/user.service';
 })
 export class NavComponent implements OnInit {
   query = '';
-  searchResults: any[] = [];
+  searchResults: (NormalizedGame | any)[] = []; // ✅ Tipo más específico
   searchingUsers = false;
   showSuggestions = false;
 
@@ -47,21 +47,23 @@ export class NavComponent implements OnInit {
       distinctUntilChanged(),
       switchMap(query => {
         const trimmed = query.trim();
-        if (!trimmed) return of([]);
+        if (!trimmed) return of({ results: [] }); // ✅ Retorna estructura consistente
 
         if (trimmed.startsWith('@')) {
           this.searchingUsers = true;
-          return this.userService.searchUsers(trimmed.slice(1));
+          // Envuelve el resultado de usuarios en una estructura similar
+          return this.userService.searchUsers(trimmed.slice(1)).pipe(
+            switchMap(users => of({ results: users }))
+          );
         } else {
           this.searchingUsers = false;
           return this.rawgService.getGamesByName(trimmed);
         }
       })
-    ).subscribe(res => {
-      this.searchResults = this.searchingUsers
-        ? res.slice(0, 5)
-        : res.results?.slice(0, 5) || [];
-      this.showSuggestions = true;
+    ).subscribe(response => {
+      // ✅ Ahora siempre accede a .results
+      this.searchResults = response.results?.slice(0, 5) || [];
+      this.showSuggestions = this.searchResults.length > 0;
     });
   }
 
