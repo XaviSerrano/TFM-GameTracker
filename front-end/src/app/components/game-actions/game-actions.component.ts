@@ -70,7 +70,7 @@ export class GameActionsComponent implements OnInit {
       : this.wishlistService.addToWishlist({
           gameId: this.game.id,
           gameName: this.game.name,
-          backgroundImage: this.game.background_image,
+          backgroundImage: this.game.backgroundImage,
           rating: this.game.rating
         });
 

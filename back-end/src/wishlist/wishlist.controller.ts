@@ -19,7 +19,7 @@ export class WishlistController {
     return this.wishlistService.addToWishlist(userId, {
       id: Number(gameId),
       name: body.gameName,
-      background_image: body.backgroundImage,
+      backgroundImage: body.backgroundImage,
       rating: body.rating,
     });
   }

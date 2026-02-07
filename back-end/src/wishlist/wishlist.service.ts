@@ -26,7 +26,7 @@ export class WishlistService {
       user,
       gameId: gameData.id,
       gameName: gameData.name,
-      backgroundImage: gameData.background_image,
+      backgroundImage: gameData.backgroundImage,
       rating: gameData.rating,
     });
 

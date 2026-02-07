@@ -88,7 +88,7 @@ export class CollectionStatusComponent implements OnInit {
     this.gamesByStatus[statusKey] = games.map(g => ({
       id: g.game?.id,
       name: g.game?.name,
-      background_image: g.game?.backgroundImage,
+      backgroundImage: g.game?.backgroundImage,
       status: g.status,
     }));
 

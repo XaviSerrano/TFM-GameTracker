@@ -131,7 +131,7 @@ export class GameDetailComponent implements OnInit {
       game.id,
       review,
       game.name,
-      game.background_image,
+      game.backgroundImage,
       game.released,
       game.rating
     ).subscribe({

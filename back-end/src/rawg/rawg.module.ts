@@ -1,13 +1,18 @@
 import { Module } from '@nestjs/common';
 import { HttpModule } from '@nestjs/axios';
-import { RawgService } from './rawg.service';
 import { RawgController } from './rawg.controller';
-import { RawgAdapter } from './adapters/rawg.adapter';
+import { GamesService } from './games.service';
+import { IgdbAdapter } from './adapters/igdb.adapter';
+import { IgdbApiService } from './services/igdb-api.service';
 
 @Module({
   imports: [HttpModule],
   controllers: [RawgController],
-  providers: [RawgService, RawgAdapter],
-  exports: [RawgService]
+  providers: [
+    GamesService,
+    IgdbAdapter,
+    IgdbApiService
+  ],
+  exports: [GamesService],
 })
 export class RawgModule {}

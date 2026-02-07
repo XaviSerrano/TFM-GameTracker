@@ -57,7 +57,7 @@ export class WishlistComponent implements OnInit {
           gameId: item.gameId,
           gameName: item.gameName,
           backgroundImage: item.backgroundImage,
-          rating: item.rating // ✅ ahora incluimos rating
+          rating: item.rating
         }));
         this.loading = false;
       },
@@ -78,7 +78,7 @@ export class WishlistComponent implements OnInit {
           gameId: item.gameId,
           gameName: item.gameName,
           backgroundImage: item.backgroundImage,
-          rating: item.rating // ✅ añadir también aquí
+          rating: item.rating
         }));
         this.loading = false;
       },

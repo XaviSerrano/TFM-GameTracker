@@ -39,10 +39,9 @@ export class GameCardComponent {
   }
 
   get backgroundImage(): string {
-    return this.game?.background_image
-      ? `url(${this.game.background_image})`
+    return this.game?.backgroundImage
+      ? `url(${this.game.backgroundImage})`
       : `url('assets/images/background.svg')`;
   }
-
 
 }

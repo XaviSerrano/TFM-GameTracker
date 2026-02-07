@@ -1,7 +1,7 @@
 @if (game) {
   <div class="game-detail">
     <div class="header">
-      <img [src]="game.background_image" [alt]="game.name" class="cover" />
+      <img [src]="game.backgroundImage" [alt]="game.name" class="cover" />
     </div>
 
     <div class="info">
@@ -27,7 +27,7 @@
         </div>
         <div class="media-info">
           <div class="image">
-            <img [src]="game.background_image" [alt]="game.name" />
+            <img [src]="game.backgroundImage" [alt]="game.name" />
           </div>
           
           @if(game.rating) {
