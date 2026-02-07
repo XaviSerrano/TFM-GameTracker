@@ -47,11 +47,11 @@ async function bootstrap() {
       }
 
       const allowedOrigins = [
-        'http://localhost:4200',      // Angular local
-        'http://localhost:3000',      // Backend local
-        /\.vercel\.app$/,             // Todos los dominios de Vercel
-        /\.onrender\.com$/,           // Todos los dominios de Render
-        'https://tu-app-frontend.vercel.app', // Tu frontend específico
+        'http://localhost:4200',
+        'http://localhost:3000',
+        /\.vercel\.app$/,
+        /\.onrender\.com$/,
+        'https://tu-app-frontend.vercel.app',
       ];
 
       const isAllowed = allowedOrigins.some(pattern => {

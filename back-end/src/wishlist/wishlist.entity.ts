@@ -15,7 +15,7 @@ export class Wishlist {
   @Column({ nullable: true })
   backgroundImage: string;
 
-  @Column({ nullable: true })
+  @Column({ type: 'float', nullable: true })
   rating: number;
 
   // clave profesional
