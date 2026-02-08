@@ -30,7 +30,7 @@ export interface NormalizedGameList {
 
 @Injectable({ providedIn: 'root' })
 export class RawgService {
-  private apiUrl = `${environment.apiUrl}/rawg`;
+  private apiUrl = `${environment.apiUrl}/igdb`;
 
   constructor(private http: HttpClient) {}
 

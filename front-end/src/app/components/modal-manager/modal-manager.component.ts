@@ -103,7 +103,7 @@ export class ModalManagerController implements OnInit {
       this.currentGame.id,
       status,
       this.currentGame.name,
-      this.currentGame.background_image
+      this.currentGame.backgroundImage
     ).subscribe((updated) => {
       this.currentGame.status = updated.status;
       this.showStatus = false;

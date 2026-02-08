@@ -134,6 +134,7 @@ export class GameActionsComponent implements OnInit {
     this.modalManager.openStatusModal(game);
   }
 
+
   openCustomListModal(game: any, event: MouseEvent) {
     event.stopPropagation();
 

@@ -54,8 +54,9 @@ export class GameStatusModalComponent {
     this.currentStatus = null;
   }
 
+
   onBackdropClick(event: MouseEvent) {
-    event.stopPropagation();
+    this.close.emit();
   }
 
   onCloseClick(event: MouseEvent) {

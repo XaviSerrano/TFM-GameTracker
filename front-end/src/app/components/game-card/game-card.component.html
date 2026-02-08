@@ -2,7 +2,7 @@
   <div class="game-image" [style.backgroundImage]="backgroundImage">
 
     <div class="game-rating">
-      ⭐ {{ game.rating }}
+      ⭐ {{ game.rating | number:'1.1-2' }}
     </div>
 
     <div class="game-info">

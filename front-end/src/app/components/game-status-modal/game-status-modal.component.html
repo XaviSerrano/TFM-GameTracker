@@ -1,49 +1,50 @@
 @if (show) {
 
-  <div class="modal" (click)="$event.stopPropagation()">
-    
-
-    <img 
+  <div class="modal-backdrop" (click)="onBackdropClick($event)">
+    <div class="modal" (click)="$event.stopPropagation()">
+      
+      <img 
       src="assets/images/icons/cross.svg" 
       alt="Close" 
       class="close-btn"
       (click)="onCloseClick($event)"
-    />
-
-    <div class="modal-content">
-      <div class="modal-left">
-        <div
-          class="background-layer"
-          [style.backgroundImage]="'url(' + game.background_image + ')'"
-        ></div>
-
-        <div class="game-title">
-          {{ game?.name }}
-        </div>
-      </div>
+      />
       
-      <div class="modal-right">
-        <h3>Set status</h3>
+        <div class="modal-content">
+          <div class="modal-left">
+            <div
+            class="background-layer"
+            [style.backgroundImage]="'url(' + game.backgroundImage + ')'"
+            ></div>
+            
+            <div class="game-title">
+              {{ game?.name }}
+            </div>
+          </div>
+          
+          <div class="modal-right">
+            <h3>Set status</h3>
 
-        <ul class="status-list">
-          @for (status of statuses; track status) {
-            <li 
-            (click)="onSelect(status.key, $event)"
-            [class.selected]="status.key === pendingStatus"
-            >
-            {{ status.label }}
-          </li>
-        }
-      </ul>
-
-      
-      
+            <ul class="status-list">
+              @for (status of statuses; track status) {
+              <li 
+              (click)="onSelect(status.key, $event)"
+              [class.selected]="status.key === pendingStatus"
+              >
+              {{ status.label }}
+            </li>
+          }
+        </ul>
+        
+        
+        
         <div class="action-btns">
           <button class="action-btn clear-btn" (click)="onClear($event)">Clear</button>
           <button class="action-btn submit-btn" (click)="onSubmit
-          ($event)">Submit</button>
+            ($event)">Submit</button>
+          </div>
         </div>
       </div>
     </div>
-  </div>
+</div>
 }

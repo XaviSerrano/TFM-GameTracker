@@ -36,7 +36,7 @@
 
 import { Controller, Get, Param, Query } from '@nestjs/common';
 import { GamesService } from './games.service';
-@Controller('rawg')
+@Controller('igdb')
 export class RawgController {
   constructor(private readonly gamesService: GamesService) {} // ✅ Cambiado
 

@@ -13,59 +13,59 @@ reviewAdded$ = this.reviewAddedSubject.asObservable();
 constructor(private http: HttpClient) {}
 
 setGameStatus(
-gameId: number,
-status: string,
-name?: string,
-backgroundImage?: string,
-released?: string,
-rating?: number
-): Observable<any> {
-return this.http.post(`${this.apiUrl}/status`, {
-gameId,
-status,
-name,
-backgroundImage,
-released,
-rating
-});
+  gameId: number,
+  status: string,
+  name?: string,
+  backgroundImage?: string,
+  released?: string,
+  rating?: number
+  ): Observable<any> {
+  return this.http.post(`${this.apiUrl}/status`, {
+  gameId,
+  status,
+  name,
+  backgroundImage,
+  released,
+  rating
+  });
 }
 
 getGamesByStatus(status: string): Observable<any[]> {
-return this.http.get<any[]>(`${this.apiUrl}/${status}`);
+  return this.http.get<any[]>(`${this.apiUrl}/${status}`);
 }
 
 getGameStatus(gameId: number): Observable<{ status: string; rating: number | null; playtime: number; review?: string }> {
-return this.http.get<{ status: string; rating: number | null; playtime: number; review?: string }>(
-`${this.apiUrl}/status/${gameId}`
+  return this.http.get<{ status: string; rating: number | null; playtime: number; review?: string }>(
+  `${this.apiUrl}/status/${gameId}`
 );
 }
 
 setGameRating(gameId: number, rating: number): Observable<any> {
-return this.http.post(`${this.apiUrl}/rating`, { gameId, rating });
+  return this.http.post(`${this.apiUrl}/rating`, { gameId, rating });
 }
 
 setGamePlaytime(gameId: number, playtime: number): Observable<any> {
-return this.http.post(`${this.apiUrl}/playtime`, { gameId, playtime });
+  return this.http.post(`${this.apiUrl}/playtime`, { gameId, playtime });
 }
 
 setGameReview(
-gameId: number,
-review: string,
-name?: string,
-backgroundImage?: string,
-released?: string,
-rating?: number
-): Observable<any> {
-return this.http.post<any>(`${this.apiUrl}/review`, {
-gameId,
-review,
-name,
-backgroundImage,
-released,
-rating
-}).pipe(
-tap(newReview => this.reviewAddedSubject.next(newReview))
-);
+  gameId: number,
+  review: string,
+  name?: string,
+  backgroundImage?: string,
+  released?: string,
+  rating?: number
+  ): Observable<any> {
+  return this.http.post<any>(`${this.apiUrl}/review`, {
+  gameId,
+  review,
+  name,
+  backgroundImage,
+  released,
+  rating
+  }).pipe(
+  tap(newReview => this.reviewAddedSubject.next(newReview))
+  );
 }
 
 /** Público */

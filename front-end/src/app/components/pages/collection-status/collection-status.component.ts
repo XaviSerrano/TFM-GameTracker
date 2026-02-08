@@ -85,12 +85,15 @@ export class CollectionStatusComponent implements OnInit {
   }
 
   private assignGames(statusKey: string, games: any[]) {
-    this.gamesByStatus[statusKey] = games.map(g => ({
-      id: g.game?.id,
-      name: g.game?.name,
-      backgroundImage: g.game?.backgroundImage,
-      status: g.status,
-    }));
+    this.gamesByStatus[statusKey] = games.map(g => {
+      console.log('Game Data: ', g);
+      return {
+        id: g.game?.id,
+        name: g.game?.name,
+        backgroundImage: g.game?.backgroundImage,
+        status: g.status,
+      }
+    });
 
     this.statusCounts = {
       ...this.statusCounts,
