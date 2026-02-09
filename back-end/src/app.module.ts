@@ -16,6 +16,8 @@ import { UserReviewsModule } from './user-reviews/user-reviews.module';
 import { CustomListModule } from './custom-list/custom-list.module';
 import { SuggestionsModule } from './suggestions/suggestions.module';
 import { RawgModule } from './rawg/rawg.module';
+import { ReviewsnestModule } from './g/reviewsnest/reviewsnest.module';
+import { ReviewsModule } from './reviews/reviews.module';
 
 @Module({
   imports: [
@@ -70,6 +72,8 @@ import { RawgModule } from './rawg/rawg.module';
     CustomListModule,
     SuggestionsModule,
     RawgModule,
+    ReviewsnestModule,
+    ReviewsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
