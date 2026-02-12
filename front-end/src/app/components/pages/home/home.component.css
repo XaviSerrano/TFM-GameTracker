@@ -1,3 +1,17 @@
+/* =========================
+   VARIABLES
+========================= */
+:root {
+  --sidebar-width: 260px;
+  --anim-smooth: 400ms cubic-bezier(0.4, 0, 0.2, 1); /* Material Design easing */
+  --anim-fast: 250ms cubic-bezier(0.4, 0, 0.2, 1);
+  --anim-bounce: 500ms cubic-bezier(0.34, 1.56, 0.64, 1); /* Bounce effect */
+}
+
+
+/* =========================
+   LAYOUT PRINCIPAL
+========================= */
 .home-container {
   display: flex;
   gap: 2rem;
@@ -6,66 +20,166 @@
   color: var(--text-main);
   min-height: 90vh;
   position: relative;
-  transition: all 0.3s ease;
 }
 
-.home-container.sidebar-hidden {
-  gap: 0;
+
+/* =========================
+   SIDEBAR
+========================= */
+.home-sidebar {
+  flex: 0 0 var(--sidebar-width);
+  width: var(--sidebar-width);
+  padding: 1rem;
+  background-color: var(--background-main);
+  border-right: 1px solid var(--border-color);
+  overflow: hidden;
+  
+  /* Transiciones separadas para mejor control */
+  transition:
+    flex-basis var(--anim-smooth),
+    width var(--anim-smooth),
+    padding var(--anim-smooth),
+    opacity var(--anim-smooth) 50ms, /* Delay para que la opacidad cambie ligeramente después */
+    border-color var(--anim-fast);
 }
 
+/* Animación del contenido interno del sidebar */
+.home-sidebar ul {
+  list-style: none;
+  margin-top: 4rem;
+  padding: 0;
+  opacity: 1;
+  transform: translateX(0);
+  transition:
+    opacity var(--anim-fast),
+    transform var(--anim-smooth);
+}
+
+/* Sidebar colapsado */
+.home-container.sidebar-hidden .home-sidebar {
+  flex-basis: 0;
+  width: 0;
+  opacity: 0;
+  padding-left: 0;
+  padding-right: 0;
+  border-right-color: transparent;
+}
+
+/* Contenido del sidebar desaparece antes */
+.home-container.sidebar-hidden .home-sidebar ul {
+  opacity: 0;
+  transform: translateX(-20px);
+  transition:
+    opacity 200ms ease,
+    transform 200ms ease;
+}
+
+
+/* =========================
+   CONTENIDO
+========================= */
+.home-content {
+  flex: 1;
+  margin-top: 10px;
+  padding: 0 1rem;
+  
+  transition:
+    flex var(--anim-smooth),
+    padding var(--anim-smooth),
+    margin-left var(--anim-smooth);
+}
+
+/* Cuando el sidebar desaparece, el contenido se expande suavemente */
+.home-container.sidebar-hidden .home-content {
+  flex: 1 1 100%;
+  padding-left: 2rem;
+  margin-left: 0;
+}
+
+
+/* =========================
+   HAMBURGER
+========================= */
 .hamburger {
   position: absolute;
   top: 0.5rem;
   left: 2.5rem;
   z-index: 1001;
+
   background: var(--background-secondary);
   border: 1px solid var(--border-color);
   cursor: pointer;
+
   width: 40px;
   height: 40px;
+
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 6px;
-  transition: all 0.3s ease;
+
+  border-radius: 10px;
+
+  transition:
+    transform var(--anim-fast),
+    box-shadow var(--anim-fast),
+    background-color var(--anim-fast);
 }
 
 .hamburger img {
   width: 24px;
   height: 24px;
-  transition: transform 0.3s ease;
+  transition: 
+    transform var(--anim-fast),
+    opacity var(--anim-fast);
+}
+
+.hamburger:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 14px rgba(0,0,0,0.25);
+  background-color: var(--background-main);
+}
+
+.hamburger:active {
+  transform: translateY(0);
 }
 
 .hamburger:hover img {
-  transform: scale(1.1);
+  transform: scale(1.08);
 }
 
-.home-sidebar {
-  flex: 0 0 260px;
-  padding: 1rem;
-  background-color: var(--background-main);
-  border-right: 1px solid var(--border-color);
-  transition: all 0.3s ease;
+/* Rotación del icono cuando el sidebar está abierto (opcional) */
+.home-container:not(.sidebar-hidden) .hamburger img {
+  transform: rotate(0deg);
 }
 
-.home-sidebar ul {
-  list-style: none;
-  padding: 0;
-}
 
+/* =========================
+   LISTA SIDEBAR
+========================= */
 .home-sidebar li {
   position: relative;
   margin-bottom: 1rem;
   padding: 10px 20px;
-  font-size: 1.1rem;
+  font-size: 1.05rem;
   cursor: pointer;
-  transition: all 0.2s ease;
-  border-radius: 4px;
+  border-radius: 8px;
+
+  transition:
+    background var(--anim-fast),
+    color var(--anim-fast),
+    transform var(--anim-fast),
+    box-shadow var(--anim-fast);
 }
 
 .home-sidebar li:hover {
   color: var(--hover-color);
   background-color: rgba(255, 255, 255, 0.05);
+  transform: translateX(4px);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.home-sidebar li:active {
+  transform: translateX(2px);
 }
 
 .home-sidebar li.active {
@@ -82,71 +196,146 @@
   width: 4px;
   height: 100%;
   background-color: var(--primary-color);
+  border-radius: 0 4px 4px 0;
+  
+  /* Animación de aparición */
+  animation: slideInLeft 300ms cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
-.home-content {
-  flex: 1;
-  margin-top: 10px;
-  transition: all 0.3s ease;
-  padding: 0 1rem;
+@keyframes slideInLeft {
+  from {
+    width: 0;
+    opacity: 0;
+  }
+  to {
+    width: 4px;
+    opacity: 1;
+  }
 }
 
-.home-content.full-width {
-  width: 100%;
-  padding-left: 0;
-}
 
+/* =========================
+   MOBILE
+========================= */
 @media (max-width: 1024px) {
+
   .home-sidebar {
     position: fixed;
     top: 0;
     left: 0;
     height: 100vh;
-    width: 260px;
+    width: var(--sidebar-width);
+
     transform: translateX(-100%);
+    opacity: 0;
+    visibility: hidden;
+
     z-index: 1000;
     padding-top: 5rem;
-    box-shadow: 2px 0 12px rgba(0, 0, 0, 0.2);
+
+    box-shadow: 2px 0 20px rgba(0,0,0,0.35);
+
+    /* Transición más fluida en mobile */
+    transition:
+      transform var(--anim-smooth),
+      opacity var(--anim-smooth),
+      visibility 0ms var(--anim-smooth); /* Delay en visibility al cerrar */
   }
 
   .home-sidebar.open {
     transform: translateX(0);
+    opacity: 1;
+    visibility: visible;
+    transition:
+      transform var(--anim-smooth),
+      opacity var(--anim-smooth),
+      visibility 0ms 0ms; /* Sin delay al abrir */
   }
 
-  .sidebar-overlay {
-    position: fixed;
-    inset: 0;
-    background-color: rgba(0,0,0,0.5);
-    z-index: 999;
+  /* Contenido aparece con delay en mobile */
+  .home-sidebar ul {
+    opacity: 0;
+    transform: translateX(-30px);
+    transition:
+      opacity var(--anim-fast) 100ms, /* Delay de 100ms */
+      transform var(--anim-fast) 100ms;
+  }
+
+  .home-sidebar.open ul {
+    opacity: 1;
+    transform: translateX(0);
+    transition:
+      opacity var(--anim-fast) 150ms, /* Aparece después que el sidebar */
+      transform var(--anim-smooth) 150ms;
   }
 
   .home-content {
     width: 100%;
     padding: 0 1rem;
   }
+
+  /* Animación del icono hamburger en mobile */
+  .home-sidebar.open ~ .hamburger img {
+    transform: rotate(90deg);
+  }
 }
 
-@media (min-width: 1025px) {
-  .home-sidebar {
-    position: static;
-    height: auto;
-    transform: none;
-    box-shadow: none;
-    padding-top: 1.5rem;
-  }
 
-  .home-container.sidebar-hidden .home-sidebar {
-    display: none;
-  }
+/* =========================
+  OVERLAY MOBILE
+========================= */
+.sidebar-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+  backdrop-filter: blur(2px);
 
-  .home-container.sidebar-hidden .home-content {
-    flex: 1;
-    width: 100%;
-    padding-left: 2rem;
-  }
+  opacity: 0;
+  visibility: hidden;
+  transition: 
+    opacity var(--anim-fast),
+    visibility 0ms var(--anim-fast),
+    backdrop-filter var(--anim-fast);
 
-  .home-container:not(.sidebar-hidden) .home-content {
-    flex: 3;
-    padding-left: 1rem;
+  z-index: 999;
+}
+
+.sidebar-overlay.show {
+  opacity: 1;
+  visibility: visible;
+  transition: 
+    opacity var(--anim-fast),
+    visibility 0ms 0ms,
+    backdrop-filter var(--anim-fast);
+}
+
+
+/* =========================
+   ANIMACIONES DE ENTRADA
+========================= */
+/* Animación inicial de los items del sidebar */
+.home-sidebar li {
+  animation: fadeInUp 400ms cubic-bezier(0.4, 0, 0.2, 1) backwards;
+}
+
+.home-sidebar li:nth-child(1) { animation-delay: 50ms; }
+.home-sidebar li:nth-child(2) { animation-delay: 100ms; }
+.home-sidebar li:nth-child(3) { animation-delay: 150ms; }
+.home-sidebar li:nth-child(4) { animation-delay: 200ms; }
+.home-sidebar li:nth-child(5) { animation-delay: 250ms; }
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
   }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Desactivar animación de entrada cuando se colapsa */
+.home-container.sidebar-hidden .home-sidebar li {
+  animation: none;
 }
