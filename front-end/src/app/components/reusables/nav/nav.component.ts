@@ -9,10 +9,10 @@ import {
   of,
   switchMap,
 } from 'rxjs';
-import { AuthModalComponent } from '../../auth/auth-modal/auth-modal.component';
-import { AuthService, User } from '../../services/auth.service';
-import { NormalizedGame, IgdbService } from '../../services/igdb.service'; // ✅ Importa NormalizedGame
-import { UserService } from '../../services/user.service';
+import { AuthModalComponent } from '../../../auth/auth-modal/auth-modal.component';
+import { AuthService, User } from '../../../services/auth.service';
+import { IgdbService, NormalizedGame } from '../../../services/igdb.service'; // ✅ Importa NormalizedGame
+import { UserService } from '../../../services/user.service';
 
 @Component({
   selector: 'app-nav',

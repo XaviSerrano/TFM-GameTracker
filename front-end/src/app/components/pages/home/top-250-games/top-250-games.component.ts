@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { IgdbService } from '../../../../services/igdb.service';
 import { WishlistService } from '../../../../services/wishlist.service';
-import { GameCardComponent } from '../../../game-card/game-card.component';
+import { GameCardComponent } from '../../../reusables/game-card/game-card.component';
 
 @Component({
   selector: 'app-top-250-games',

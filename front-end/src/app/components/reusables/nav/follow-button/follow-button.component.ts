@@ -1,6 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { FollowService } from '../../services/follow.service';
-
+import { FollowService } from '../../../../services/follow.service';
 @Component({
   selector: 'app-follow-button',
   standalone: true,

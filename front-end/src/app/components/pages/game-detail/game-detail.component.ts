@@ -2,7 +2,6 @@
 import { Component, OnInit, HostListener } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { IgdbService } from '../../../services/igdb.service'; // ✅ Importación corregida
-import { GameActionsComponent } from '../../game-actions/game-actions.component';
 import { CommonModule } from '@angular/common';
 import { ModalManagerService } from '../../../services/modal-manager.service';
 import { ReviewService } from '../../../services/reviews.service';
@@ -10,6 +9,7 @@ import { AuthService } from '../../../services/auth.service';
 import { map, combineLatest, catchError, of } from 'rxjs';
 import { ProfileSyncService } from '../../../services/profile-sync.service';
 import { UserGameService } from '../../../services/user-game.service';
+import { GameActionsComponent } from '../../reusables/game-actions/game-actions.component';
 
 @Component({
   selector: 'app-game-detail',
@@ -18,6 +18,7 @@ import { UserGameService } from '../../../services/user-game.service';
   templateUrl: './game-detail.component.html',
   styleUrls: ['./game-detail.component.css']
 })
+
 export class GameDetailComponent implements OnInit {
   gameId!: number;
   game: any;

@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { UserGameService } from '../../services/user-game.service';
-import { ReviewService } from '../../services/reviews.service';
+import { UserGameService } from '../../../services/user-game.service';
+import { ReviewService } from '../../../services/reviews.service';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 

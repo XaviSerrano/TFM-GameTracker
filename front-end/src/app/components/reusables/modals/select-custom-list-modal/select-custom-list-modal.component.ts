@@ -1,10 +1,10 @@
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { forkJoin } from 'rxjs';
-import { CustomListService } from '../../services/custom-list.service';
-import { ModalManagerService } from '../../services/modal-manager.service';
-import { CustomList } from '../../models/custom-list.model';
-import { AlertService } from '../../services/alert.service';
+import { CustomListService } from '../../../../services/custom-list.service';
+import { ModalManagerService } from '../../../../services/modal-manager.service';
+import { CustomList } from '../../../../models/custom-list.model';
+import { AlertService } from '../../../../services/alert.service';
 
 @Component({
   selector: 'app-select-custom-list-modal',

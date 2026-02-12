@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Output, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { SimpleChanges } from '@angular/core';
-import { AlertService } from '../../services/alert.service';
+import { AlertService } from '../../../../services/alert.service';
 
 @Component({
   selector: 'app-game-status-modal',

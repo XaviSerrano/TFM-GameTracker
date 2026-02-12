@@ -1,22 +1,21 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
-import { AuthService } from '../../services/auth.service';
-// import { AuthService } from '../../auth/auth.service'; // Cambiar
-import { ModalManagerService } from '../../services/modal-manager.service';
-import { UserGameService } from '../../services/user-game.service';
-import { WishlistService } from '../../services/wishlist.service';
-import { RatingModalComponent } from '../rating-modal/rating-modal.component';
-import { AlertService } from '../../services/alert.service';
+import { AuthService } from '../../../services/auth.service';
+import { AlertService } from '../../../services/alert.service';
+import { ModalManagerService } from '../../../services/modal-manager.service';
+import { UserGameService } from '../../../services/user-game.service';
+import { WishlistService } from '../../../services/wishlist.service';
+import { RatingModalComponent } from '../modals/rating-modal/rating-modal.component';
+
 @Component({
   selector: 'app-game-actions',
   standalone: true,
   imports: [CommonModule, RatingModalComponent],
   templateUrl: './game-actions.component.html',
-  styleUrl: './game-actions.component.css'
+  styleUrl: './game-actions.component.css',
 })
 export class GameActionsComponent implements OnInit {
-
   @Input() game!: any;
   @Input() isBookmarked = false;
 
@@ -33,7 +32,7 @@ export class GameActionsComponent implements OnInit {
     private userGameService: UserGameService,
     private router: Router,
     private modalManager: ModalManagerService,
-    private alertService: AlertService
+    private alertService: AlertService,
   ) {}
 
   ngOnInit() {
@@ -52,7 +51,7 @@ export class GameActionsComponent implements OnInit {
       error: () => {
         this.currentStatus = null;
         this.currentRating = 0;
-      }
+      },
     });
   }
 
@@ -71,7 +70,7 @@ export class GameActionsComponent implements OnInit {
           gameId: this.game.id,
           gameName: this.game.name,
           backgroundImage: this.game.backgroundImage,
-          rating: this.game.rating
+          rating: this.game.rating,
         });
 
     action$.subscribe({
@@ -93,8 +92,8 @@ export class GameActionsComponent implements OnInit {
     this.wishlistService.getWishlist().subscribe({
       next: (wishlist) => {
         const safe = Array.isArray(wishlist) ? wishlist : [];
-        this.isBookmarked = safe.some(g => g.gameId === this.game.id);
-      }
+        this.isBookmarked = safe.some((g) => g.gameId === this.game.id);
+      },
     });
   }
 
@@ -116,7 +115,7 @@ export class GameActionsComponent implements OnInit {
         this.currentRating = value;
         this.showRatingModal = false;
       },
-      error: (err) => console.error('Error saving rating:', err)
+      error: (err) => console.error('Error saving rating:', err),
     });
   }
 
@@ -134,7 +133,6 @@ export class GameActionsComponent implements OnInit {
     this.modalManager.openStatusModal(game);
   }
 
-
   openCustomListModal(game: any, event: MouseEvent) {
     event.stopPropagation();
 
@@ -145,5 +143,4 @@ export class GameActionsComponent implements OnInit {
 
     this.modalManager.openCustomListModal(game);
   }
-
 }

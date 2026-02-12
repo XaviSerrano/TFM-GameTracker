@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { UserGameService } from '../../../services/user-game.service';
-import { GameCardComponent } from '../../game-card/game-card.component';
+import { GameCardComponent } from '../../reusables/game-card/game-card.component';
 import { Router, ActivatedRoute } from '@angular/router';
 import { AuthService } from '../../../services/auth.service';
 // import { AuthService } from '../../../auth/auth.service'; // Cambiar
-import { CollectionStatusChartComponent } from '../../collection-status-chart/collection-status-chart.component';
+import { CollectionStatusChartComponent } from '../../reusables/collection-status-chart/collection-status-chart.component';
 
 @Component({
   selector: 'app-collection-status',

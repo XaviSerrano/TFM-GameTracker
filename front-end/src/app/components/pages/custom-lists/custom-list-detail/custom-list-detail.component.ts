@@ -4,7 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { CustomListService } from '../../../../services/custom-list.service';
 import { WishlistService } from '../../../../services/wishlist.service';
 import { CustomList, CustomListGame } from '../../../../models/custom-list.model';
-import { GameCardComponent } from '../../../game-card/game-card.component';
+import { GameCardComponent } from '../../../reusables/game-card/game-card.component';
 
 interface GameCardData {
   gameId: number;

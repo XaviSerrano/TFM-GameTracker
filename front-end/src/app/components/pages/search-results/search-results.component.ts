@@ -2,8 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { IgdbService } from '../../../services/igdb.service';
-import { GameCardComponent } from '../../game-card/game-card.component'; // importa el componente de la card
-
+import { GameCardComponent } from '../../reusables/game-card/game-card.component';
 @Component({
   selector: 'app-search-results',
   standalone: true,
