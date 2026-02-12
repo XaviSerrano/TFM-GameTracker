@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RawgService } from '../../../../services/rawg.service';
-import { WishlistService } from '../../../../services/wishlist.service';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { IgdbService } from '../../../../services/igdb.service';
+import { WishlistService } from '../../../../services/wishlist.service';
 import { GameCardComponent } from '../../../game-card/game-card.component';
 
 @Component({
@@ -10,7 +10,7 @@ import { GameCardComponent } from '../../../game-card/game-card.component';
   standalone: true,
   imports: [CommonModule, GameCardComponent],
   templateUrl: './top-250-games.component.html',
-  styleUrls: ['./top-250-games.component.css']
+  styleUrls: ['./top-250-games.component.css'],
 })
 export class Top250GamesComponent implements OnInit {
   topGames: any[] = [];
@@ -19,33 +19,33 @@ export class Top250GamesComponent implements OnInit {
   pageSize = 24;
 
   constructor(
-    private rawgService: RawgService,
+    private igdbService: IgdbService,
     private wishlistService: WishlistService,
-    private router: Router
+    private router: Router,
   ) {}
 
   ngOnInit(): void {
-    this.rawgService.getTop250Games().subscribe({
-      next: data => {
+    this.igdbService.getTop250Games().subscribe({
+      next: (data) => {
         this.topGames = data.results;
         this.displayedGames = this.topGames.slice(0, this.pageSize);
         this.applyWishlist();
       },
-      error: err => console.error('Error cargando Top 250:', err),
-      complete: () => this.loading = false
+      error: (err) => console.error('Error cargando Top 250:', err),
+      complete: () => (this.loading = false),
     });
   }
 
   applyWishlist() {
     this.wishlistService.getWishlist().subscribe({
-      next: wishlist => {
+      next: (wishlist) => {
         const ids = wishlist.map((item: any) => item.gameId);
-        this.displayedGames = this.displayedGames.map(g => ({
+        this.displayedGames = this.displayedGames.map((g) => ({
           ...g,
-          isBookmarked: ids.includes(g.id)
+          isBookmarked: ids.includes(g.id),
         }));
       },
-      error: err => console.log('No se pudo cargar wishlist:', err)
+      error: (err) => console.log('No se pudo cargar wishlist:', err),
     });
   }
 
@@ -55,7 +55,10 @@ export class Top250GamesComponent implements OnInit {
 
   loadMore() {
     const currentLength = this.displayedGames.length;
-    const nextGames = this.topGames.slice(currentLength, currentLength + this.pageSize);
+    const nextGames = this.topGames.slice(
+      currentLength,
+      currentLength + this.pageSize,
+    );
     this.displayedGames = [...this.displayedGames, ...nextGames];
     this.applyWishlist();
   }

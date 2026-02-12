@@ -1,167 +1,244 @@
 @if (game) {
   <div class="game-detail">
+    <!-- HEADER CON IMAGEN DE FONDO -->
     <div class="header">
+      <div class="header-overlay"></div>
       <img [src]="game.backgroundImage" [alt]="game.name" class="cover" />
-    </div>
+      
+      <div class="header-content">
+        <h1>{{ game.name }}</h1>
 
-    <div class="info">
-      <h1>{{ game.name }}</h1>
-    
-      <div class="icons">
+      <div class="meta-info">
+        <span class="release-date" *ngIf="game.released">
+          📅 {{ game.released | date:'mediumDate' }}
+        </span>
 
-        <app-game-actions
-        class="icons"
-        [game]="game"
-        ></app-game-actions>
+        <span class="rating-badge" *ngIf="game.rating">
+          <img src="assets/images/icons/star-filled.svg" alt="⭐">
+          {{ game.rating | number:'1.1-1' }}/5
+        </span>
+
+        <span class="playtime-info">
+          ⏱
+          Rushed: {{ averageTimes?.hastily ?? 'N/A' }}h;
+          Normal: {{ averageTimes?.normally ?? 'N/A' }}h;
+          100%: {{ averageTimes?.completely ?? 'N/A' }}h;
+        </span>
+      </div>
         
-        <button class="btn-review" (click)="modalManager.openReviewModal(game)" [disabled]="!game">
-          <img src="/assets/images/icons/pencil.svg" alt=""> Review
-        </button>
+
+
       </div>
     </div>
 
-    <div class="description">
-      <div class="description-content">
-        <div class="text">
-          <p [innerHTML]="game.description"></p>
+    <!-- ACCIONES Y BOTONES -->
+    <div class="actions-bar">
+      <app-game-actions [game]="game"></app-game-actions>
+      
+      <button class="btn-review" (click)="modalManager.openReviewModal(game)" [disabled]="!game">
+        <img src="/assets/images/icons/pencil.svg" alt=""> Write Review
+      </button>
+    </div>
+
+    <!-- TABS DE NAVEGACIÓN -->
+    <div class="tabs">
+      <button 
+        class="tab" 
+        [class.active]="activeTab === 'overview'"
+        (click)="activeTab = 'overview'">
+        Overview
+      </button>
+      <button 
+        class="tab" 
+        [class.active]="activeTab === 'media'"
+        (click)="activeTab = 'media'">
+        Media
+      </button>
+      <button 
+        class="tab" 
+        [class.active]="activeTab === 'reviews'"
+        (click)="activeTab = 'reviews'">
+        Reviews ({{ reviews.length }})
+      </button>
+    </div>
+
+    <!-- TAB: OVERVIEW -->
+    @if (activeTab === 'overview') {
+      <div class="overview-content">
+        <!-- DESCRIPCIÓN -->
+        <div class="description-section">
+          <h2>About</h2>
+          <p [innerHTML]="game.description || 'No description available.'"></p>
         </div>
-        <div class="media-info">
-          <div class="image">
-            <img [src]="game.backgroundImage" [alt]="game.name" />
+
+        <!-- INFORMACIÓN ADICIONAL -->
+        <div class="info-grid">
+          @if (game.platforms && game.platforms.length > 0) {
+            <div class="info-card">
+              <h3>🎮 Platforms</h3>
+              <div class="tags">
+                @for (platform of game.platforms; track platform) {
+                  <span class="tag">{{ platform }}</span>
+                }
+              </div>
+            </div>
+          }
+
+          @if (game.genres && game.genres.length > 0) {
+            <div class="info-card">
+              <h3>🎯 Genres</h3>
+              <div class="tags">
+                @for (genre of game.genres; track genre) {
+                  <span class="tag">{{ genre }}</span>
+                }
+              </div>
+            </div>
+          }
+
+          @if (game.developers && game.developers.length > 0) {
+            <div class="info-card">
+              <h3>👨‍💻 Developers</h3>
+              <p>{{ game.developers.join(', ') }}</p>
+            </div>
+          }
+
+          @if (game.publishers && game.publishers.length > 0) {
+            <div class="info-card">
+              <h3>🏢 Publishers</h3>
+              <p>{{ game.publishers.join(', ') }}</p>
+            </div>
+          }
+
+          @if (game.esrbRating) {
+            <div class="info-card">
+              <h3>🔞 Age Rating</h3>
+              <p>{{ game.esrbRating }}</p>
+            </div>
+          }
+
+          @if (game.metacritic) {
+            <div class="info-card">
+              <h3>📊 Metacritic Score</h3>
+              <p class="metacritic-score">{{ game.metacritic | number:'1.0-0' }}</p>
+            </div>
+          }
+        </div>
+      </div>
+    }
+
+    <!-- TAB: MEDIA -->
+    @if (activeTab === 'media') {
+      <div class="media-content">
+        <!-- SCREENSHOTS -->
+        @if (game.screenshots && game.screenshots.length > 0) {
+          <div class="screenshots-section">
+            <h2>Screenshots</h2>
+            <div class="screenshots-grid">
+              @for (screenshot of game.screenshots; track screenshot; let i = $index) {
+                <div class="screenshot-item" (click)="openLightbox(i)">
+                  <img 
+                    [src]="screenshot" 
+                    [alt]="game.name + ' screenshot ' + (i + 1)"
+                    loading="lazy"
+                  />
+                </div>
+              }
+            </div>
           </div>
-          
-          @if(game.rating) {
-            <p class="rating">
-              Community rating: {{ game.rating | number:'1.1-2' }}
-              <img class="star" src="../../../assets/images/icons/star-filled.svg" alt="⭐">
-            </p>
-          }
-          
-          @if (game.playtime && game.playtime > 0) {
-            <p class="duration">
-              Average playtime: <span>{{ game.playtime }} hours</span>
-            </p>
-          }
+        } @else {
+          <p class="empty-state">No screenshots available</p>
+        }
+      </div>
+    }
 
+    <!-- TAB: REVIEWS -->
+    @if (activeTab === 'reviews') {
+      <div class="reviews-content">
+        <div class="reviews-header">
+          <h2>Community Reviews</h2>
+
+          <button
+            *ngIf="reviews.length > 4 && !showAll"
+            class="see-all-btn"
+            (click)="showAll = true">
+            See all reviews →
+          </button>
+
+          <button
+            *ngIf="showAll"
+            class="see-all-btn back"
+            (click)="showAll = false">
+            ← Show less
+          </button>
+        </div>
+
+        <p *ngIf="reviews.length === 0" class="empty-state">
+          No reviews yet. Be the first to review this game!
+        </p>
+
+        <div class="reviews-grid" *ngIf="!showAll && limitedReviews.length > 0">
+          <div class="review-card" *ngFor="let r of limitedReviews">
+            <div class="review-header">
+              <img class="avatar" [src]="r.profileImage || placeholderImage" alt="User avatar" />
+              <div class="user-meta">
+                <h4>{{ r.displayName || r.username }}</h4>
+                <small class="date">{{ r.createdAt | date:'mediumDate' }}</small>
+              </div>
+            </div>
+            <div class="review-meta">
+              <span *ngIf="r.rating" class="badge rating">⭐ {{ r.rating }}/5</span>
+              <span *ngIf="r.playtime" class="badge playtime">⏱ {{ r.playtime }}h</span>
+            </div>
+            <p class="comment">{{ r.review }}</p>
+          </div>
+        </div>
+
+        <div class="reviews-grid" *ngIf="showAll && reviews.length > 0">
+          <div class="review-card" *ngFor="let r of reviews">
+            <div class="review-header">
+              <img class="avatar" [src]="r.profileImage || placeholderImage" alt="User avatar" />
+              <div class="user-meta">
+                <h4>{{ r.displayName || r.username }}</h4>
+                <small class="date">{{ r.createdAt | date:'mediumDate' }}</small>
+              </div>
+            </div>
+            <div class="review-meta">
+              <span *ngIf="r.rating" class="badge rating">⭐ {{ r.rating }}/5</span>
+              <span *ngIf="r.playtime" class="badge playtime">⏱ {{ r.playtime }}h</span>
+            </div>
+            <p class="comment">{{ r.review }}</p>
+          </div>
         </div>
       </div>
-    </div>
-
-
-    <div class="additional-info">
-      <div class="info-item">
-        <h3>Release Date</h3>
-        <p>{{ game.released || 'N/A' }}</p>
-      </div>
-
-      <div class="info-item">
-        <h3>Genres</h3>
-        <p>
-          @for (g of game.genres; track g) {
-            {{ g.name }}@if (!$last) {, }
-          }
-        </p>
-      </div>
-
-      <div class="info-item">
-        <h3>Developers</h3>
-        <p>
-          @for (d of game.developers; track d) {
-            {{ d.name }}@if (!$last) {, }
-          }
-        </p>
-      </div>
-
-      <div class="info-item">
-        <h3>Publishers</h3>
-        <p>
-          @for (p of game.publishers; track p) {
-            {{ p.name }}@if (!$last) {, }
-          }
-        </p>
-      </div>
-
-      @if (game.website) {
-        <div class="info-item">
-          <h3>Official Site</h3>
-          <p><a [href]="game.website" target="_blank">{{ game.website }}</a></p>
-        </div>
-      }
-
-      @if (game.stores && game.stores.length > 0) {
-        <div class="info-item">
-          <h3>Buy On</h3>
-          <p>
-            @for (store of game.stores; track store) {
-              <a [href]="store.url" target="_blank">{{ store.store.name }}</a>
-              @if (!$last) {, }
-            }
-          </p>
-        </div>
-      }
-    </div>
+    }
   </div>
 } @else {
-  <p>Loading game details...</p>
+  <div class="loading-state">
+    <p>Loading game details...</p>
+  </div>
 }
 
-<div class="reviews">
-
-  <div class="reviews-header">
-    <h2>Reviews</h2>
-
-    <button
-      *ngIf="reviews.length > 4 && !showAll"
-      class="see-all-btn"
-      (click)="showAll = true"
-    >
-      See all reviews →
-    </button>
-
-    <button
-      *ngIf="showAll"
-      class="see-all-btn back"
-      (click)="showAll = false"
-    >
-      ← Show less
-    </button>
+<!-- LIGHTBOX PARA SCREENSHOTS -->
+@if (lightboxOpen) {
+  <div class="lightbox" (click)="closeLightbox()">
+    <button class="lightbox-close" (click)="closeLightbox()">×</button>
+    
+    @if (currentScreenshotIndex > 0) {
+      <button class="lightbox-prev" (click)="prevScreenshot($event)">‹</button>
+    }
+    
+    <img 
+      [src]="game.screenshots[currentScreenshotIndex]" 
+      [alt]="game.name"
+      (click)="$event.stopPropagation()"
+    />
+    
+    @if (currentScreenshotIndex < game.screenshots.length - 1) {
+      <button class="lightbox-next" (click)="nextScreenshot($event)">›</button>
+    }
+    
+    <div class="lightbox-counter">
+      {{ currentScreenshotIndex + 1 }} / {{ game.screenshots.length }}
+    </div>
   </div>
-
-  <p *ngIf="reviews.length === 0" class="no-reviews">No reviews yet.</p>
-
-<div class="reviews-grid" *ngIf="!showAll && limitedReviews.length > 0">
-  <div class="review-card" *ngFor="let r of limitedReviews">
-    <div class="review-header">
-      <img class="avatar" [src]="r.profileImage || placeholderImage" alt="User avatar" />
-      <div class="user-meta">
-        <h4>{{ r.username }}</h4>
-        <small class="date">{{ r.createdAt | date:'mediumDate' }}</small>
-      </div>
-    </div>
-    <div class="review-meta">
-      <span *ngIf="r.rating" class="badge rating">⭐ {{ r.rating }}/5</span>
-      <span *ngIf="r.playtime" class="badge playtime">⏱ {{ r.playtime }}h</span>
-    </div>
-    <p class="comment">{{ r.review }}</p>
-  </div>
-</div>
-
-<div class="reviews-grid" *ngIf="showAll && reviews.length > 0">
-  <div class="review-card" *ngFor="let r of reviews">
-    <div class="review-header">
-      <img class="avatar" [src]="r.profileImage || placeholderImage" alt="User avatar" />
-      <div class="user-meta">
-        <h4>{{ r.username }}</h4>
-        <small class="date">{{ r.createdAt | date:'mediumDate' }}</small>
-      </div>
-    </div>
-    <div class="review-meta">
-      <span *ngIf="r.rating" class="badge rating">⭐ {{ r.rating }}/5</span>
-      <span *ngIf="r.playtime" class="badge playtime">⏱ {{ r.playtime }}h</span>
-    </div>
-    <p class="comment">{{ r.review }}</p>
-  </div>
-</div>
-
-</div>
-
+}

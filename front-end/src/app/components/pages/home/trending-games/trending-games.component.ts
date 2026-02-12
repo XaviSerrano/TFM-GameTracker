@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RawgService } from '../../../../services/rawg.service';
-import { WishlistService } from '../../../../services/wishlist.service';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { IgdbService } from '../../../../services/igdb.service';
+import { WishlistService } from '../../../../services/wishlist.service';
 import { GameCardComponent } from '../../../game-card/game-card.component';
 
 @Component({
@@ -10,34 +10,34 @@ import { GameCardComponent } from '../../../game-card/game-card.component';
   standalone: true,
   imports: [CommonModule, GameCardComponent],
   templateUrl: './trending-games.component.html',
-  styleUrls: ['./trending-games.component.css']
+  styleUrls: ['./trending-games.component.css'],
 })
 export class TrendingGamesComponent implements OnInit {
   trendingGames: any[] = [];
   loading = true;
 
   constructor(
-    private rawgService: RawgService,
+    private igdbService: IgdbService,
     private wishlistService: WishlistService,
-    private router: Router
+    private router: Router,
   ) {}
 
   ngOnInit(): void {
-    this.rawgService.getTrendingGames().subscribe({
-      next: trending => this.trendingGames = trending.results,
-      error: err => console.error('Error cargando trending:', err),
-      complete: () => this.loading = false
+    this.igdbService.getTrendingGames().subscribe({
+      next: (trending) => (this.trendingGames = trending.results),
+      error: (err) => console.error('Error cargando trending:', err),
+      complete: () => (this.loading = false),
     });
 
     this.wishlistService.getWishlist().subscribe({
-      next: wishlist => {
+      next: (wishlist) => {
         const ids = wishlist.map((item: any) => item.gameId);
-        this.trendingGames = this.trendingGames.map(g => ({
+        this.trendingGames = this.trendingGames.map((g) => ({
           ...g,
-          isBookmarked: ids.includes(g.id)
+          isBookmarked: ids.includes(g.id),
         }));
       },
-      error: err => console.log('No se pudo cargar wishlist:', err)
+      error: (err) => console.log('No se pudo cargar wishlist:', err),
     });
   }
 

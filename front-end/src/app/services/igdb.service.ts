@@ -1,3 +1,4 @@
+// services/igdb.service.ts
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
@@ -28,8 +29,14 @@ export interface NormalizedGameList {
   previous?: string;
 }
 
+export interface TimeToBeat {
+  hastily?: number;
+  normally?: number;
+  completely?: number;
+}
+
 @Injectable({ providedIn: 'root' })
-export class RawgService {
+export class IgdbService {  // ✅ Renombrado de RawgService a IgdbService
   private apiUrl = `${environment.apiUrl}/igdb`;
 
   constructor(private http: HttpClient) {}
@@ -55,5 +62,9 @@ export class RawgService {
   getGameById(id: number): Observable<NormalizedGame> {
     return this.http.get<NormalizedGame>(`${this.apiUrl}/${id}`);
   }
-}
 
+  // ✅ Time to beat - IGDB devuelve segundos, convertimos en el frontend
+  getTimeToBeat(gameId: number): Observable<TimeToBeat> {
+    return this.http.get<TimeToBeat>(`${this.apiUrl}/${gameId}/time-to-beat`);
+  }
+}

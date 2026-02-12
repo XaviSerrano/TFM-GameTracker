@@ -1,13 +1,13 @@
 import { Module } from '@nestjs/common';
 import { HttpModule } from '@nestjs/axios';
-import { RawgController } from './rawg.controller';
+import { IgdbController } from './rawg.controller';
 import { GamesService } from './games.service';
 import { IgdbAdapter } from './adapters/igdb.adapter';
 import { IgdbApiService } from './services/igdb-api.service';
 
 @Module({
   imports: [HttpModule],
-  controllers: [RawgController],
+  controllers: [IgdbController],
   providers: [
     GamesService,
     IgdbAdapter,

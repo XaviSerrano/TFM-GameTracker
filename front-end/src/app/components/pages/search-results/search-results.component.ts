@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { RawgService } from '../../../services/rawg.service';
+import { IgdbService } from '../../../services/igdb.service';
 import { GameCardComponent } from '../../game-card/game-card.component'; // importa el componente de la card
 
 @Component({
@@ -18,8 +18,8 @@ export class SearchResultsComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private rawgService: RawgService,
-    private router: Router
+    private igdbService: IgdbService,
+    private router: Router,
   ) {}
 
   ngOnInit() {
@@ -34,7 +34,7 @@ export class SearchResultsComponent implements OnInit {
     if (!this.query.trim()) return;
 
     this.loading = true;
-    this.rawgService.getGamesByName(this.query).subscribe({
+    this.igdbService.getGamesByName(this.query).subscribe({
       next: (res) => {
         this.results = res.results;
         this.loading = false;

@@ -136,4 +136,14 @@ export class IgdbApiService {
 
     return this.query('games', body);
   }
+
+  async getTimeToBeat(gameId: number): Promise<any> {
+    const body = `
+      fields hastily, normally, completely;
+      where game_id = ${gameId};
+    `;
+
+    const results = await this.query('game_time_to_beats', body);
+    return results[0] || {}; // Retorna objeto vacío si no hay datos
+  }
 }

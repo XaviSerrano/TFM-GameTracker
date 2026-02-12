@@ -1,44 +1,10 @@
-// import { Controller, Get, Param, Query } from '@nestjs/common';
-// import { RawgService } from './rawg.service';
-
-// @Controller('rawg')
-// export class RawgController {
-//   constructor(private readonly rawgService: RawgService) {}
-
-//   @Get('trending')
-//     getTrending() {
-//     return this.rawgService.getTrendingGames();
-//   }
-
-//   @Get('top')
-//     getTop250(@Query('minRatings') minRatings?: string) {
-//     return this.rawgService.getTop250Games(Number(minRatings) || 50);
-//   }
-
-
-//   @Get('indie')
-//     getTopIndie(@Query('minRatings') minRatings?: string) {
-//     return this.rawgService.getTopIndieGames(Number(minRatings) || 50);
-//   }
-
-
-//   @Get('search')
-//     search(@Query('q') query: string) {
-//     return this.rawgService.getGamesByName(query);
-//   }
-
-
-//   @Get(':id')
-//     getById(@Param('id') id: string) {
-//     return this.rawgService.getGameById(Number(id));
-//   }
-// }
-
+// src/modules/igdb/igdb.controller.ts
 import { Controller, Get, Param, Query } from '@nestjs/common';
 import { GamesService } from './games.service';
+
 @Controller('igdb')
-export class RawgController {
-  constructor(private readonly gamesService: GamesService) {} // ✅ Cambiado
+export class IgdbController {
+  constructor(private readonly gamesService: GamesService) {}
 
   @Get('trending')
   getTrending() {
@@ -46,12 +12,12 @@ export class RawgController {
   }
 
   @Get('top')
-  getTop250(@Query('minRatings') minRatings?: string) {
+  getTop250() {
     return this.gamesService.getTop250Games();
   }
 
   @Get('top-indie')
-  getTopIndie(@Query('minRatings') minRatings?: string) {
+  getTopIndie() {
     return this.gamesService.getTopIndieGames();
   }
 
@@ -63,5 +29,18 @@ export class RawgController {
   @Get(':id')
   getById(@Param('id') id: string) {
     return this.gamesService.getGameById(Number(id));
+  }
+
+  // ✅ ENDPOINT CORREGIDO - Usa GamesService, NO igdbApiService directamente
+  @Get(':id/time-to-beat')
+  async getTimeToBeat(@Param('id') id: string) {
+    try {
+      const gameId = parseInt(id, 10);
+      const timeToBeat = await this.gamesService.getTimeToBeat(gameId);
+      return timeToBeat || {};
+    } catch (error) {
+      console.error(`Error fetching time-to-beat for game ${id}:`, error);
+      return {}; // Siempre devolver objeto vacío, nunca 404
+    }
   }
 }

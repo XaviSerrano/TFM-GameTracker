@@ -1,16 +1,17 @@
-import {
-  Component,
-  OnInit,
-  HostListener,
-  ElementRef
-} from '@angular/core';
-import { Router, RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { Component, ElementRef, HostListener, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { Router, RouterLink } from '@angular/router';
+import {
+  Subject,
+  debounceTime,
+  distinctUntilChanged,
+  of,
+  switchMap,
+} from 'rxjs';
 import { AuthModalComponent } from '../../auth/auth-modal/auth-modal.component';
 import { AuthService, User } from '../../services/auth.service';
-import { RawgService, NormalizedGame } from '../../services/rawg.service'; // ✅ Importa NormalizedGame
-import { Subject, debounceTime, distinctUntilChanged, switchMap, of } from 'rxjs';
+import { NormalizedGame, IgdbService } from '../../services/igdb.service'; // ✅ Importa NormalizedGame
 import { UserService } from '../../services/user.service';
 
 @Component({
@@ -18,7 +19,7 @@ import { UserService } from '../../services/user.service';
   standalone: true,
   imports: [CommonModule, FormsModule, AuthModalComponent, RouterLink],
   templateUrl: './nav.component.html',
-  styleUrls: ['./nav.component.css']
+  styleUrls: ['./nav.component.css'],
 })
 export class NavComponent implements OnInit {
   query = '';
@@ -36,35 +37,37 @@ export class NavComponent implements OnInit {
   constructor(
     private router: Router,
     public auth: AuthService,
-    private rawgService: RawgService,
+    private igdbService: IgdbService,
     private userService: UserService,
-    private elementRef: ElementRef
+    private elementRef: ElementRef,
   ) {}
 
   ngOnInit() {
-    this.searchSubject.pipe(
-      debounceTime(200),
-      distinctUntilChanged(),
-      switchMap(query => {
-        const trimmed = query.trim();
-        if (!trimmed) return of({ results: [] }); // ✅ Retorna estructura consistente
+    this.searchSubject
+      .pipe(
+        debounceTime(200),
+        distinctUntilChanged(),
+        switchMap((query) => {
+          const trimmed = query.trim();
+          if (!trimmed) return of({ results: [] }); // ✅ Retorna estructura consistente
 
-        if (trimmed.startsWith('@')) {
-          this.searchingUsers = true;
-          // Envuelve el resultado de usuarios en una estructura similar
-          return this.userService.searchUsers(trimmed.slice(1)).pipe(
-            switchMap(users => of({ results: users }))
-          );
-        } else {
-          this.searchingUsers = false;
-          return this.rawgService.getGamesByName(trimmed);
-        }
-      })
-    ).subscribe(response => {
-      // ✅ Ahora siempre accede a .results
-      this.searchResults = response.results?.slice(0, 5) || [];
-      this.showSuggestions = this.searchResults.length > 0;
-    });
+          if (trimmed.startsWith('@')) {
+            this.searchingUsers = true;
+            // Envuelve el resultado de usuarios en una estructura similar
+            return this.userService
+              .searchUsers(trimmed.slice(1))
+              .pipe(switchMap((users) => of({ results: users })));
+          } else {
+            this.searchingUsers = false;
+            return this.igdbService.getGamesByName(trimmed);
+          }
+        }),
+      )
+      .subscribe((response) => {
+        // ✅ Ahora siempre accede a .results
+        this.searchResults = response.results?.slice(0, 5) || [];
+        this.showSuggestions = this.searchResults.length > 0;
+      });
   }
 
   onSearchChange() {
@@ -86,9 +89,7 @@ export class NavComponent implements OnInit {
 
   selectItem(item: any) {
     this.router.navigate(
-      this.searchingUsers
-        ? ['/user', item.username]
-        : ['/detail', item.id]
+      this.searchingUsers ? ['/user', item.username] : ['/detail', item.id],
     );
     this.resetSearch();
   }
@@ -119,7 +120,8 @@ export class NavComponent implements OnInit {
   @HostListener('document:click', ['$event'])
   onClickOutside(event: MouseEvent) {
     const dropdown = this.elementRef.nativeElement.querySelector('.dropdown');
-    const searchBar = this.elementRef.nativeElement.querySelector('.search-bar');
+    const searchBar =
+      this.elementRef.nativeElement.querySelector('.search-bar');
 
     if (this.isDropdownOpen && !dropdown?.contains(event.target)) {
       this.isDropdownOpen = false;
