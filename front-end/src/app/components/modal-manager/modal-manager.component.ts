@@ -4,6 +4,7 @@ import { ModalManagerService } from '../../services/modal-manager.service';
 import { GameStatusModalComponent } from '../game-status-modal/game-status-modal.component';
 import { RatingModalComponent } from '../rating-modal/rating-modal.component';
 import { UserGameService } from '../../services/user-game.service';
+import { ReviewService } from '../../services/reviews.service';
 import { firstValueFrom } from 'rxjs';
 import { PlaytimeModalComponent } from "../playtime-modal/playtime-modal.component";
 import { ReviewModalComponent } from '../review-modal/review-modal.component';
@@ -35,6 +36,7 @@ export class ModalManagerController implements OnInit {
 
   constructor(
     private modalManager: ModalManagerService,
+    private reviewsService: ReviewService,
     private userGameService: UserGameService,
   ) {}
 
@@ -135,13 +137,11 @@ export class ModalManagerController implements OnInit {
   onSaveReview(review: string) {
     if (!this.currentGame) return;
 
-    this.userGameService.setGameReview(
+    this.reviewsService.setGameReview(
       this.currentGame.id,
       review,
       this.currentGame.name,
-      this.currentGame.background_image,
-      this.currentGame.released,
-      this.currentGame.rating
+      this.currentGame.backgroundImage
     ).subscribe({
       next: (updatedReview) => {
         this.currentGame.review = updatedReview.review;

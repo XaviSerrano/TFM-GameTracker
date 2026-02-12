@@ -32,7 +32,7 @@
           
           @if(game.rating) {
             <p class="rating">
-              Community rating: <span>{{ game.rating }}</span>
+              Community rating: {{ game.rating | number:'1.1-2' }}
               <img class="star" src="../../../assets/images/icons/star-filled.svg" alt="⭐">
             </p>
           }

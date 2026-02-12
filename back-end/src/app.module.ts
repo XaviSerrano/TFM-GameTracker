@@ -12,11 +12,9 @@ import { UserGameModule } from './user-game/user-game.module';
 import { GameModule } from './game/game.module';
 import { FollowModule } from './follow/follow.module';
 import { RatingModule } from './rating/rating.module';
-import { UserReviewsModule } from './user-reviews/user-reviews.module';
 import { CustomListModule } from './custom-list/custom-list.module';
 import { SuggestionsModule } from './suggestions/suggestions.module';
 import { RawgModule } from './rawg/rawg.module';
-import { ReviewsnestModule } from './g/reviewsnest/reviewsnest.module';
 import { ReviewsModule } from './reviews/reviews.module';
 
 @Module({
@@ -68,11 +66,9 @@ import { ReviewsModule } from './reviews/reviews.module';
     GameModule,
     FollowModule,
     RatingModule,
-    UserReviewsModule,
     CustomListModule,
     SuggestionsModule,
     RawgModule,
-    ReviewsnestModule,
     ReviewsModule,
   ],
   controllers: [AppController],

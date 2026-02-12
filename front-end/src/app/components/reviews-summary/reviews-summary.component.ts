@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { UserGameService } from '../../services/user-game.service';
+import { ReviewService } from '../../services/reviews.service';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 
@@ -21,6 +22,7 @@ export class ReviewsSummaryComponent implements OnInit {
   private reviewSubscription?: Subscription;
 
   constructor(
+    private reviewsService: ReviewService,
     private userGameService: UserGameService,
     private router: Router
   ) {}
@@ -37,7 +39,7 @@ export class ReviewsSummaryComponent implements OnInit {
     
     this.loadReviews();
 
-    this.reviewSubscription = this.userGameService.reviewAdded$.subscribe(
+    this.reviewSubscription = this.reviewsService.reviewAdded$.subscribe(
       (newReview) => {
         console.log('Nueva review detectada, actualizando lista...', newReview);
         if (this.isOwnProfile) {
@@ -52,7 +54,7 @@ export class ReviewsSummaryComponent implements OnInit {
     this.errorMessage = '';
     console.log('Cargando reviews para userId:', this.userId);
 
-    this.userGameService.getReviewsByUserId(this.userId).subscribe({
+    this.reviewsService.getReviewsByUserId(this.userId).subscribe({
       next: (data) => {
         console.log('Reviews recibidas:', data.length, 'items');
         

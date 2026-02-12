@@ -5,6 +5,7 @@ import { GameActionsComponent } from '../../game-actions/game-actions.component'
 import { CommonModule } from '@angular/common';
 import { ModalManagerService } from '../../../services/modal-manager.service';
 import { UserGameService } from '../../../services/user-game.service';
+import { ReviewService } from '../../../services/reviews.service';
 import { AuthService } from '../../../services/auth.service';
 import { map, combineLatest } from 'rxjs';
 import { ProfileSyncService } from '../../../services/profile-sync.service';
@@ -31,6 +32,7 @@ export class GameDetailComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private rawgService: RawgService,
+    private reviewsService: ReviewService,
     private userGameService: UserGameService,
     public modalManager: ModalManagerService,
     public authService: AuthService,
@@ -110,7 +112,7 @@ export class GameDetailComponent implements OnInit {
   }
 
   loadReviews() {
-    this.userGameService.getGameReviews(this.gameId).subscribe({
+    this.reviewsService.getGameReviews(this.gameId).subscribe({
       next: (reviews) => {
         this.reviews = reviews.map(review => this.handleReviewImage(review));
         this.limitedReviews = this.reviews.slice(0, 4);
@@ -127,13 +129,11 @@ export class GameDetailComponent implements OnInit {
 
     console.log('🚀 Enviando review...');
 
-    this.userGameService.setGameReview(
+    this.reviewsService.setGameReview(
       game.id,
       review,
       game.name,
-      game.backgroundImage,
-      game.released,
-      game.rating
+      game.backgroundImage
     ).subscribe({
       next: (newReview) => {
         console.log('✅ Review creada, respuesta:', newReview);
