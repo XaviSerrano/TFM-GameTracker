@@ -14,6 +14,7 @@ export interface NormalizedGame {
   metacritic?: number;
   playtime?: number;
   screenshots?: string[];
+  trailerUrl?: string;
 }
 
 export interface NormalizedGameList {

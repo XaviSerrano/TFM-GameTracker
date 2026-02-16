@@ -33,6 +33,10 @@ export class IgdbAdapter {
       screenshots: igdbGame.screenshots
         ?.map((s: any) => this.normalizeImageUrl(s.url))
         .filter(Boolean) || [],
+      // ✅ AÑADE ESTO - Convierte el video_id de IGDB a URL embebible de YouTube
+      trailerUrl: igdbGame.videos?.[0]?.video_id 
+        ? `https://www.youtube.com/embed/${igdbGame.videos[0].video_id}`
+        : undefined,
     };
   }
 

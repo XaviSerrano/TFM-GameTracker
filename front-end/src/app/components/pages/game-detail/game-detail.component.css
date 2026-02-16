@@ -26,7 +26,6 @@ h2, h3, h4 {
   position: relative;
   height: 500px;
   overflow: hidden;
-  border-radius: 12px;
   margin-bottom: 2rem;
 }
 
@@ -322,6 +321,7 @@ h2, h3, h4 {
 .tab.active {
   color: var(--primary-color);
   border-bottom-color: var(--primary-color);
+  font-weight: 800;
 }
 
 /* ==============================
@@ -353,9 +353,14 @@ h2, h3, h4 {
 
 .info-card {
   position: relative;
+  display: flex;
+  flex-direction: column;
   padding: 15px;
   border-radius: 12px;
+  gap: 10px;
   text-align: center;
+  align-items: center;
+  justify-content: center;
 }
 
 .info-card + .info-card::before {
@@ -379,52 +384,65 @@ h2, h3, h4 {
   margin: 0;
 }
 
-.tags {
+.metacritic-score {
+  width: 70px;
+  height: 70px;
   display: flex;
-  flex-wrap: wrap;
-  gap: 5px;
+  align-items: center;
   justify-content: center;
+  color: var(--text-main);
+  background: rgba(0, 0, 0, 0.35);
+  border: 4px solid #2bff00;
+  border-radius: 50%;
+  font-weight: 700;
+  font-size: 1.6rem !important;
+  line-height: 1;
 }
 
-.tag {
-  background-color: var(--primary-color);
-  color: #fff;
-  padding: 4px 8px;
-  border-radius: 999px;
-  font-size: 0.75rem;
+
+/* =========================
+  INFO INLINE (GENRES + PLATFORMS)
+========================= */
+
+.genres-info,
+.platforms-info {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.4rem;
+
+  padding: 6px 10px;
+  margin-top: 6px;
+
+  background: rgba(0, 0, 0, 0.35);
+  backdrop-filter: blur(8px);
+
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--text-main);
 }
 
-/* PLATFORMS */
-
-/* Solo plataformas */
-.info-card:first-child .tags {
+/* TEXTO */
+.genres-info .genre,
+.platforms-info .platform {
+  white-space: nowrap;
   display: flex;
-  flex-wrap: wrap;
-  gap: 0;
-  justify-content: center;
-  color: var(--text-secondary);
+  align-items: center;
 }
 
-/* Separador vertical entre plataformas */
-.info-card:first-child .tag {
-  position: relative;
-  background: none;
-  padding: 0;
-  border: none;
-}
-
-/* Separador como línea vertical */
-.info-card:first-child .tag + .tag::before {
+/* SEPARADOR VERTICAL */
+.genres-info .genre + .genre::before,
+.platforms-info .platform + .platform::before {
   content: "";
-  display: inline-block;
-  width: 2px;
-  height: 12px;
+  width: 1px;
+  height: 14px;
+  background: rgba(255, 255, 255, 0.25);
   margin: 0 8px;
-  background: rgba(255,255,255,0.3);
-  vertical-align: middle;
+  display: inline-block;
 }
-
-
 
 
 /* ==============================
@@ -689,5 +707,68 @@ h2, h3, h4 {
 
   .tabs {
     flex-direction: column;
+  }
+}
+
+/* ==============================
+  TRAILER SECTION
+============================== */
+.trailer-section {
+  margin: 2rem 0;
+  padding: 0;
+}
+
+.trailer-wrapper {
+  position: relative;
+  width: 100%;
+  max-width: 1200px; /* Ancho máximo del video */
+  margin: 0 auto; /* Centra el contenedor */
+  padding-bottom: 30%; /* 🎯 Reducido de 56.25% (16:9) a 45% - más rectangular */
+  background: #000;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+}
+
+.trailer-wrapper iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: none;
+  border-radius: 12px;
+}
+
+/* ==============================
+   RESPONSIVE TRAILER
+============================== */
+@media (max-width: 1024px) {
+  .trailer-wrapper {
+    max-width: 900px;
+    padding-bottom: 48%; /* Ligeramente más alto en tablets */
+  }
+}
+
+@media (max-width: 768px) {
+  .trailer-section {
+    margin: 1.5rem 0;
+  }
+  
+  .trailer-wrapper {
+    max-width: 100%;
+    padding-bottom: 56.25%; /* Vuelve a 16:9 en móviles para mejor visualización */
+    border-radius: 8px;
+  }
+}
+
+@media (max-width: 480px) {
+  .trailer-section h2 {
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+  }
+  
+  .trailer-wrapper {
+    border-radius: 6px;
   }
 }

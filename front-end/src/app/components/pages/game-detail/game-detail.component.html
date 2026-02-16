@@ -77,50 +77,48 @@
           <p [innerHTML]="game.description || 'No description available.'"></p>
         </div>
 
+        <!-- TRAILER -->
+        @if (game.trailerUrl) {
+          <div class="trailer-section">
+            <div class="trailer-wrapper">
+              <iframe
+                [src]="safeTrailerUrl"
+                title="Game trailer"
+                frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowfullscreen>
+              </iframe>
+            </div>
+          </div>
+        }
+        
+
         <!-- INFORMACIÓN ADICIONAL -->
         <div class="info-grid">
           @if (game.platforms && game.platforms.length > 0) {
-            <div class="info-card">
-              <h3>Platforms</h3>
-              <div class="tags">
-                @for (platform of game.platforms; track platform) {
-                  <span class="tag">{{ platform }}</span>
-                }
-              </div>
+          <div class="info-card">
+            <h3>Platforms</h3>
+
+            <div class="platforms-info">
+              @for (platform of game.platforms; track platform) {
+                <span class="platform">{{ platform }}</span>
+              }
             </div>
+          </div>
           }
 
           @if (game.genres && game.genres.length > 0) {
-            <div class="info-card">
-              <h3>Genres</h3>
-              <div class="tags">
-                @for (genre of game.genres; track genre) {
-                  <span class="tag">{{ genre }}</span>
-                }
-              </div>
+          <div class="info-card">
+            <h3>Genres</h3>
+
+            <div class="genres-info">
+              @for (genre of game.genres; track genre) {
+                <span class="genre">{{ genre }}</span>
+              }
             </div>
+          </div>
           }
 
-          @if (game.developers && game.developers.length > 0) {
-            <div class="info-card">
-              <h3>Developers</h3>
-              <p>{{ game.developers.join(', ') }}</p>
-            </div>
-          }
-
-          @if (game.publishers && game.publishers.length > 0) {
-            <div class="info-card">
-              <h3>Publishers</h3>
-              <p>{{ game.publishers.join(', ') }}</p>
-            </div>
-          }
-
-          @if (game.esrbRating) {
-            <div class="info-card">
-              <h3>Age Rating</h3>
-              <p>{{ game.esrbRating }}</p>
-            </div>
-          }
 
           @if (game.metacritic) {
             <div class="info-card">

@@ -20,6 +20,7 @@ export interface NormalizedGame {
   metacritic?: number;
   playtime?: number;
   screenshots?: string[];
+  trailerUrl?: string; // ✅ AÑADE ESTO
 }
 
 export interface NormalizedGameList {
@@ -34,6 +35,19 @@ export interface TimeToBeat {
   normally?: number;
   completely?: number;
 }
+
+export interface NormalizedEvent {
+  id: number;
+  name: string;
+  description?: string;
+  startTime?: string;
+  endTime?: string;
+  liveStreamUrl?: string;
+  logo?: string;
+  videos?: string[];
+  games?: number[];
+}
+
 
 @Injectable({ providedIn: 'root' })
 export class IgdbService {  // ✅ Renombrado de RawgService a IgdbService
@@ -67,4 +81,14 @@ export class IgdbService {  // ✅ Renombrado de RawgService a IgdbService
   getTimeToBeat(gameId: number): Observable<TimeToBeat> {
     return this.http.get<TimeToBeat>(`${this.apiUrl}/${gameId}/time-to-beat`);
   }
+
+  getEvents(): Observable<NormalizedEvent[]> {
+    return this.http.get<NormalizedEvent[]>(`${this.apiUrl}/events`);
+  }
+
+  getEventById(id: number): Observable<NormalizedEvent> {
+    return this.http.get<NormalizedEvent>(`${this.apiUrl}/events/${id}`);
+  }
+
+
 }

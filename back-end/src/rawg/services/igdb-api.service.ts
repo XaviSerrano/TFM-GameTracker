@@ -88,9 +88,9 @@ export class IgdbApiService {
   async getGameById(id: number): Promise<any> {
     const body = `
       fields name, summary, storyline, rating, rating_count, 
-             first_release_date, aggregated_rating, 
-             cover.*, platforms.*, genres.*, screenshots.*, 
-             involved_companies.*, age_ratings.*;
+            first_release_date, aggregated_rating, 
+            cover.*, platforms.*, genres.*, screenshots.*, 
+            involved_companies.*, age_ratings.*, videos.*;
       where id = ${id};
     `;
 
@@ -101,7 +101,7 @@ export class IgdbApiService {
   async getTopGames(limit = 250, minRatingCount = 50): Promise<any> {
     const body = `
       fields name, summary, rating, rating_count, first_release_date,
-             aggregated_rating, cover.*, platforms.*, genres.*, screenshots.*;
+            aggregated_rating, cover.*, platforms.*, genres.*, screenshots.*;
       where rating_count >= ${minRatingCount} & rating != null;
       sort rating desc;
       limit ${limit};

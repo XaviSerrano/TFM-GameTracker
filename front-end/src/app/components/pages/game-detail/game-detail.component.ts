@@ -1,15 +1,15 @@
-// game-detail.component.ts
 import { Component, OnInit, HostListener } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { IgdbService } from '../../../services/igdb.service'; // ✅ Importación corregida
+import { IgdbService } from '../../../services/igdb.service';
 import { CommonModule } from '@angular/common';
 import { ModalManagerService } from '../../../services/modal-manager.service';
 import { ReviewService } from '../../../services/reviews.service';
 import { AuthService } from '../../../services/auth.service';
-import { map, combineLatest, catchError, of } from 'rxjs';
+import { map, combineLatest } from 'rxjs';
 import { ProfileSyncService } from '../../../services/profile-sync.service';
 import { UserGameService } from '../../../services/user-game.service';
 import { GameActionsComponent } from '../../reusables/game-actions/game-actions.component';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser'; // ✅ AÑADE ESTO
 
 @Component({
   selector: 'app-game-detail',
@@ -18,7 +18,6 @@ import { GameActionsComponent } from '../../reusables/game-actions/game-actions.
   templateUrl: './game-detail.component.html',
   styleUrls: ['./game-detail.component.css']
 })
-
 export class GameDetailComponent implements OnInit {
   gameId!: number;
   game: any;
@@ -36,6 +35,9 @@ export class GameDetailComponent implements OnInit {
   
   currentUser: any = null;
 
+  // ❌ ELIMINA ESTO - Ya no lo necesitas
+  // trailerUrl?: string;
+
   averageTimes?: {
     hastily?: number;
     normally?: number;
@@ -44,12 +46,13 @@ export class GameDetailComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private igdbService: IgdbService, // ✅ Cambiado de rawgService a igdbService
+    private igdbService: IgdbService,
     private reviewsService: ReviewService,
     private userGameService: UserGameService,
     public modalManager: ModalManagerService,
     public authService: AuthService,
-    private profileSync: ProfileSyncService
+    private profileSync: ProfileSyncService,
+    private sanitizer: DomSanitizer // ✅ AÑADE ESTO
   ) {}
 
   ngOnInit() {
@@ -108,18 +111,22 @@ export class GameDetailComponent implements OnInit {
     };
   }
 
-  // ✅ LOADGAME CORREGIDO - MEJOR MANEJO DE ERRORES
   loadGame() {
     this.igdbService.getGameById(this.gameId).subscribe({
       next: (data: any) => {
         this.game = data;
         this.loading = false;
         console.log('🎮 Game loaded:', this.game);
+        console.log('🎬 Trailer URL:', this.game.trailerUrl); // ✅ DEBUG
 
-        // Obtener tiempos de juego - CON MANEJO DE ERRORES MEJORADO
+        // ❌ ELIMINA ESTAS LÍNEAS - El trailer ya viene en game.trailerUrl
+        // if (data.videos && data.videos.length > 0) {
+        //   this.trailerUrl = data.videos[0];
+        // }
+
+        // Obtener tiempos de juego
         this.igdbService.getTimeToBeat(this.gameId).subscribe({
           next: (times) => {
-            // ✅ Convertir de segundos a horas (IGDB devuelve segundos)
             this.averageTimes = {
               hastily: times?.hastily ? Math.round(times.hastily / 3600) : undefined,
               normally: times?.normally ? Math.round(times.normally / 3600) : undefined,
@@ -129,10 +136,9 @@ export class GameDetailComponent implements OnInit {
           },
           error: (err) => {
             console.log('ℹ️ No time-to-beat data available for this game');
-            this.averageTimes = {}; // ✅ Muestra N/A en el template
+            this.averageTimes = {};
           }
         });
-
       },
       error: (err) => {
         console.error('❌ Error loading game:', err);
@@ -140,6 +146,12 @@ export class GameDetailComponent implements OnInit {
         this.averageTimes = {};
       }
     });
+  }
+
+  // ✅ AÑADE ESTE GETTER para sanitizar la URL del trailer
+  get safeTrailerUrl(): SafeResourceUrl | null {
+    if (!this.game?.trailerUrl) return null;
+    return this.sanitizer.bypassSecurityTrustResourceUrl(this.game.trailerUrl);
   }
 
   loadReviews() {
@@ -175,7 +187,6 @@ export class GameDetailComponent implements OnInit {
     });
   }
 
-  // ... (resto de métodos lightbox sin cambios)
   openLightbox(index: number) {
     this.currentScreenshotIndex = index;
     this.lightboxOpen = true;
@@ -221,4 +232,5 @@ export class GameDetailComponent implements OnInit {
         break;
     }
   }
+
 }
