@@ -62,11 +62,19 @@ h2, h3, h4 {
 }
 
 .meta-info {
-  display: flex;
-  gap: 1.5rem;
+  display: inline-flex;   /* 👈 clave */
+  flex-wrap: wrap;
+  gap: 0.6rem;
   align-items: center;
-  font-size: 1.1rem;
+
+  padding: 8px 12px;
+  border-radius: 12px;
+
+  background: rgba(0,0,0,0.35);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255,255,255,0.08);
 }
+
 
 .meta-info span {
   display: flex;
@@ -80,11 +88,142 @@ h2, h3, h4 {
 }
 
 .rating-badge {
-  background: rgba(255, 193, 7, 0.2);
   padding: 0.3rem 0.8rem;
   border-radius: 20px;
   font-weight: 600;
 }
+
+
+/*
+  PLAYTIME INFO
+*/
+
+/* =========================
+  PLAYTIME INFO CONTAINER
+========================= */
+.playtime-info {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+
+  padding: 6px 10px;
+  margin-left: 0.5rem;
+
+  font-size: 0.85rem;
+  color: var(--text-main);
+
+  transition: all 0.25s ease;
+}
+
+.playtime-info .time + .time::before {
+  content: "";
+  width: 1px;
+  height: 16px;
+  background: rgba(255, 255, 255, 0.25);
+  margin: 0 8px;
+  display: inline-block;
+}
+
+/* =========================
+  CADA TIEMPO
+========================= */
+.playtime-info .time {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+
+  padding: 2px 6px;
+  border-radius: 6px;
+
+  white-space: nowrap;
+
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.playtime-info .time strong {
+  font-weight: 600;
+  margin-left: 2px;
+}
+
+
+/* =========================
+  COLORES POR TIPO
+========================= */
+.playtime-info .rushed {
+  color: #9aa4ff;
+}
+
+.playtime-info .normal {
+  color: #7be0a2;
+}
+
+.playtime-info .complete {
+  color: #ffd36b;
+}
+
+/* =========================
+  RESPONSIVE
+========================= */
+@media (max-width: 768px) {
+  .playtime-info {
+    flex-wrap: wrap;
+    gap: 0.3rem;
+    font-size: 0.8rem;
+  }
+
+  .playtime-info .time {
+    padding: 2px 4px;
+  }
+}
+
+
+/* =========================
+  RELEASE DATE BADGE
+========================= */
+.release-date,
+.rating-badge,
+.playtime-info {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+
+  padding: 5px 10px;
+  border-radius: 999px;
+
+  font-size: 0.82rem;
+  font-weight: 500;
+
+
+  transition: all 0.2s ease;
+}
+
+.release-date {
+  padding: 0;
+}
+
+.release-date span {
+  font-weight: bold;
+}
+
+/* Icono ligeramente más suave */
+.release-date::before {
+  font-size: 0.9rem;
+  opacity: 0.9;
+}
+
+.release-date {
+  color: #b8c0ff;
+}
+
+.rating-badge {
+  color: var(--secondary-color);
+}
+
+.playtime-info {
+  color: var(--text-main);
+}
+
+
 
 /* ==============================
   ACTIONS BAR
@@ -92,8 +231,7 @@ h2, h3, h4 {
 .actions-bar {
   display: flex;
   gap: 1rem;
-  margin-bottom: 2rem;
-  padding: 1rem;
+  padding: 1rem 2rem;
   border-radius: 8px;
   align-items: center;
 }
@@ -154,12 +292,13 @@ h2, h3, h4 {
 }
 
 /* ==============================
-   TABS
+  TABS
 ============================== */
 .tabs {
   display: flex;
   gap: 0.5rem;
   margin-bottom: 0rem;
+  padding-inline: 2rem;
   border-bottom: 2px solid var(--border-color);
 }
 
@@ -186,7 +325,7 @@ h2, h3, h4 {
 }
 
 /* ==============================
-   OVERVIEW CONTENT
+  OVERVIEW CONTENT
 ============================== */
 .overview-content {
   padding: 1rem 2rem;
@@ -201,6 +340,11 @@ h2, h3, h4 {
   margin-bottom: 0.5rem;
 }
 
+.description-section p {
+  font-size: 18px;
+  line-height: 1.6;
+}
+
 .info-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
@@ -208,14 +352,24 @@ h2, h3, h4 {
 }
 
 .info-card {
-  background-color: var(--background-secondary-dark);
+  position: relative;
   padding: 15px;
   border-radius: 12px;
   text-align: center;
 }
 
+.info-card + .info-card::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 20%;
+  width: 1px;
+  height: 60%;
+  background: rgba(255, 255, 255, 0.15);
+}
+
 .info-card h3 {
-  font-size: 0.95rem;
+  font-size: 26px;
   margin-bottom: 5px;
   font-weight: 600;
 }
@@ -240,8 +394,41 @@ h2, h3, h4 {
   font-size: 0.75rem;
 }
 
+/* PLATFORMS */
+
+/* Solo plataformas */
+.info-card:first-child .tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0;
+  justify-content: center;
+  color: var(--text-secondary);
+}
+
+/* Separador vertical entre plataformas */
+.info-card:first-child .tag {
+  position: relative;
+  background: none;
+  padding: 0;
+  border: none;
+}
+
+/* Separador como línea vertical */
+.info-card:first-child .tag + .tag::before {
+  content: "";
+  display: inline-block;
+  width: 2px;
+  height: 12px;
+  margin: 0 8px;
+  background: rgba(255,255,255,0.3);
+  vertical-align: middle;
+}
+
+
+
+
 /* ==============================
-   MEDIA CONTENT
+  MEDIA CONTENT
 ============================== */
 .media-content {
   padding: 1rem 2rem;
@@ -277,7 +464,7 @@ h2, h3, h4 {
 }
 
 /* ==============================
-   REVIEWS CONTENT
+  REVIEWS CONTENT
 ============================== */
 .reviews-content {
   padding: 1rem 2rem;
@@ -292,7 +479,7 @@ h2, h3, h4 {
 
 .reviews-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  grid-template-columns: repeat(3, 1fr);
   gap: 16px;
 }
 

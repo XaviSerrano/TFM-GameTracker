@@ -9,9 +9,6 @@
         <h1>{{ game.name }}</h1>
 
       <div class="meta-info">
-        <span class="release-date" *ngIf="game.released">
-          📅 {{ game.released | date:'mediumDate' }}
-        </span>
 
         <span class="rating-badge" *ngIf="game.rating">
           <img src="assets/images/icons/star-filled.svg" alt="⭐">
@@ -19,15 +16,21 @@
         </span>
 
         <span class="playtime-info">
-          ⏱
-          Rushed: {{ averageTimes?.hastily ?? 'N/A' }}h;
-          Normal: {{ averageTimes?.normally ?? 'N/A' }}h;
-          100%: {{ averageTimes?.completely ?? 'N/A' }}h;
+          <span class="time rushed">
+            ⏱ Rushed <strong>{{ averageTimes?.hastily ?? 'N/A' }}h</strong>
+          </span>
+
+          <span class="time normal">
+            🎮 Normal <strong>{{ averageTimes?.normally ?? 'N/A' }}h</strong>
+          </span>
+
+          <span class="time complete">
+            🏆 100% <strong>{{ averageTimes?.completely ?? 'N/A' }}h</strong>
+          </span>
         </span>
+
       </div>
         
-
-
       </div>
     </div>
 
@@ -68,6 +71,9 @@
         <!-- DESCRIPCIÓN -->
         <div class="description-section">
           <h2>About</h2>
+        <span class="release-date" *ngIf="game.released">
+          <span>Released:</span> {{ game.released | date:'mediumDate' }}
+        </span>
           <p [innerHTML]="game.description || 'No description available.'"></p>
         </div>
 
@@ -75,7 +81,7 @@
         <div class="info-grid">
           @if (game.platforms && game.platforms.length > 0) {
             <div class="info-card">
-              <h3>🎮 Platforms</h3>
+              <h3>Platforms</h3>
               <div class="tags">
                 @for (platform of game.platforms; track platform) {
                   <span class="tag">{{ platform }}</span>
@@ -86,7 +92,7 @@
 
           @if (game.genres && game.genres.length > 0) {
             <div class="info-card">
-              <h3>🎯 Genres</h3>
+              <h3>Genres</h3>
               <div class="tags">
                 @for (genre of game.genres; track genre) {
                   <span class="tag">{{ genre }}</span>
@@ -97,28 +103,28 @@
 
           @if (game.developers && game.developers.length > 0) {
             <div class="info-card">
-              <h3>👨‍💻 Developers</h3>
+              <h3>Developers</h3>
               <p>{{ game.developers.join(', ') }}</p>
             </div>
           }
 
           @if (game.publishers && game.publishers.length > 0) {
             <div class="info-card">
-              <h3>🏢 Publishers</h3>
+              <h3>Publishers</h3>
               <p>{{ game.publishers.join(', ') }}</p>
             </div>
           }
 
           @if (game.esrbRating) {
             <div class="info-card">
-              <h3>🔞 Age Rating</h3>
+              <h3>Age Rating</h3>
               <p>{{ game.esrbRating }}</p>
             </div>
           }
 
           @if (game.metacritic) {
             <div class="info-card">
-              <h3>📊 Metacritic Score</h3>
+              <h3>Metacritic Score</h3>
               <p class="metacritic-score">{{ game.metacritic | number:'1.0-0' }}</p>
             </div>
           }
