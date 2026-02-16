@@ -1,12 +1,8 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { AuthService } from '../services/auth.service';
 import { AuthModalComponent } from '../auth/auth-modal/auth-modal.component';
-import {
-  trigger,
-  transition,
-  style,
-  animate
-} from '@angular/animations';
+import { trigger, transition, style, animate } from '@angular/animations';
 
 @Component({
   selector: 'app-main-page',
@@ -29,13 +25,20 @@ import {
 export class MainPageComponent {
   showAuthModal = false;
 
-  constructor(private router: Router) {}
+  constructor(private router: Router, private authService: AuthService) {}
 
   toggleAuthModal() {
     this.showAuthModal = !this.showAuthModal;
   }
 
   startTracking() {
+    // ✅ revisa si el usuario está logueado usando AuthService
+    if (!this.authService.isLoggedIn()) {
+      this.toggleAuthModal(); // abre modal si no está logueado
+      return;
+    }
+
+    // si está logueado, navega
     this.router.navigate(['/home']);
   }
 }
