@@ -53,7 +53,7 @@ export class ModalManagerController implements OnInit {
           status: userGame.status ?? null,
           rating: userGame.rating ?? 0,
           playtime: userGame.playtime ?? 0,
-          review: userGame.review ?? '',
+          // review: userGame.review ?? '',
         };
       } catch {
         this.currentGame = {

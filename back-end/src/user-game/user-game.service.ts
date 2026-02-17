@@ -38,16 +38,40 @@ export class UserGameService {
   }
 
   // 🎮 STATUS
-  async setStatus(userId: number, gameId: number, status: GameStatus) {
+  async setStatus(
+    userId: number,
+    gameId: number,
+    status: GameStatus,
+    gameData?: {
+      name?: string;
+      backgroundImage?: string;
+      released?: string;
+      rating?: number;
+    }
+  ) {
     const user = await this.getUser(userId);
-    const game = await this.getGame(gameId);
+
+    const game = await this.gameService.findOrCreate({
+      id: gameId,
+      ...gameData,
+    });
 
     let userGame = await this.findUserGame(userId, game.id);
 
     if (!userGame) {
-      userGame = this.repo.create({ user, game, status });
+      userGame = this.repo.create({
+        user,
+        game,
+        status,
+        gameName: gameData?.name, // ⭐ IMPORTANTE
+        rating: gameData?.rating ?? null,
+        backgroundImage: gameData?.backgroundImage,
+      });
     } else {
       userGame.status = status;
+
+      // opcional: actualizar nombre si vino nuevo
+      if (gameData?.name) userGame.gameName = gameData.name;
     }
 
     return this.repo.save(userGame);

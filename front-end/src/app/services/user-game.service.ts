@@ -28,13 +28,15 @@ setGameStatus(
 }
 
 getGamesByStatus(status: string): Observable<any[]> {
-  return this.http.get<any[]>(`${this.apiUrl}/${status}`);
+  // ✅ Cambiado de /${status} a /my-collection/${status}
+  return this.http.get<any[]>(`${this.apiUrl}/my-collection/${status}`);
 }
 
-getGameStatus(gameId: number): Observable<{ status: string; rating: number | null; playtime: number; review?: string }> {
-  return this.http.get<{ status: string; rating: number | null; playtime: number; review?: string }>(
-  `${this.apiUrl}/status/${gameId}`
-);
+getGameStatus(gameId: number): Observable<{ status: string; rating: number | null; playtime: number }> {
+  // ✅ Cambiado de /status/${gameId} a /game-status/${gameId}
+  return this.http.get<{ status: string; rating: number | null; playtime: number }>(
+    `${this.apiUrl}/game-status/${gameId}`
+  );
 }
 
 setGameRating(gameId: number, rating: number): Observable<any> {

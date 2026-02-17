@@ -1,7 +1,8 @@
 h2 {
   text-align: left;
   margin: 20px 20px 0 20px;
-  font-size: 2rem;
+  font-size: 1rem;
+  text-transform: uppercase;
   color: var(--text-main);
 }
 
