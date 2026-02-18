@@ -45,13 +45,15 @@ export class GameStatusModalComponent {
       this.selectStatus.emit(this.pendingStatus);
       this.currentStatus = this.pendingStatus;
     }
+    this.close.emit();
   }
-
+  
   onClear(event: MouseEvent) {
     event.stopPropagation();
     this.pendingStatus = null;
     this.selectStatus.emit(null);
     this.currentStatus = null;
+    this.close.emit();
   }
 
 

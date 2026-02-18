@@ -72,5 +72,12 @@ export class ModalManagerService {
   closeCustomListModal() {
     this.customListModalSubject.next({ show: false });
   }
+
+  private statusChangedSource = new BehaviorSubject<{ gameId: number; status: string | null } | null>(null);
+  statusChanged$ = this.statusChangedSource.asObservable();
+
+  notifyStatusChanged(gameId: number, status: string | null) {
+    this.statusChangedSource.next({ gameId, status });
+  }
   
 }

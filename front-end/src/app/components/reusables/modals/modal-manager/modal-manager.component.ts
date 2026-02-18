@@ -97,6 +97,7 @@ export class ModalManagerController implements OnInit {
 
     if (status === null) {
       this.currentGame.status = null;
+      this.modalManager.notifyStatusChanged(this.currentGame.id, null); // ← AÑADE
       return;
     }
 
@@ -109,6 +110,7 @@ export class ModalManagerController implements OnInit {
       )
       .subscribe((updated) => {
         this.currentGame.status = updated.status;
+        this.modalManager.notifyStatusChanged(this.currentGame.id, status); // ← AÑADE
         this.showStatus = false;
         this.showRatingModal = true;
       });

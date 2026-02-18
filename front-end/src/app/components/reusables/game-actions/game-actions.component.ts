@@ -15,6 +15,7 @@ import { RatingModalComponent } from '../modals/rating-modal/rating-modal.compon
   templateUrl: './game-actions.component.html',
   styleUrl: './game-actions.component.css',
 })
+
 export class GameActionsComponent implements OnInit {
   @Input() game!: any;
   @Input() isBookmarked = false;
@@ -36,14 +37,27 @@ export class GameActionsComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    if (this.game) {
-      this.loadGameStatus();
-      this.loadBookmarkStatus();
-    }
+    if (!this.game) return;
+
+    this.loadGameStatus();
+    this.loadBookmarkStatus();
+
+    this.modalManager.statusChanged$.subscribe(change => {
+      if (!change || change.gameId !== this.getGameId()) return;
+      this.currentStatus = change.status;
+    });
+  }
+
+  /** 🔹 Normaliza el id del juego */
+  private getGameId(): number {
+    return this.game?.gameId ?? this.game?.id;
   }
 
   private loadGameStatus() {
-    this.userGameService.getGameStatus(this.game.id).subscribe({
+    const gameId = this.getGameId();
+    if (!gameId) return;
+
+    this.userGameService.getGameStatus(gameId).subscribe({
       next: (res) => {
         this.currentStatus = res.status || null;
         this.currentRating = res.rating ?? 0;
@@ -55,7 +69,7 @@ export class GameActionsComponent implements OnInit {
     });
   }
 
-  // BOOKMARK
+  // ⭐ BOOKMARK
   toggleBookmark(event: MouseEvent) {
     event.stopPropagation();
 
@@ -64,10 +78,13 @@ export class GameActionsComponent implements OnInit {
       return;
     }
 
+    const gameId = this.getGameId();
+    if (!gameId) return; // 🛡️ evita NaN
+
     const action$ = this.isBookmarked
-      ? this.wishlistService.removeFromWishlist(this.game.id)
+      ? this.wishlistService.removeFromWishlist(gameId)
       : this.wishlistService.addToWishlist({
-          gameId: this.game.id,
+          gameId,
           gameName: this.game.name,
           backgroundImage: this.game.backgroundImage,
           rating: this.game.rating,
@@ -78,26 +95,29 @@ export class GameActionsComponent implements OnInit {
         this.isBookmarked = !this.isBookmarked;
         this.bookmarkToggled.emit(this.isBookmarked);
 
-        if (this.isBookmarked) {
-          this.alertService.show('GAME_ADDED_TO_WISHLIST');
-        } else {
-          this.alertService.show('GAME_REMOVED_FROM_WISHLIST');
-        }
+        this.alertService.show(
+          this.isBookmarked
+            ? 'GAME_ADDED_TO_WISHLIST'
+            : 'GAME_REMOVED_FROM_WISHLIST'
+        );
       },
       error: (err) => this.handleAuthError(err),
     });
   }
 
   private loadBookmarkStatus() {
+    const gameId = this.getGameId();
+    if (!gameId) return;
+
     this.wishlistService.getWishlist().subscribe({
       next: (wishlist) => {
         const safe = Array.isArray(wishlist) ? wishlist : [];
-        this.isBookmarked = safe.some((g) => g.gameId === this.game.id);
+        this.isBookmarked = safe.some((g) => g.gameId === gameId);
       },
     });
   }
 
-  // RATING
+  // ⭐ RATING
   openRatingModal(event: MouseEvent) {
     event.stopPropagation();
 
@@ -110,7 +130,10 @@ export class GameActionsComponent implements OnInit {
   }
 
   onSaveRating(value: number) {
-    this.userGameService.setGameRating(this.game.id, value).subscribe({
+    const gameId = this.getGameId();
+    if (!gameId) return;
+
+    this.userGameService.setGameRating(gameId, value).subscribe({
       next: () => {
         this.currentRating = value;
         this.showRatingModal = false;
@@ -144,3 +167,4 @@ export class GameActionsComponent implements OnInit {
     this.modalManager.openCustomListModal(game);
   }
 }
+
