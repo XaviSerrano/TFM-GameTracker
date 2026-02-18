@@ -29,7 +29,7 @@
 .home-sidebar {
   flex: 0 0 var(--sidebar-width);
   width: var(--sidebar-width);
-  padding: 1rem;
+  padding: 0.2rem 1rem;
   background-color: var(--background-main);
   border-right: 1px solid var(--border-color);
   overflow: hidden;
@@ -197,7 +197,7 @@
   width: 4px;
   height: 100%;
   background-color: var(--primary-color);
-  border-radius: 0 4px 4px 0;
+  border-radius: 0;
   
   /* Animación de aparición */
   animation: slideInLeft 300ms cubic-bezier(0.34, 1.56, 0.64, 1);
