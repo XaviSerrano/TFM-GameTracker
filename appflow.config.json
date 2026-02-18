@@ -1,8 +1,8 @@
 {
   "apps": [
     {
-      "root": "front-end",
-      "appId": "com.gametracker.app"
+      "appId": "b274d5d1",
+      "root": "front-end"
     }
   ]
 }
