@@ -6,7 +6,13 @@
   <div class="main-content">
     <app-modal-manager></app-modal-manager>
     <main class="router-content">
-      <router-outlet></router-outlet>
+      @if (isMobile) {
+        <ion-app>
+          <ion-router-outlet></ion-router-outlet>
+        </ion-app>
+      } @else {
+        <router-outlet></router-outlet>
+      }
     </main>
     
     <app-alert-modal

@@ -5,7 +5,8 @@ import { provideAnimations } from '@angular/platform-browser/animations';
 import { HttpClient } from '@angular/common/http';
 import { routes } from './app.routes';
 import { AuthInterceptor } from './interceptors/auth.interceptor';
-
+import { provideZoneChangeDetection } from '@angular/core';
+import { provideIonicAngular } from '@ionic/angular/standalone';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -14,6 +15,8 @@ export const appConfig: ApplicationConfig = {
     provideHttpClient(withInterceptorsFromDi()),
 
     provideAnimations(),
+    provideZoneChangeDetection({ eventCoalescing: true }),
+    provideIonicAngular({}),
 
     {
       provide: HTTP_INTERCEPTORS,
