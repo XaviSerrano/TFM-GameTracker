@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 import { WishlistService } from '../../../services/wishlist.service';
 import { GameCardComponent } from '../../reusables/game-card/game-card.component';
 import { AuthService } from '../../../services/auth.service';
-// import { AuthService } from '../../../auth/auth.service'; // Cambiar
 import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
@@ -54,9 +53,9 @@ export class WishlistComponent implements OnInit {
     this.wishlistService.getWishlist().subscribe({
       next: data => {
         this.wishlist = data.map(item => ({
-          gameId: item.gameId,
-          gameName: item.gameName,
-          backgroundImage: item.backgroundImage,
+          id: item.gameId,
+          name: item.gameName,
+          backgroundImage: item.backgroundImage ?? '',
           rating: item.rating
         }));
         this.loading = false;
@@ -75,15 +74,15 @@ export class WishlistComponent implements OnInit {
     this.wishlistService.getWishlistByUser(userId).subscribe({
       next: data => {
         this.wishlist = data.map(item => ({
-          gameId: item.gameId,
-          gameName: item.gameName,
-          backgroundImage: item.backgroundImage,
+          id: item.gameId,
+          name: item.gameName,
+          backgroundImage: item.backgroundImage ?? '',
           rating: item.rating
         }));
         this.loading = false;
       },
       error: (err) => {
-        console.log('🔥 Error real del backend:', err);
+        console.log('Error real del backend:', err);
         this.error = 'Error loading public wishlist';
         this.loading = false;
       }
@@ -103,11 +102,7 @@ export class WishlistComponent implements OnInit {
     });
   }
 
-  seeGameDetail(gameId: number) {
-    this.router.navigate(['/detail', gameId]);
-  }
-
-  trackByGameId(index: number, game: any) {
+  trackById(index: number, game: any) {
     return game.gameId;
   }
 }

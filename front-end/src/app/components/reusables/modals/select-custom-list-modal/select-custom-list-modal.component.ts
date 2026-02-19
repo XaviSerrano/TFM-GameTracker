@@ -40,6 +40,10 @@ export class SelectCustomListModalComponent implements OnChanges {
 
     this.customListService.getMyLists().subscribe(lists => {
       this.lists = lists;
+      console.log('SELECT CUSTOM LISTS:',lists);
+      
+      console.log('[CustomListModal] game.id:', this.game?.id);
+
 
       lists.forEach(list => {
         if (list.games?.some(g => g.gameId === this.game.id)) {

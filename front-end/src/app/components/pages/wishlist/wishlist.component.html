@@ -17,16 +17,10 @@
 
   <div *ngIf="!loading && wishlist.length > 0" class="wishlist-grid">
     <app-game-card
-      *ngFor="let game of wishlist; trackBy: trackByGameId"
-      [game]="{
-        id: game.gameId,
-        name: game.gameName,
-        backgroundImage: game.backgroundImage,
-        rating: game.rating
-      }"
+      *ngFor="let game of wishlist; trackBy: trackById"
+      [game]="game"
       [initialBookmarked]="true"
-      (bookmarkToggled)="removeFromWishlist($event)"
-      (cardClicked)="seeGameDetail($event)"
+      (bookmarkToggled)="removeFromWishlist(game)"
     ></app-game-card>
   </div>
 </div>

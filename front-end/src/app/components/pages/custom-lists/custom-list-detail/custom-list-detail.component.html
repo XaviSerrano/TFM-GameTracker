@@ -20,14 +20,8 @@
 
   <section class="games-grid" *ngIf="listGames.length > 0; else empty">
     <app-game-card
-      *ngFor="let game of listGames; trackBy: trackByGameId"
-      [game]="{
-        id: game.gameId,
-        name: game.name,
-        backgroundImage: game.background_image
-      }"
-      [initialBookmarked]="game.isBookmarked"
-      (cardClicked)="goToGameDetail($event)"
+      *ngFor="let game of listGames;"
+      [game]="game"
     ></app-game-card>
   </section>
 

@@ -14,7 +14,8 @@ export interface CustomList {
 }
 
 export interface CustomListGame {
+  id: number;
   gameId: number;
   name: string;
-  backgroundImage?: string;
+  backgroundImage?: string | null;
 }

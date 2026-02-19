@@ -5,6 +5,7 @@ import { CustomListService } from '../../../../services/custom-list.service';
 import { WishlistService } from '../../../../services/wishlist.service';
 import { CustomList, CustomListGame } from '../../../../models/custom-list.model';
 import { GameCardComponent } from '../../../reusables/game-card/game-card.component';
+import { GameCard } from '../../../../models/game-card.model';
 
 interface GameCardData {
   gameId: number;
@@ -12,6 +13,7 @@ interface GameCardData {
   background_image: string;
   isBookmarked: boolean;
 }
+
 
 @Component({
   selector: 'app-custom-list-detail',
@@ -23,7 +25,8 @@ interface GameCardData {
 export class CustomListDetailComponent implements OnInit {
 
   list?: CustomList;
-  listGames: GameCardData[] = [];
+  // listGames: GameCardData[] = [];
+  listGames: GameCard[] = [];
   loading = true;
 
   constructor(
@@ -46,10 +49,9 @@ export class CustomListDetailComponent implements OnInit {
           this.list = list;
 
           this.listGames = (list.games || []).map((game: CustomListGame) => ({
-            gameId: game.gameId,
+            id: game.gameId,
             name: game.name,
-            background_image: game.backgroundImage || '',
-            isBookmarked: wishlistIds.includes(game.gameId)
+            backgroundImage: game.backgroundImage ?? '',
           }));
 
           this.loading = false;
@@ -60,10 +62,9 @@ export class CustomListDetailComponent implements OnInit {
           this.list = list;
 
           this.listGames = (list.games || []).map((game: CustomListGame) => ({
-            gameId: game.gameId,
+            id: game.gameId,
             name: game.name,
-            background_image: game.backgroundImage || '',
-            isBookmarked: false
+            backgroundImage: game.backgroundImage ?? '',
           }));
 
           this.loading = false;
@@ -72,11 +73,7 @@ export class CustomListDetailComponent implements OnInit {
     });
   }
 
-  goToGameDetail(gameId: number) {
-    this.router.navigate(['/detail', gameId]);
-  }
-
-  trackByGameId(index: number, game: GameCardData) {
+  trackById(index: number, game: GameCardData) {
     return game.gameId;
   }
 }

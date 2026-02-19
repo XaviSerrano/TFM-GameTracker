@@ -70,7 +70,8 @@ export class CollectionStatusComponent implements OnInit, OnDestroy {
           this.authService.currentUser$
             .pipe(takeUntil(this.destroy$))
             .subscribe(user => {
-              this.userName = user?.username || 'Usuario';
+              if (!user) return; // ← AÑADE ESTO
+              this.userName = user.username;
               this.loadPrivateCollection();
             });
         }
@@ -130,11 +131,15 @@ export class CollectionStatusComponent implements OnInit, OnDestroy {
   }
 
   private assignGames(statusKey: string, games: any[]) {
+    console.log('[Collection] token:', this.authService.getToken() ? 'EXISTS' : 'MISSING');
+
+    console.log('[Collection] raw games from backend:', games); // ← AÑADE
+    console.log('[Collection] first game raw:', games[0]); // ← VER TODOS LOS CAMPOS
+
     this.gamesByStatus[statusKey] = games.map(g => ({
-      id: g.gameId,
+      id: g.game.id,
       name: g.gameName,
-      backgroundImage: g.backgroundImage,
-      status: g.status,
+      backgroundImage: g.backgroundImage ?? '',
       rating: g.rating,
     }));
 
@@ -150,7 +155,4 @@ export class CollectionStatusComponent implements OnInit, OnDestroy {
     this.selectedTab = statusKey;
   }
 
-  seeGameDetail(gameId: number) {
-    this.router.navigate(['/detail', gameId]);
-  }
 }

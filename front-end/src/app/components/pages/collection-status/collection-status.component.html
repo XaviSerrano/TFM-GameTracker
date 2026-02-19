@@ -26,8 +26,8 @@
         @for (item of gamesByStatus[selectedTab]; track item.id) {
           <app-game-card
             [game]="item"
-            (cardClicked)="seeGameDetail($event)"
-            ></app-game-card>
+            (bookmarkToggled)="loadPrivateCollection()"
+          ></app-game-card>
         }
       </div>
     } @else {
@@ -35,3 +35,4 @@
     }
   </section>
 </div>
+>

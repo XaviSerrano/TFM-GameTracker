@@ -30,6 +30,8 @@ export class GameCardComponent {
   }
 
   onCardClick() {
+    const id = this.game?.id ?? this.game?.gameId;
+    this.router.navigate(['/detail', id]);
     this.cardClicked.emit(this.game.id);
   }
 

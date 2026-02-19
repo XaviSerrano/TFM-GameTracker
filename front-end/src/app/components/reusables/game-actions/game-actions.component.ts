@@ -37,7 +37,16 @@ export class GameActionsComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    if (!this.game) return;
+
+    if (!this.game) {
+      console.warn('[GameActions] game is undefined/null');
+      return;
+    }
+
+    console.log('[GameActions] game received:', this.game);
+    console.log('[GameActions] resolved id:', this.getGameId());
+    console.log('[GameActions] token:', this.authService.getToken() ? 'EXISTS' : 'MISSING');
+
 
     this.loadGameStatus();
     this.loadBookmarkStatus();
@@ -55,8 +64,10 @@ export class GameActionsComponent implements OnInit {
 
   private loadGameStatus() {
     const gameId = this.getGameId();
-    if (!gameId) return;
-
+    if (!gameId) {
+      console.log('[GameActions] gameId is undefined, skipping loadGameStatus');
+      return;
+    }
     this.userGameService.getGameStatus(gameId).subscribe({
       next: (res) => {
         this.currentStatus = res.status || null;
@@ -72,7 +83,9 @@ export class GameActionsComponent implements OnInit {
   // ⭐ BOOKMARK
   toggleBookmark(event: MouseEvent) {
     event.stopPropagation();
-
+    console.log('[GameActions] toggleBookmark, isLoggedIn:', this.authService.isLoggedIn());
+    console.log('[GameActions] toggleBookmark, gameId:', this.getGameId());
+    
     if (!this.authService.isLoggedIn()) {
       this.router.navigate(['/login']);
       return;
@@ -153,6 +166,7 @@ export class GameActionsComponent implements OnInit {
 
   openStatusModal(game: any, event: Event) {
     event.stopPropagation();
+    console.log('[GameActions] openStatusModal called with:', game);
     this.modalManager.openStatusModal(game);
   }
 
@@ -163,7 +177,7 @@ export class GameActionsComponent implements OnInit {
       this.router.navigate(['/login']);
       return;
     }
-
+    console.log('[GameActions] openCustomListModal game:', game);
     this.modalManager.openCustomListModal(game);
   }
 }
