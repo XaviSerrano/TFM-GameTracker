@@ -4,12 +4,12 @@ import { Repository } from 'typeorm';
 import { UserGame } from './user-game.entity';
 import { GameService } from '../game/game.service';
 import { User } from '../user/user.entity';
-import { Game } from '../game/game.entity';
 
 export type GameStatus = 'Playing' | 'Played' | 'Completed' | 'Abandoned';
 
 @Injectable()
 export class UserGameService {
+
   constructor(
     @InjectRepository(UserGame)
     private repo: Repository<UserGame>,
@@ -26,18 +26,14 @@ export class UserGameService {
     return user;
   }
 
-  private async getGame(gameId: number) {
-    return this.gameService.findOrCreate({ id: gameId });
-  }
-
   private async findUserGame(userId: number, gameId: number) {
     return this.repo.findOne({
       where: { user: { id: userId }, game: { id: gameId } },
-      relations: ['user', 'game'],
+      relations: ['game'],
     });
   }
 
-  // 🎮 STATUS
+  // 🎮 SET STATUS
   async setStatus(
     userId: number,
     gameId: number,
@@ -46,46 +42,54 @@ export class UserGameService {
       name?: string;
       backgroundImage?: string;
       released?: string;
-      rating?: number;
+      rating?: number; // 👈 rating IGDB
     }
   ) {
+
     const user = await this.getUser(userId);
 
+    // 👇 Guardamos rating IGDB en Game
     const game = await this.gameService.findOrCreate({
       id: gameId,
-      ...gameData,
+      name: gameData?.name,
+      backgroundImage: gameData?.backgroundImage,
+      released: gameData?.released,
+      rating: gameData?.rating ?? null,
     });
 
-    let userGame = await this.findUserGame(userId, game.id);
+    let userGame = await this.findUserGame(userId, gameId);
 
     if (!userGame) {
       userGame = this.repo.create({
         user,
         game,
         status,
-        gameName: gameData?.name, // ⭐ IMPORTANTE
-        rating: gameData?.rating ?? null,
+        gameName: gameData?.name,
         backgroundImage: gameData?.backgroundImage,
       });
     } else {
       userGame.status = status;
-
-      // opcional: actualizar nombre si vino nuevo
       if (gameData?.name) userGame.gameName = gameData.name;
     }
 
     return this.repo.save(userGame);
   }
 
-  // ⭐ RATING
+  // ⭐ RATING DEL USUARIO
   async setRating(userId: number, gameId: number, rating: number) {
-    const user = await this.getUser(userId);
-    const game = await this.getGame(gameId);
 
-    let userGame = await this.findUserGame(userId, game.id);
+    const user = await this.getUser(userId);
+
+    let userGame = await this.findUserGame(userId, gameId);
 
     if (!userGame) {
-      userGame = this.repo.create({ user, game, status: 'Playing', rating });
+      const game = await this.gameService.findOrCreate({ id: gameId });
+      userGame = this.repo.create({
+        user,
+        game,
+        status: 'Playing',
+        rating,
+      });
     } else {
       userGame.rating = rating;
     }
@@ -93,15 +97,20 @@ export class UserGameService {
     return this.repo.save(userGame);
   }
 
-  // ⏱️ PLAYTIME
   async setPlaytime(userId: number, gameId: number, playtime: number) {
-    const user = await this.getUser(userId);
-    const game = await this.getGame(gameId);
 
-    let userGame = await this.findUserGame(userId, game.id);
+    const user = await this.getUser(userId);
+
+    let userGame = await this.findUserGame(userId, gameId);
 
     if (!userGame) {
-      userGame = this.repo.create({ user, game, status: 'Playing', playtime });
+      const game = await this.gameService.findOrCreate({ id: gameId });
+      userGame = this.repo.create({
+        user,
+        game,
+        status: 'Playing',
+        playtime,
+      });
     } else {
       userGame.playtime = playtime;
     }
@@ -118,17 +127,15 @@ export class UserGameService {
     });
   }
 
-  // 📊 STATUS/RATING/PLAYTIME de un juego concreto del usuario
+  // 🔍 STATUS DE UN JUEGO
   async getGameStatus(userId: number, gameId: number) {
-    const userGame = await this.repo.findOne({
-      where: { user: { id: userId }, game: { id: gameId } },
-    });
+
+    const userGame = await this.findUserGame(userId, gameId);
 
     return {
-      status: userGame?.status || null,
-      rating: userGame?.rating ?? null,
+      status: userGame?.status ?? null,
+      userRating: userGame?.rating ?? null,
       playtime: userGame?.playtime ?? 0,
     };
   }
-
 }

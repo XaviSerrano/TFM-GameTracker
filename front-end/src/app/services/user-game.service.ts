@@ -15,15 +15,16 @@ setGameStatus(
   name?: string,
   backgroundImage?: string,
   released?: string,
-  rating?: number
+  rating?: number,
+
   ): Observable<any> {
   return this.http.post(`${this.apiUrl}/status`, {
-  gameId,
-  status,
-  name,
-  backgroundImage,
-  released,
-  rating
+    gameId,
+    status,
+    name,
+    backgroundImage,
+    released,
+    rating
   });
 }
 

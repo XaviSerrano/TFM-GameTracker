@@ -1,11 +1,20 @@
-import { Entity, PrimaryGeneratedColumn, ManyToOne, Column, JoinColumn, UpdateDateColumn, CreateDateColumn } from 'typeorm';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  ManyToOne,
+  Column,
+  JoinColumn,
+  UpdateDateColumn,
+  CreateDateColumn,
+} from 'typeorm';
+
 import { User } from '../user/user.entity';
 import { Game } from '../game/game.entity';
 
 @Entity()
 export class UserGame {
   @PrimaryGeneratedColumn()
-  id: number;
+  id: number; // 👈 ID INTERNO
 
   @ManyToOne(() => User, (user) => user.userGames, { onDelete: 'CASCADE' })
   @JoinColumn({ name: 'userId' })
@@ -24,14 +33,12 @@ export class UserGame {
   @Column({ nullable: true })
   status: string;
 
+  // ⭐ RATING DEL USUARIO
   @Column({ type: 'float', nullable: true })
   rating?: number;
 
   @Column({ type: 'float', nullable: true })
   playtime?: number;
-
-  // @Column({ type: 'text', nullable: true })
-  // review?: string;
 
   @CreateDateColumn()
   createdAt: Date;

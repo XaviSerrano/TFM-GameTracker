@@ -43,7 +43,7 @@ export class UserGameController {
         name: body.name,
         backgroundImage: body.backgroundImage,
         released: body.released,
-        rating: body.rating,
+        rating: body.rating, // 👈 rating IGDB
       }
     );
   }

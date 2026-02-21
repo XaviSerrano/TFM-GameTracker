@@ -14,13 +14,19 @@ export class GameService {
   // Encuentra o crea un juego
   async findOrCreate(data: Partial<Game>): Promise<Game> {
     let game = await this.repo.findOne({ where: { id: data.id } });
+
     if (!game) {
       game = this.repo.create(data);
-      await this.repo.save(game);
+    } else {
+      // Actualizar campos si vienen informados
+      if (data.rating != null) game.rating = data.rating;
+      if (data.backgroundImage) game.backgroundImage = data.backgroundImage;
+      if (data.name) game.name = data.name;
+      if (data.released) game.released = data.released;
     }
-    return game;
-  }
 
+    return this.repo.save(game);
+  }
   // Guarda o actualiza un juego existente
   async save(game: Game): Promise<Game> {
     return this.repo.save(game);

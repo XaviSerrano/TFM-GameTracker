@@ -29,4 +29,7 @@ export class CustomList {
 
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   createdAt: Date;
+
+  @Column({ type: 'float', nullable: true })
+  rating: number;
 }

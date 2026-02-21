@@ -25,7 +25,6 @@ interface GameCardData {
 export class CustomListDetailComponent implements OnInit {
 
   list?: CustomList;
-  // listGames: GameCardData[] = [];
   listGames: GameCard[] = [];
   loading = true;
 
@@ -52,6 +51,7 @@ export class CustomListDetailComponent implements OnInit {
             id: game.gameId,
             name: game.name,
             backgroundImage: game.backgroundImage ?? '',
+            rating: game.rating ?? null
           }));
 
           this.loading = false;
@@ -65,6 +65,7 @@ export class CustomListDetailComponent implements OnInit {
             id: game.gameId,
             name: game.name,
             backgroundImage: game.backgroundImage ?? '',
+            rating: game.rating ?? null
           }));
 
           this.loading = false;

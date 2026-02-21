@@ -28,6 +28,7 @@ export class Top250GamesComponent implements OnInit {
     this.igdbService.getTop250Games().subscribe({
       next: (data) => {
         this.topGames = data.results;
+        console.log(this.topGames)
         this.displayedGames = this.topGames.slice(0, this.pageSize);
         this.applyWishlist();
       },

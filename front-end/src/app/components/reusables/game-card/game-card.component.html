@@ -2,8 +2,10 @@
   <div class="game-image" [style.backgroundImage]="backgroundImage">
 
     <div class="game-rating">
-      ⭐ {{ game.rating | number:'1.1-2' }}
-    </div>
+    ⭐ {{ game.rating !== null && game.rating !== undefined
+          ? (game.rating | number:'1.1-2')
+          : 'N/A' }}    
+      </div>
 
     <div class="game-info">
       <h3>{{ game.name }}</h3>

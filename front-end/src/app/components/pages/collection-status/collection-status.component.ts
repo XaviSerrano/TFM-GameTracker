@@ -140,7 +140,7 @@ export class CollectionStatusComponent implements OnInit, OnDestroy {
       id: g.game.id,
       name: g.gameName,
       backgroundImage: g.backgroundImage ?? '',
-      rating: g.rating,
+      rating: g.game.rating ?? null,  // 👈 RATING IGDB CORRECTO
     }));
 
     this.statusCounts[statusKey] = games.length;

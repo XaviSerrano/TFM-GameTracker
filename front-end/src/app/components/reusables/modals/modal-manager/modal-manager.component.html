@@ -8,7 +8,7 @@
 
 <app-rating-modal
   [showRating]="showRatingModal"
-  [initialRating]="currentGame?.rating || 0"
+  [initialRating]="currentGame?.userRating || 0"
   (close)="showRatingModal = false"
   (save)="onSaveRating($event)"
 ></app-rating-modal>

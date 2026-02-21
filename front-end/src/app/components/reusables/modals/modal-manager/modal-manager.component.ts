@@ -47,19 +47,17 @@ export class ModalManagerController implements OnInit {
         const userGame = await firstValueFrom(
           this.userGameService.getGameStatus(state.game.id),
         );
-
         this.currentGame = {
-          ...state.game,
+          ...state.game,              // ← trae rating IGDB
           status: userGame.status ?? null,
-          rating: userGame.rating ?? 0,
+          userRating: userGame.rating ?? null,
           playtime: userGame.playtime ?? 0,
-          // review: userGame.review ?? '',
         };
       } catch {
         this.currentGame = {
           ...state.game,
           status: null,
-          rating: 0,
+          userrating: 0,
           playtime: 0,
           review: '',
         };
@@ -94,6 +92,8 @@ export class ModalManagerController implements OnInit {
 
   onSelectStatus(status: string | null) {
     if (!this.currentGame) return;
+    console.log('[Modal] currentGame antes de setStatus:', this.currentGame);
+
 
     if (status === null) {
       this.currentGame.status = null;
@@ -107,6 +107,8 @@ export class ModalManagerController implements OnInit {
         status,
         this.currentGame.name,
         this.currentGame.backgroundImage,
+        this.currentGame.released,
+        this.currentGame.rating
       )
       .subscribe((updated) => {
         this.currentGame.status = updated.status;
@@ -119,13 +121,11 @@ export class ModalManagerController implements OnInit {
   onSaveRating(rating: number) {
     if (!this.currentGame) return;
 
-    this.userGameService
-      .setGameRating(this.currentGame.id, rating)
-      .subscribe((updated) => {
-        this.currentGame.rating = updated.rating;
-        this.showRatingModal = false;
-        this.showPlaytimeModal = true;
-      });
+    this.userGameService.setGameRating(this.currentGame.id, rating).subscribe((updated) => {
+      this.currentGame.userRating = updated.rating;  // ← userRating, no rating
+      this.showRatingModal = false;
+      this.showPlaytimeModal = true;
+    });
   }
 
   onSetPlaytime(playtime: number) {

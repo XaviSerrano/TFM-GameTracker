@@ -18,4 +18,5 @@ export interface CustomListGame {
   gameId: number;
   name: string;
   backgroundImage?: string | null;
+  rating?: number;
 }
