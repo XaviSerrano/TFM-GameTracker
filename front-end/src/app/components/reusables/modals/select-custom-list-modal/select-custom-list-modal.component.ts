@@ -78,7 +78,8 @@ export class SelectCustomListModalComponent implements OnChanges {
         this.customListService.toggleGameInList(list.id, {
           id: this.game.id,
           name: this.game.name,
-          backgroundImage: this.game.backgroundImage
+          backgroundImage: this.game.backgroundImage,
+          rating: this.game.rating ?? null,
         })
       );
 

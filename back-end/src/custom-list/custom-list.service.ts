@@ -63,7 +63,8 @@ export class CustomListsService {
     const entry = this.gameRepo.create({
       gameId: game.id,
       name: game.name,
-      backgroundImage: game.background_image,
+      backgroundImage: game.backgroundImage,
+      rating: game.rating ?? null,
       list
     });
 

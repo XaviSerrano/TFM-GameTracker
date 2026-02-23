@@ -19,6 +19,9 @@ export class CustomListGame {
   @Column({ nullable: true })
   backgroundImage?: string;
 
+  @Column({ type: 'float', nullable: true })
+  rating?: number;
+
   @ManyToOne(() => CustomList, list => list.games, { onDelete: 'CASCADE' })
   list: CustomList;
 }
