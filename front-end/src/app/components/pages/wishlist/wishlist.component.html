@@ -3,6 +3,12 @@
     {{ userName === 'My' ? 'My Wishlist' : userName + "'s Wishlist" }}
   </h2>
 
+  <app-filters
+    [genres]="availableGenres"
+    [platforms]="availablePlatforms"
+    (filtersChanged)="onFiltersChanged($event)"
+  ></app-filters>
+
   <div *ngIf="loading">
     <p>Cargando juegos...</p>
   </div>

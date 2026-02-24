@@ -1,0 +1,83 @@
+<div class="filters-bar">
+  <div class="filters-row">
+
+    <!-- Genre -->
+    <div class="filter-group">
+      <label class="filter-label">Genre</label>
+      <select class="filter-select" [(ngModel)]="selectedGenre" (ngModelChange)="onFilterChange()">
+        <option [ngValue]="null">All genres</option>
+        <option *ngFor="let genre of genres" [value]="genre">{{ genre }}</option>
+      </select>
+    </div>
+
+    <!-- Platform -->
+    <div class="filter-group">
+      <label class="filter-label">Platform</label>
+      <select class="filter-select" [(ngModel)]="selectedPlatform" (ngModelChange)="onFilterChange()">
+        <option [ngValue]="null">All platforms</option>
+        <option *ngFor="let platform of platforms" [value]="platform">{{ platform }}</option>
+      </select>
+    </div>
+
+  <!-- Rating range -->
+  <div class="filter-group filter-group--range">
+    <div class="range-header">
+      <label class="filter-label">Rating</label>
+      <span class="range-values">
+        ⭐ {{ ratingMin | number:'1.1-1' }} – {{ ratingMax | number:'1.1-1' }}
+      </span>
+    </div>
+    <div class="dual-range" #ratingTrack>
+      <input
+        #ratingMinInput
+        type="range"
+        class="range-input range-input--min"
+        [min]="RATING_MIN" [max]="RATING_MAX" [step]="RATING_STEP"
+        [value]="ratingMin"
+        (input)="onRatingMinChange(+$any($event.target).value)"
+      />
+      <input
+        #ratingMaxInput
+        type="range"
+        class="range-input range-input--max"
+        [min]="RATING_MIN" [max]="RATING_MAX" [step]="RATING_STEP"
+        [value]="ratingMax"
+        (input)="onRatingMaxChange(+$any($event.target).value)"
+      />
+    </div>
+  </div>
+
+  <!-- Year range -->
+  <div class="filter-group filter-group--range">
+    <div class="range-header">
+      <label class="filter-label">Year</label>
+      <span class="range-values">{{ yearMin }} – {{ yearMax }}</span>
+    </div>
+    <div class="dual-range" #yearTrack>
+      <input
+        #yearMinInput
+        type="range"
+        class="range-input range-input--min"
+        [min]="YEAR_MIN" [max]="YEAR_MAX" [step]="1"
+        [value]="yearMin"
+        (input)="onYearMinChange(+$any($event.target).value)"
+      />
+      <input
+        #yearMaxInput
+        type="range"
+        class="range-input range-input--max"
+        [min]="YEAR_MIN" [max]="YEAR_MAX" [step]="1"
+        [value]="yearMax"
+        (input)="onYearMaxChange(+$any($event.target).value)"
+      />
+    </div>
+  </div>
+
+    <!-- Clear -->
+    <button *ngIf="activeFiltersCount > 0" class="clear-btn" (click)="clearFilters()">
+      Clear <span class="badge">{{ activeFiltersCount }}</span>
+    </button>
+
+  </div>
+</div>
+

@@ -28,6 +28,9 @@ export class WishlistService {
       gameName: gameData.name,
       backgroundImage: gameData.backgroundImage,
       rating: gameData.rating,
+      released: gameData.released,
+      genres: gameData.genres,
+      platforms: gameData.platforms,
     });
 
     return this.wishlistRepo.save(item);
@@ -46,7 +49,7 @@ export class WishlistService {
     return this.wishlistRepo.find({
       where: { userId },
       order: { id: 'DESC' },
-      select: ['id', 'gameId', 'gameName', 'backgroundImage', 'rating', 'userId'],
+      select: ['id', 'gameId', 'gameName', 'backgroundImage', 'rating', 'userId', 'released', 'genres', 'platforms'],
     });
   }
 

@@ -8,6 +8,9 @@ export interface WishlistItem {
   gameName: string;
   backgroundImage?: string;
   rating?: number;
+  released?: string;
+  genres?: string[];
+  platforms?: string[];
 }
 
 @Injectable({
@@ -22,7 +25,7 @@ export class WishlistService {
     return this.http.get<WishlistItem[]>(this.apiUrl);
   }
 
-  addToWishlist(game: { gameId: number; gameName: string; backgroundImage?: string; rating?: number }): Observable<WishlistItem> {
+  addToWishlist(game: { gameId: number; gameName: string; backgroundImage?: string; rating?: number, released?: string; genres?: string[]; platforms?: string[] }): Observable<WishlistItem> {
     return this.http.post<WishlistItem>(`${this.apiUrl}/${game.gameId}`, game);
   }
 

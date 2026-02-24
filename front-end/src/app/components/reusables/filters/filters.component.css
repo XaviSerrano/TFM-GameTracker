@@ -1,0 +1,201 @@
+.filters-bar {
+  width: 100%;
+  padding: 12px 0;
+}
+
+.filters-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 16px;
+}
+
+/* ── Filter group base ─────────────────────────────────────── */
+.filter-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.filter-group--range {
+  min-width: 180px;
+}
+
+.filter-label {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-secondary);
+}
+
+/* ── Dropdowns ─────────────────────────────────────────────── */
+.filter-select {
+  appearance: none;
+  -webkit-appearance: none;
+  background-color: var(--background-secondary-dark);
+  color: var(--text-main);
+  border: 1px solid #2a3a4a;
+  border-radius: 8px;
+  padding: 8px 32px 8px 12px;
+  font-size: 14px;
+  cursor: pointer;
+  min-width: 140px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%23a0a0a0' viewBox='0 0 16 16'%3E%3Cpath d='M1.5 5.5l6 6 6-6h-12z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  transition: border-color 0.2s, background-color 0.2s;
+}
+
+.filter-select:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  background-color: var(--background-secondary);
+}
+
+.filter-select:hover {
+  border-color: var(--hover-color);
+}
+
+/* ── Range header ──────────────────────────────────────────── */
+.range-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.range-values {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--primary-color);
+}
+
+/* ── Dual range slider ─────────────────────────────────────── */
+.dual-range {
+  position: relative;
+  height: 6px;
+  border-radius: 4px;
+  background: #2a3a4a;
+  background-image: linear-gradient(var(--primary-color), var(--primary-color));
+  background-size: calc(var(--right, 100%) - var(--left, 0%)) 100%;
+  background-position: var(--left, 0%) center;
+  background-repeat: no-repeat;
+  margin: 6px 0 4px;
+}
+
+.range-input {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 100%;
+  height: 6px;
+  margin: 0;
+  appearance: none;
+  -webkit-appearance: none;
+  background: transparent;
+  pointer-events: none;
+  outline: none;
+}
+
+/* Thumb — Chrome/Safari */
+.range-input::-webkit-slider-thumb {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--primary-color);
+  border: 2px solid var(--text-main);
+  cursor: pointer;
+  pointer-events: all;
+  box-shadow: 0 1px 6px rgba(6, 130, 157, 0.4);
+  transition: background 0.15s, transform 0.15s;
+}
+
+.range-input::-webkit-slider-thumb:hover {
+  background: var(--hover-color);
+  transform: scale(1.15);
+}
+
+.range-input::-webkit-slider-thumb:active {
+  background: var(--secondary-color);
+  transform: scale(1.2);
+}
+
+/* Thumb — Firefox */
+.range-input::-moz-range-thumb {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--primary-color);
+  border: 2px solid var(--text-main);
+  cursor: pointer;
+  pointer-events: all;
+  box-shadow: 0 1px 6px rgba(6, 130, 157, 0.4);
+  transition: background 0.15s, transform 0.15s;
+}
+
+.range-input::-moz-range-thumb:hover {
+  background: var(--hover-color);
+}
+
+.range-input--min { z-index: 2; }
+.range-input--max { z-index: 3; }
+
+/* ── Clear button ──────────────────────────────────────────── */
+.clear-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  background: transparent;
+  border: 1px solid var(--error-color);
+  border-radius: 8px;
+  color: var(--error-color);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s, border-color 0.2s;
+  align-self: flex-end;
+}
+
+.clear-btn:hover {
+  background: var(--error-color-strong);
+  border-color: var(--error-color-strong);
+  color: var(--text-main);
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--error-color);
+  color: var(--text-main);
+  font-size: 11px;
+  font-weight: 700;
+  border-radius: 50%;
+  width: 18px;
+  height: 18px;
+}
+
+.clear-btn:hover .badge {
+  background: var(--text-main);
+  color: var(--error-color-strong);
+}
+
+/* ── Responsive ────────────────────────────────────────────── */
+@media (max-width: 600px) {
+  .filters-row {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .filter-select,
+  .filter-group--range {
+    width: 100%;
+  }
+
+  .clear-btn {
+    align-self: flex-start;
+  }
+}

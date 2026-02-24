@@ -1,5 +1,5 @@
 // create-wishlist.dto.ts
-import { IsNumber, IsOptional, IsString } from 'class-validator';
+import { IsNumber, IsOptional, IsString, IsArray } from 'class-validator';
 
 export class CreateWishlistDto {
   @IsString()
@@ -12,4 +12,19 @@ export class CreateWishlistDto {
   @IsOptional()
   @IsNumber()
   rating?: number;
+
+  @IsOptional()
+  @IsString()
+  released?: string;
+
+  @IsOptional()
+  @IsArray()
+  @IsString({ each: true })
+  genres?: string[];
+
+  @IsOptional()
+  @IsArray()
+  @IsString({ each: true })
+  platforms?: string[];
+
 }

@@ -21,6 +21,9 @@ export class WishlistController {
       name: body.gameName,
       backgroundImage: body.backgroundImage,
       rating: body.rating,
+      released: body.released,
+      genres: body.genres,
+      platforms: body.platforms,
     });
   }
 

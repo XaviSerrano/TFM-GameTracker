@@ -25,4 +25,13 @@ export class Wishlist {
   @ManyToOne(() => User, (user) => user.wishlist, { onDelete: 'CASCADE' })
   @JoinColumn({ name: 'userId' })
   user: User;
+
+  @Column({ nullable: true })
+  released?: string;
+
+  @Column('simple-array', { nullable: true })
+  genres?: string[];
+
+  @Column('simple-array', { nullable: true })
+  platforms?: string[];
 }

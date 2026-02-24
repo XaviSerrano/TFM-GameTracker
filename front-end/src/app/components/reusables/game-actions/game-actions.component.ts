@@ -57,7 +57,6 @@ export class GameActionsComponent implements OnInit {
     });
   }
 
-  /** 🔹 Normaliza el id del juego */
   private getGameId(): number {
     return this.game?.gameId ?? this.game?.id;
   }
@@ -101,6 +100,9 @@ export class GameActionsComponent implements OnInit {
           gameName: this.game.name,
           backgroundImage: this.game.backgroundImage,
           rating: this.game.rating,
+          released: this.game.released,
+          genres: this.game.genres,
+          platforms: this.game.platforms,
         });
 
     action$.subscribe({
