@@ -149,6 +149,10 @@ private mapGames(data: any[]): any[] {
 
   onFiltersChanged(filters: GameFilters) {
     this.wishlist = this.allGames.filter(game => {
+      if (filters.searchTitle.trim()) {
+        const search = filters.searchTitle.toLowerCase();
+        if (!game.name.toLowerCase().includes(search)) return false;
+      }
       if (filters.genre && !game.genres?.includes(filters.genre)) return false;
       if (filters.platform && !game.platforms?.includes(filters.platform)) return false;
       if (game.rating != null) {
@@ -161,7 +165,6 @@ private mapGames(data: any[]): any[] {
       return true;
     });
   }
-
 
   // REMOVE (solo si es wishlist propia)
   // removeFromWishlist(game: any) {

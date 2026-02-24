@@ -1,6 +1,18 @@
 <div class="filters-bar">
   <div class="filters-row">
 
+    <!-- Title search -->
+    <div class="filter-group">
+      <label class="filter-label">Title</label>
+      <input
+        type="text"
+        class="filter-select filter-input"
+        [(ngModel)]="searchTitle"
+        (ngModelChange)="onFilterChange()"
+        placeholder="Search title..."
+      />
+    </div>
+    
     <!-- Genre -->
     <div class="filter-group">
       <label class="filter-label">Genre</label>

@@ -9,8 +9,8 @@ export interface GameFilters {
   ratingMax: number;
   yearMin: number;
   yearMax: number;
+  searchTitle: string;
 }
-
 
 
 @Component({
@@ -25,6 +25,9 @@ export class FiltersComponent implements OnInit, AfterViewInit {
   @Input() platforms: string[] = [];
   
   @Output() filtersChanged = new EventEmitter<GameFilters>
+
+  // Buscar título
+  searchTitle = '';
 
   // Genre && Platform
   selectedGenre: string | null = null;
@@ -132,6 +135,8 @@ export class FiltersComponent implements OnInit, AfterViewInit {
       ratingMax: this.ratingMax,
       yearMin: this.yearMin,
       yearMax: this.yearMax,
+      searchTitle: this.searchTitle,
+
     });
   }
 
@@ -141,6 +146,8 @@ export class FiltersComponent implements OnInit, AfterViewInit {
     if (this.selectedPlatform) count++;
     if (this.ratingMin > this.RATING_MIN || this.ratingMax < this.RATING_MAX) count++;
     if (this.yearMin > this.YEAR_MIN || this.yearMax < this.YEAR_MAX) count++;
+    if (this.searchTitle.trim()) count++;
+
     this.activeFiltersCount = count;
   }
 
@@ -152,6 +159,8 @@ export class FiltersComponent implements OnInit, AfterViewInit {
     this.yearMin = this.YEAR_MIN;
     this.yearMax = this.YEAR_MAX;
     this.activeFiltersCount = 0;
+    this.searchTitle = '';
+
     setTimeout(() => {
       this.updateTrackFill('rating');
       this.updateTrackFill('year');
@@ -163,6 +172,8 @@ export class FiltersComponent implements OnInit, AfterViewInit {
       ratingMax: this.RATING_MAX,
       yearMin: this.YEAR_MIN,
       yearMax: this.YEAR_MAX,
+      searchTitle: this.searchTitle,  // ← añadir
+
     });
   }
 
