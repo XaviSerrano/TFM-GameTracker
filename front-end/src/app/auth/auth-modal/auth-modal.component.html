@@ -22,8 +22,33 @@
 
     <form (ngSubmit)="onSubmit()">
       <input type="email" [(ngModel)]="email" name="email" placeholder="Email" required />
-      <input type="password" [(ngModel)]="password" name="password" placeholder="Password" required />
+      <!-- <input type="password" [(ngModel)]="password" name="password" placeholder="Password" required /> -->
+    <div class="password-wrapper">
+      <input
+        [type]="showPassword ? 'text' : 'password'"
+        [(ngModel)]="password"
+        name="password"
+        placeholder="Password"
+        required
+      />
 
+      <span
+        class="eye-icon"
+        (mousedown)="showPassword = true"
+        (mouseup)="showPassword = false"
+        (mouseleave)="showPassword = false"
+        (touchstart)="showPassword = true"
+        (touchend)="showPassword = false"
+      >
+        @if (showPassword) {
+          <!-- 👁 OJO ABIERTO -->
+          <img class="eye" src="/assets/images/icons/eye-show-svgrepo-com.svg" alt="">
+        } @else {
+          <!-- 🙈 OJO CERRADO -->
+          <img class="eye" src="/assets/images/icons/eye-off-svgrepo-com.svg" alt="">
+        }
+      </span>
+    </div>
       @if (!isLoginMode) {
         <input
           type="text"

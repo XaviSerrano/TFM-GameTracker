@@ -3,8 +3,9 @@ import { AppModule } from './app.module';
 import { ConfigService } from '@nestjs/config';
 import { join } from 'path';
 import { NestExpressApplication } from '@nestjs/platform-express';
-import { Logger } from '@nestjs/common';
+import { Logger, ValidationPipe } from '@nestjs/common';
 import * as dotenv from 'dotenv';
+import helmet from 'helmet';
 
 async function bootstrap() {
   // 1. Cargar variables de entorno ANTES de crear la app
@@ -25,23 +26,26 @@ async function bootstrap() {
 
   // 3. Crear la aplicación
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
+
+  // 4. Helmet — cabeceras HTTP de seguridad (XSS, clickjacking, etc.)
+  app.use(helmet({
+    crossOriginResourcePolicy: { policy: 'cross-origin' }, // necesario para servir imágenes estáticas
+  }));
   
-  // 4. Servir carpeta uploads (si la usas)
+  // 5. Servir carpeta uploads
   app.useStaticAssets(join(__dirname, '..', 'uploads'), { 
     prefix: '/uploads',
     fallthrough: true,
     index: false,
   });
 
-  // 5. Configurar CORS más permisivo para desarrollo
+  // 6. Configurar CORS
   app.enableCors({
     origin: (origin, callback) => {
-      // Permite todas las solicitudes en desarrollo
       if (process.env.NODE_ENV !== 'production') {
         return callback(null, true);
       }
       
-      // En producción, solo origines específicos
       if (!origin) {
         return callback(null, true);
       }
@@ -73,21 +77,31 @@ async function bootstrap() {
     allowedHeaders: ['Content-Type', 'Authorization', 'Accept', 'X-Requested-With'],
   });
 
-  // 6. Obtener puerto y levantar servidor
+  // 7. Validación global de DTOs
+  // - whitelist: elimina campos no declarados en el DTO (previene mass assignment)
+  // - forbidNonWhitelisted: lanza error si llegan campos no esperados
+  // - transform: convierte tipos automáticamente (string "1" → number 1)
+  app.useGlobalPipes(new ValidationPipe({
+    whitelist: true,
+    forbidNonWhitelisted: true,
+    transform: true,
+  }));
+
+  // 8. Obtener puerto y levantar servidor
   const port = process.env.PORT || 3000;
   await app.listen(port, '0.0.0.0');
 
-  // 7. Logs informativos
+  // 9. Logs informativos
   logger.log(`🚀 Backend ejecutándose en: ${await app.getUrl()}`);
   logger.log(`📁 Uploads servidos en: /uploads`);
   logger.log(`🌐 Entorno: ${process.env.NODE_ENV || 'development'}`);
   
-  // 8. Verificar ConfigService
+  // 10. Verificar ConfigService
   const configService = app.get(ConfigService);
   const jwtSecret = configService.get<string>('JWT_SECRET');
   logger.log(`🔐 JWT_SECRET: ${jwtSecret ? 'CONFIGURADO' : 'NO CONFIGURADO'}`);
   
-  // 9. Verificar Cloudinary (especialmente importante)
+  // 11. Verificar Cloudinary
   const cloudinaryCloud = configService.get<string>('CLOUDINARY_CLOUD_NAME');
   logger.log(`☁️  Cloudinary: ${cloudinaryCloud || 'NO CONFIGURADO - Las imágenes fallarán'}`);
   

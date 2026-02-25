@@ -17,15 +17,15 @@
 
         <span class="playtime-info">
           <span class="time rushed">
-            ⏱ Rushed <strong>{{ averageTimes?.hastily ?? 'N/A' }}h</strong>
+            ⏱ Rushed ~ <strong>{{ averageTimes?.hastily ?? 'N/A' }}h</strong>
           </span>
 
           <span class="time normal">
-            🎮 Normal <strong>{{ averageTimes?.normally ?? 'N/A' }}h</strong>
+            🎮 Normal ~ <strong>{{ averageTimes?.normally ?? 'N/A' }}h</strong>
           </span>
 
           <span class="time complete">
-            🏆 100% <strong>{{ averageTimes?.completely ?? 'N/A' }}h</strong>
+            🏆 100% ~ <strong>{{ averageTimes?.completely ?? 'N/A' }}h</strong>
           </span>
         </span>
 
@@ -36,37 +36,77 @@
 
     <!-- ACCIONES Y BOTONES -->
     <div class="actions-bar">
-      <app-game-actions [game]="game"></app-game-actions>
-      
-      <button class="btn-review" (click)="modalManager.openReviewModal(game)" [disabled]="!game">
-        <img src="/assets/images/icons/pencil.svg" alt=""> Write Review
-      </button>
-    </div>
+      <div class="tabs">
+        <button 
+          class="tab" 
+          [class.active]="activeTab === 'overview'"
+          (click)="activeTab = 'overview'">
+          Overview
+        </button>
 
-    <!-- TABS DE NAVEGACIÓN -->
-    <div class="tabs">
-      <button 
-        class="tab" 
-        [class.active]="activeTab === 'overview'"
-        (click)="activeTab = 'overview'">
-        Overview
-      </button>
-      <button 
-        class="tab" 
-        [class.active]="activeTab === 'media'"
-        (click)="activeTab = 'media'">
-        Media
-      </button>
-      <button 
-        class="tab" 
-        [class.active]="activeTab === 'reviews'"
-        (click)="activeTab = 'reviews'">
-        Reviews ({{ reviews.length }})
-      </button>
+        <button 
+          class="tab" 
+          [class.active]="activeTab === 'media'"
+          (click)="activeTab = 'media'">
+          Media
+        </button>
+
+        <button 
+          class="tab" 
+          [class.active]="activeTab === 'reviews'"
+          (click)="activeTab = 'reviews'">
+          Reviews ({{ reviews.length }})
+        </button>
+      </div>
+
+      <div class="left-actions">
+        <app-game-actions [game]="game"></app-game-actions>
+
+        <button class="btn-review"
+          (click)="modalManager.openReviewModal(game)"
+          [disabled]="!game">
+          <img src="/assets/images/icons/pencil.svg" alt="">
+          Write Review
+        </button>
+      </div>
     </div>
 
     <!-- TAB: OVERVIEW -->
     @if (activeTab === 'overview') {
+
+      @if (platformVersions.length > 0) {
+        <div class="platform-release-dates">
+          <h3>Platform Release Dates</h3>
+
+          <div class="platform-versions-grid">
+            @for (platform of platformVersions; track platform.id) {
+              <div class="platform-version-card">
+
+                <span class="platform-name">{{ platform.name }}</span>
+
+                @if (platform.releases.length > 0) {
+                  @for (release of platform.releases; track release.date) {
+                    <div class="release-entry">
+                      <span class="release-date-text">
+                        📅 {{ release.date | date:'mediumDate' }}
+                      </span>
+                      @if (release.region) {
+                        <span class="release-region">
+                          🌍 {{ release.region }}
+                        </span>
+                      }
+                    </div>
+                  }
+                } @else {
+                  <p class="empty-state">No dates available</p>
+                }
+
+              </div>
+            }
+          </div>
+        </div>
+      }
+
       <div class="overview-content">
         <!-- DESCRIPCIÓN -->
         <div class="description-section">
@@ -100,8 +140,9 @@
             <h3>Platforms</h3>
 
             <div class="platforms-info">
-              @for (platform of game.platforms; track platform) {
-                <span class="platform">{{ platform }}</span>
+              @for (platform of game.platforms; track platform.id) {
+                <!-- ✅ Cambia platform por platform.name -->
+                <span class="platform">{{ platform.name }}</span>
               }
             </div>
           </div>

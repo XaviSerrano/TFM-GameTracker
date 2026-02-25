@@ -43,4 +43,9 @@ export class IgdbController {
       return {}; // Siempre devolver objeto vacío, nunca 404
     }
   }
+
+  @Get(':id/release-dates')
+  async getReleaseDates(@Param('id') id: string) {
+    return this.gamesService.getPlatformVersionsByPlatform(Number(id));
+  }
 }

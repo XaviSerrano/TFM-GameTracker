@@ -12,7 +12,7 @@ export interface NormalizedGame {
   rating?: number;
   ratingsCount?: number;
   released?: string;
-  platforms?: string[];
+  platforms?: { id: number; name: string }[];
   genres?: string[];
   developers?: string[];
   publishers?: string[];
@@ -20,7 +20,7 @@ export interface NormalizedGame {
   metacritic?: number;
   playtime?: number;
   screenshots?: string[];
-  trailerUrl?: string; // ✅ AÑADE ESTO
+  trailerUrl?: string;
 }
 
 export interface NormalizedGameList {
@@ -89,6 +89,9 @@ export class IgdbService {  // ✅ Renombrado de RawgService a IgdbService
   getEventById(id: number): Observable<NormalizedEvent> {
     return this.http.get<NormalizedEvent>(`${this.apiUrl}/events/${id}`);
   }
-
+  
+  getPlatformVersions(gameId: number): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/${gameId}/release-dates`);
+  }
 
 }

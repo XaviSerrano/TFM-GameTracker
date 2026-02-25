@@ -22,6 +22,9 @@ export class AuthModalComponent {
   isLoginMode = true;
   message = '';
 
+  // Toggle show password
+  showPassword = false;
+
   constructor(
     private authService: AuthService,
     private router: Router,

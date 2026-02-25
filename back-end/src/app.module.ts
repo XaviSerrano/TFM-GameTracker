@@ -1,6 +1,8 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { ThrottlerModule, ThrottlerGuard } from '@nestjs/throttler';
+import { APP_GUARD } from '@nestjs/core';
 
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
@@ -19,19 +21,25 @@ import { ReviewsModule } from './reviews/reviews.module';
 
 @Module({
   imports: [
-    // Configurar variables de entorno
+    // Variables de entorno
     ConfigModule.forRoot({
       isGlobal: true,
       envFilePath: '.env',
       cache: true,
     }),
+
+    // Rate limiting global: máx 100 peticiones por IP cada 60 segundos
+    // Las rutas de auth tienen límite propio más estricto (ver auth.controller.ts)
+    ThrottlerModule.forRoot([{
+      ttl: 60000,
+      limit: 100,
+    }]),
     
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
       useFactory: (configService: ConfigService) => {
         const databaseUrl = configService.get<string>('DATABASE_URL');
         
-        // Si tenemos DATABASE_URL, úsala (para Render/Producción)
         if (databaseUrl) {
           return {
             type: 'postgres',
@@ -41,10 +49,9 @@ import { ReviewsModule } from './reviews/reviews.module';
               : false,
             autoLoadEntities: true,
             synchronize: true,
-            // synchronize: configService.get<string>('NODE_ENV') !== 'production',
           };
         }
-        // Configuración para desarrollo local (fallback)
+
         return {
           type: 'postgres',
           host: 'localhost',
@@ -72,6 +79,12 @@ import { ReviewsModule } from './reviews/reviews.module';
     ReviewsModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [
+    AppService,
+    {
+      provide: APP_GUARD,
+      useClass: ThrottlerGuard,
+    },
+  ],
 })
 export class AppModule {}

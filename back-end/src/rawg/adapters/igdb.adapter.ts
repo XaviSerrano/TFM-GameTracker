@@ -16,7 +16,7 @@ export class IgdbAdapter {
       released: igdbGame.first_release_date 
         ? new Date(igdbGame.first_release_date * 1000).toISOString().split('T')[0]
         : undefined,
-      platforms: igdbGame.platforms?.map((p: any) => p.name).filter(Boolean) || [],
+      platforms: igdbGame.platforms?.map((p: any) => ({ id: p.id, name: p.name })).filter(Boolean) || [],
       genres: igdbGame.genres?.map((g: any) => g.name).filter(Boolean) || [],
       developers: igdbGame.involved_companies
         ?.filter((ic: any) => ic.developer && ic.company)

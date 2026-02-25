@@ -93,3 +93,35 @@ button:hover {
 a {
   display: none;
 }
+
+
+/* TOGGLE PASSWORD */
+.password-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.password-wrapper input {
+  padding-right: 2.5rem;
+}
+
+.eye-icon {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  user-select: none;
+  font-size: 1.1rem;
+  opacity: 0.6;
+  transition: opacity 0.2s;
+}
+
+.eye-icon:hover {
+  opacity: 1;
+}
+
+.eye {
+  height: 18px;
+  width: 18px;
+}

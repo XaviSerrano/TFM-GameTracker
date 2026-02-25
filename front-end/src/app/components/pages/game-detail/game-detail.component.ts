@@ -25,6 +25,8 @@ export class GameDetailComponent implements OnInit {
   limitedReviews: any[] = [];
   showAll = false;
   loading = true;
+
+  platformVersions: any[] = [];
   
   activeTab: 'overview' | 'media' | 'reviews' = 'overview';
   
@@ -34,9 +36,6 @@ export class GameDetailComponent implements OnInit {
   placeholderImage = 'assets/images/icons/profile.svg';
   
   currentUser: any = null;
-
-  // ❌ ELIMINA ESTO - Ya no lo necesitas
-  // trailerUrl?: string;
 
   averageTimes?: {
     hastily?: number;
@@ -52,7 +51,7 @@ export class GameDetailComponent implements OnInit {
     public modalManager: ModalManagerService,
     public authService: AuthService,
     private profileSync: ProfileSyncService,
-    private sanitizer: DomSanitizer // ✅ AÑADE ESTO
+    private sanitizer: DomSanitizer
   ) {}
 
   ngOnInit() {
@@ -118,12 +117,49 @@ export class GameDetailComponent implements OnInit {
         this.loading = false;
         console.log('🎮 Game loaded:', this.game);
         console.log('🎬 Trailer URL:', this.game.trailerUrl); // ✅ DEBUG
+        
+        console.log('Platform object:', this.game.platforms[0]);
+        console.log('Type:', typeof this.game.platforms[0]);
+        console.log('All platforms:', this.game.platforms);
+        if (this.game.platforms && this.game.platforms.length > 0) {
+          // ✅ Reemplaza todo el bloque de getPlatformVersions
+          this.igdbService.getPlatformVersions(this.gameId).subscribe({
+            next: (releaseDates) => {
+              // Agrupa las fechas por plataforma
+              const grouped: { [key: string]: any } = {};
 
-        // ❌ ELIMINA ESTAS LÍNEAS - El trailer ya viene en game.trailerUrl
-        // if (data.videos && data.videos.length > 0) {
-        //   this.trailerUrl = data.videos[0];
-        // }
+              releaseDates.forEach((rd: any) => {
+                const platformName = rd.platform?.name || 'Unknown';
+                if (!grouped[platformName]) {
+                  grouped[platformName] = {
+                    id: rd.platform?.id || platformName,
+                    name: platformName,
+                    releases: []
+                  };
+                }
+                grouped[platformName].releases.push({
+                  date: rd.date ? new Date(rd.date * 1000) : null,
+                  region: rd.region,
+                  human: rd.human
+                });
+              });
 
+              this.platformVersions = Object.values(grouped).map((platform: any) => {
+                // ✅ Filtra fechas válidas y quédate con la más temprana
+                const validReleases = platform.releases.filter((r: any) => r.date !== null);
+                const earliest = validReleases.sort((a: any, b: any) => a.date - b.date)[0];
+
+                return {
+                  id: platform.id,
+                  name: platform.name,
+                  releases: earliest ? [earliest] : []
+                };
+              });
+              console.log('🕹 Release Dates by Platform:', this.platformVersions);
+            },
+            error: (err) => console.error('Error loading release dates:', err)
+          });
+        }
         // Obtener tiempos de juego
         this.igdbService.getTimeToBeat(this.gameId).subscribe({
           next: (times) => {

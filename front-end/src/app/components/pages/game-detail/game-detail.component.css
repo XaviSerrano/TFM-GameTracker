@@ -229,10 +229,16 @@ h2, h3, h4 {
 ============================== */
 .actions-bar {
   display: flex;
-  gap: 1rem;
-  padding: 1rem 2rem;
-  border-radius: 8px;
+  justify-content: start;
   align-items: center;
+  padding: 1rem 2rem;
+  border-bottom: 2px solid var(--border-color);
+}
+
+.left-actions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
 }
 
 .btn-review {
@@ -297,7 +303,7 @@ h2, h3, h4 {
   display: flex;
   gap: 0.5rem;
   margin-bottom: 0rem;
-  padding-inline: 2rem;
+  padding-right: 2rem;
   border-bottom: 2px solid var(--border-color);
 }
 
@@ -312,10 +318,7 @@ h2, h3, h4 {
   transition: all 0.2s;
   border-bottom: 3px solid transparent;
   margin-bottom: -2px;
-}
-
-.tab:hover {
-  color: var(--text-main);
+  transform: all .2s ease-in-out;
 }
 
 .tab.active {
@@ -741,7 +744,107 @@ h2, h3, h4 {
 }
 
 /* ==============================
-   RESPONSIVE TRAILER
+   PLATFORM RELEASE DATES
+============================== */
+.platform-release-dates {
+  padding: 1.5rem 2rem;
+}
+
+.platform-release-dates h3 {
+  font-size: 1.3rem;
+  font-weight: 700;
+  margin-bottom: 1.2rem;
+  color: var(--text-main);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.platform-release-dates h3::before {
+  content: "";
+  display: inline-block;
+  width: 4px;
+  height: 1.2rem;
+  background: var(--secondary-color);
+  border-radius: 4px;
+}
+
+.platform-versions-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 1rem;
+}
+
+.platform-version-card {
+  background: rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  padding: 1rem 1.2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  transition: border-color 0.2s ease, transform 0.2s ease;
+}
+
+.platform-version-card:hover {
+  border-color: rgba(255, 255, 255, 0.2);
+  transform: translateY(-2px);
+}
+
+.platform-version-card .platform-name {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--text-main);
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.platform-version-card .platform-name::before {
+  content: "🎮";
+  font-size: 0.85rem;
+}
+
+.release-entry {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  padding: 0.4rem 0.6rem;
+  background: rgba(255, 255, 255, 0.04);
+  border-radius: 8px;
+  font-size: 0.8rem;
+}
+
+.release-entry .release-date-text {
+  color: #b8c0ff;
+  font-weight: 500;
+}
+
+.release-entry .release-region {
+  color: var(--text-secondary);
+  font-size: 0.75rem;
+  background: rgba(255, 255, 255, 0.06);
+  padding: 2px 8px;
+  border-radius: 999px;
+}
+
+@media (max-width: 768px) {
+  .platform-versions-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .platform-versions-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+
+/* ==============================
+  RESPONSIVE TRAILER
 ============================== */
 @media (max-width: 1024px) {
   .trailer-wrapper {

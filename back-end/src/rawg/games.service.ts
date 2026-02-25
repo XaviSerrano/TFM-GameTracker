@@ -47,4 +47,17 @@ export class GamesService {
       return {}; // Importante: devolver objeto vacío, no lanzar error
     }
   }
+
+  
+  async getPlatformVersionsByPlatform(gameId: number): Promise<any> {
+    const body = `
+      fields date, region, human, platform.name;
+      where game = ${gameId};
+      sort date asc;
+      limit 20;
+    `;
+
+    return this.igdbApi.query('release_dates', body);
+  }
+
 }
