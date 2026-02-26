@@ -1,13 +1,16 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { Injectable, UnauthorizedException, BadRequestException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcryptjs';
 import { UserService } from '../user/user.service';
+import { MailService } from 'src/modules/mail/mail.service';
+import { randomBytes } from 'crypto';
 
 @Injectable()
 export class AuthService {
   constructor(
     private userService: UserService,
     private jwtService: JwtService,
+    private mailService: MailService,
   ) {}
 
   async register(email: string, password: string, username: string) {
@@ -32,9 +35,31 @@ export class AuthService {
       id: user.id,
       username: user.username,
       email: user.email,
-      profileImage: user.profileImage || null, // <-- aquí
+      profileImage: user.profileImage || null,
       displayName: user.displayName || user.username,
     };
+  }
+
+    // Solicitar reset
+  async forgotPassword(email: string): Promise<void> {
+    const user = await this.userService.findByEmail(email);
+    if (!user) return; // No revelamos si el email existe
+
+    const token = randomBytes(32).toString('hex');
+    await this.userService.setResetToken(user.id, token);
+    await this.mailService.sendPasswordReset(user.email, token);
+  }
+
+  // Confirmar reset
+  async resetPassword(token: string, newPassword: string): Promise<void> {
+    const user = await this.userService.findByResetToken(token);
+
+    if (!user || user.resetPasswordExpires < new Date()) {
+      throw new BadRequestException('Token inválido o expirado');
+    }
+
+    const hashed = await bcrypt.hash(newPassword, 10);
+    await this.userService.updatePassword(user.id, hashed);
   }
 
 }

@@ -66,4 +66,25 @@ export class UserService {
       relations: ['followers', 'following'],
     });
   }
+
+
+  // RESET PASSWORD
+  async setResetToken(userId: number, token: string): Promise<void> {
+    await this.userRepo.update(userId, {
+      resetPasswordToken: token,
+      resetPasswordExpires: new Date(Date.now() + 3600000), // 1 hora
+    });
+  }
+
+  async findByResetToken(token: string): Promise<User | null> {
+    return this.userRepo.findOne({ where: { resetPasswordToken: token } });
+  }
+
+  async updatePassword(userId: number, hashedPassword: string): Promise<void> {
+    await this.userRepo.update(userId, {
+      password: hashedPassword,
+      resetPasswordToken: null,
+      resetPasswordExpires: null,
+    });
+  }
 }

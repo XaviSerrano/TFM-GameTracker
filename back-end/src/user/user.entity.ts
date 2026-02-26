@@ -44,4 +44,12 @@ export class User {
   @OneToMany(() => CustomList, list => list.user)
   customLists: CustomList[];
 
+
+  @Column({ nullable: true })
+  resetPasswordToken: string;
+
+
+  @Column({ nullable: true, type: 'timestamp' })
+  resetPasswordExpires: Date;
+
 }

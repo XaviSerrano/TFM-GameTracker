@@ -32,4 +32,22 @@ export class AuthController {
   async findAll() {
     return this.userService['userRepo'].find();
   }
+
+  // ✅ NUEVOS ENDPOINTS
+  @Throttle({ default: { ttl: 60000, limit: 3 } })
+  @Post('forgot-password')
+  async forgotPassword(@Body('email') email: string) {
+    await this.authService.forgotPassword(email);
+    // Siempre responde igual para no revelar si el email existe
+    return { message: 'Si el email existe, recibirás un enlace de recuperación.' };
+  }
+
+  @Post('reset-password')
+  async resetPassword(
+    @Body('token') token: string,
+    @Body('password') password: string,
+  ) {
+    await this.authService.resetPassword(token, password);
+    return { message: 'Contraseña actualizada correctamente.' };
+  }
 }

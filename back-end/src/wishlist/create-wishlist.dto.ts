@@ -26,5 +26,4 @@ export class CreateWishlistDto {
   @IsArray()
   @IsString({ each: true })
   platforms?: string[];
-
 }

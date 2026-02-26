@@ -84,7 +84,7 @@ export class GameActionsComponent implements OnInit {
     event.stopPropagation();
     console.log('[GameActions] toggleBookmark, isLoggedIn:', this.authService.isLoggedIn());
     console.log('[GameActions] toggleBookmark, gameId:', this.getGameId());
-    
+    console.log('[GameActions] game completo:', this.game);
     if (!this.authService.isLoggedIn()) {
       this.router.navigate(['/login']);
       return;
@@ -101,12 +101,19 @@ export class GameActionsComponent implements OnInit {
           backgroundImage: this.game.backgroundImage,
           rating: this.game.rating,
           released: this.game.released,
-          genres: this.game.genres,
-          platforms: this.game.platforms,
+          // ✅ Normaliza por si son objetos {id, name} o strings
+          genres: this.game.genres?.map((g: any) =>
+            typeof g === 'string' ? g : g.name
+          ) || [],
+          platforms: this.game.platforms?.map((p: any) =>
+            typeof p === 'string' ? p : p.name
+          ) || [],
         });
-
+      console.log('[GameActions] isBookmarked:', this.isBookmarked);
+      console.log('[GameActions] acción:', this.isBookmarked ? 'REMOVE' : 'ADD');
     action$.subscribe({
-      next: () => {
+      next: (data) => {
+        console.log('[GameActions] respuesta del backend:', data);
         this.isBookmarked = !this.isBookmarked;
         this.bookmarkToggled.emit(this.isBookmarked);
 

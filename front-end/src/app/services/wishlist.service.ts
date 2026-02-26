@@ -25,11 +25,21 @@ export class WishlistService {
     return this.http.get<WishlistItem[]>(this.apiUrl);
   }
 
-  addToWishlist(game: { gameId: number; gameName: string; backgroundImage?: string; rating?: number, released?: string; genres?: string[]; platforms?: string[] }): Observable<WishlistItem> {
-    return this.http.post<WishlistItem>(`${this.apiUrl}/${game.gameId}`, game);
+  addToWishlist(game: { 
+    gameId: number; 
+    gameName: string; 
+    backgroundImage?: string; 
+    rating?: number;
+    released?: string; 
+    genres?: string[]; 
+    platforms?: string[] 
+  }): Observable<WishlistItem> {
+    const { gameId, ...body } = game;
+    return this.http.post<WishlistItem>(`${this.apiUrl}/${gameId}`, body);
   }
 
   removeFromWishlist(gameId: number): Observable<any> {
+    console.log('[WishlistService] DELETE gameId:', gameId);
     return this.http.delete(`${this.apiUrl}/${gameId}`);
   }
 

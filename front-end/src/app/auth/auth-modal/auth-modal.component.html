@@ -62,6 +62,15 @@
       <button type="submit">{{ isLoginMode ? 'Login' : 'Register' }}</button>
     </form>
 
+    <!-- ✅ AÑADE ESTO -->
+    @if (isLoginMode) {
+      <a class="forgot-link" (click)="goToForgotPassword()">
+        ¿Olvidaste tu contraseña?
+      </a>
+    }
+
+    <p class="message">{{ message }}</p>
+
     <p class="message">{{ message }}</p>
 
     

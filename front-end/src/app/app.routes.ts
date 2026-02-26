@@ -14,6 +14,8 @@ import { CustomListDetailComponent } from './components/pages/custom-lists/custo
 import { AppsComponent } from './components/footer/apps/apps.component';
 import { SuggestionsComponent } from './components/footer/suggestions/suggestions.component';
 import { HomeComponent } from './components/pages/home/home.component';
+import { ForgotPasswordComponent } from './auth/forgot-password/forgot-password.component';
+import { ResetPasswordComponent } from './auth/reset-password/reset-password.component';
 
 export const routes: Routes = [
   { path: '', component: MainPageComponent },
@@ -32,7 +34,8 @@ export const routes: Routes = [
   { path: 'user/:username', component: ProfileComponent },
   { path: 'apps', component: AppsComponent },
   { path: 'suggestions', component: SuggestionsComponent },
-
+  { path: 'forgot-password', component: ForgotPasswordComponent },
+  { path: 'reset-password', component: ResetPasswordComponent },
 
   { path: '**', redirectTo: '' },
 ];

@@ -91,7 +91,7 @@ button:hover {
 }
 
 a {
-  display: none;
+  display: block;
 }
 
 
@@ -124,4 +124,21 @@ a {
 .eye {
   height: 18px;
   width: 18px;
+}
+
+
+/* Forgot password */
+
+.forgot-link {
+  display: block;
+  margin-top: 0.5rem;
+  font-size: 0.82rem;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: color 0.2s ease;
+  text-align: right;
+}
+
+.forgot-link:hover {
+  color: var(--primary-color);
 }
