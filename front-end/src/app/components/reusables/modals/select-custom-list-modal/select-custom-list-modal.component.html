@@ -25,6 +25,7 @@
 
       <div class="modal-right">
         <h3>Add to Custom List</h3>
+        <button class="new-btn" (click)="openModal()">+ New</button>
 
         <div class="lists-container">
           <ul class="status-list">
@@ -54,4 +55,11 @@
       </div>
     </div>
   </div>
+  <!-- ✅ AÑADE ESTO al final, antes del último </div> -->
+  @if (showCreateModal) {
+    <app-custom-list-modal
+      (close)="showCreateModal = false; loadLists()"
+      (create)="onCreateList($event)">
+    </app-custom-list-modal>
+  }
 </div>

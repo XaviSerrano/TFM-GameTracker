@@ -5,11 +5,12 @@ import { CustomListService } from '../../../../services/custom-list.service';
 import { ModalManagerService } from '../../../../services/modal-manager.service';
 import { CustomList } from '../../../../models/custom-list.model';
 import { AlertService } from '../../../../services/alert.service';
+import { CustomListModalComponent } from '../../../pages/custom-lists/custom-list-modal/custom-list-modal.component';
 
 @Component({
   selector: 'app-select-custom-list-modal',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, CustomListModalComponent],
   templateUrl: './select-custom-list-modal.component.html',
   styleUrls: ['./select-custom-list-modal.component.css']
 })
@@ -21,6 +22,9 @@ export class SelectCustomListModalComponent implements OnChanges {
   lists: CustomList[] = [];
   selectedListIds = new Set<number>();
   initialListIds = new Set<number>();
+
+  showCreateModal = false;
+
 
   constructor(
     private customListService: CustomListService,
@@ -34,7 +38,7 @@ export class SelectCustomListModalComponent implements OnChanges {
     }
   }
 
-  private loadLists() {
+  loadLists() {
     this.selectedListIds.clear();
     this.initialListIds.clear();
 
@@ -97,6 +101,18 @@ export class SelectCustomListModalComponent implements OnChanges {
       if (removedLists.length > 0) {
         this.alertService.show('GAME_REMOVED_FROM_LIST');
       }
+    });
+  }
+
+  // Crear nueva lista desde el modal de selección
+  openModal() {
+    this.showCreateModal = true;
+  }
+
+  onCreateList(data: { title: string; description: string }) {
+    this.customListService.createList(data).subscribe(newList => {
+      this.showCreateModal = false;
+      this.loadLists(); // refresca la lista
     });
   }
 }

@@ -324,7 +324,6 @@ h2, h3, h4 {
 .tab.active {
   color: var(--primary-color);
   border-bottom-color: var(--primary-color);
-  font-weight: 800;
 }
 
 /* ==============================
@@ -378,7 +377,7 @@ h2, h3, h4 {
 
 .info-card h3 {
   font-size: 26px;
-  margin-bottom: 5px;
+  margin: 0;
   font-weight: 600;
 }
 
@@ -744,7 +743,7 @@ h2, h3, h4 {
 }
 
 /* ==============================
-   PLATFORM RELEASE DATES
+  PLATFORM RELEASE DATES
 ============================== */
 .platform-release-dates {
   padding: 1.5rem 2rem;
@@ -753,7 +752,8 @@ h2, h3, h4 {
 .platform-release-dates h3 {
   font-size: 1.3rem;
   font-weight: 700;
-  margin-bottom: 1.2rem;
+  margin: 0;
+  margin-bottom: 1rem;
   color: var(--text-main);
   display: flex;
   align-items: center;
@@ -772,25 +772,23 @@ h2, h3, h4 {
 .platform-versions-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-  gap: 1rem;
-}
-
-.platform-version-card {
+  gap: 0;
+  padding-block: 0.5rem;
   background: rgba(0, 0, 0, 0.3);
   backdrop-filter: blur(8px);
   border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 12px;
-  padding: 1rem 1.2rem;
+}
+
+.platform-version-card {
+  padding: 0.8rem 1.2rem;
   display: flex;
   flex-direction: column;
   gap: 0.6rem;
   transition: border-color 0.2s ease, transform 0.2s ease;
 }
 
-.platform-version-card:hover {
-  border-color: rgba(255, 255, 255, 0.2);
-  transform: translateY(-2px);
-}
+
 
 .platform-version-card .platform-name {
   font-size: 0.95rem;
@@ -801,10 +799,6 @@ h2, h3, h4 {
   gap: 0.4rem;
 }
 
-.platform-version-card .platform-name::before {
-  content: "🎮";
-  font-size: 0.85rem;
-}
 
 .release-entry {
   display: flex;
@@ -828,6 +822,41 @@ h2, h3, h4 {
   background: rgba(255, 255, 255, 0.06);
   padding: 2px 8px;
   border-radius: 999px;
+}
+
+/* ==============================
+   MEDIA ROW (Dates + Trailer)
+============================== */
+.media-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 2rem;
+  margin: 1.5rem 0;
+}
+
+.media-row .platform-release-dates {
+  flex: 0 0 280px; /* ancho fijo a la izquierda */
+  padding: 0;
+}
+
+.media-row .platform-versions-grid {
+  grid-template-columns: 1fr; /* una columna en este contexto */
+}
+
+.media-row .trailer-section {
+  flex: 1; /* ocupa el resto del espacio */
+  margin: 0;
+}
+
+@media (max-width: 768px) {
+  .media-row {
+    flex-direction: column;
+  }
+
+  .media-row .platform-release-dates {
+    flex: none;
+    width: 100%;
+  }
 }
 
 @media (max-width: 768px) {

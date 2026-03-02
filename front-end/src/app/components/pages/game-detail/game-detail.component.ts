@@ -154,7 +154,7 @@ export class GameDetailComponent implements OnInit {
                   name: platform.name,
                   releases: earliest ? [earliest] : []
                 };
-              });
+              }).sort((a, b) => a.name.localeCompare(b.name));
               console.log('🕹 Release Dates by Platform:', this.platformVersions);
             },
             error: (err) => console.error('Error loading release dates:', err)

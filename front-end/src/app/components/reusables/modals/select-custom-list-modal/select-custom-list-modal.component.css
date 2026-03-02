@@ -168,6 +168,22 @@ li.selected {
   background-color: var(--error-color);
 }
 
+/* NEW BUTTON */
+.new-btn {
+  background-color: var(--primary-color);
+  color: var(--text-main);
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+.new-btn:hover {
+  background-color: var(--hover-color);
+}
+
 /* RESPONSIVE */
 @media (max-width: 768px) {
   .modal {

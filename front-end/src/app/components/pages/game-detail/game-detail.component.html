@@ -74,39 +74,6 @@
     <!-- TAB: OVERVIEW -->
     @if (activeTab === 'overview') {
 
-      @if (platformVersions.length > 0) {
-        <div class="platform-release-dates">
-          <h3>Platform Release Dates</h3>
-
-          <div class="platform-versions-grid">
-            @for (platform of platformVersions; track platform.id) {
-              <div class="platform-version-card">
-
-                <span class="platform-name">{{ platform.name }}</span>
-
-                @if (platform.releases.length > 0) {
-                  @for (release of platform.releases; track release.date) {
-                    <div class="release-entry">
-                      <span class="release-date-text">
-                        📅 {{ release.date | date:'mediumDate' }}
-                      </span>
-                      @if (release.region) {
-                        <span class="release-region">
-                          🌍 {{ release.region }}
-                        </span>
-                      }
-                    </div>
-                  }
-                } @else {
-                  <p class="empty-state">No dates available</p>
-                }
-
-              </div>
-            }
-          </div>
-        </div>
-      }
-
       <div class="overview-content">
         <!-- DESCRIPCIÓN -->
         <div class="description-section">
@@ -117,20 +84,48 @@
           <p [innerHTML]="game.description || 'No description available.'"></p>
         </div>
 
-        <!-- TRAILER -->
-        @if (game.trailerUrl) {
-          <div class="trailer-section">
-            <div class="trailer-wrapper">
-              <iframe
-                [src]="safeTrailerUrl"
-                title="Game trailer"
-                frameborder="0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowfullscreen>
-              </iframe>
+        <!-- TRAILER + RELEASE DATES en fila -->
+        <div class="media-row">
+
+          @if (platformVersions.length > 0) {
+            <div class="platform-release-dates">
+              <h3>Release Dates</h3>
+              <div class="platform-versions-grid">
+                @for (platform of platformVersions; track platform.id) {
+                  <div class="platform-version-card">
+                    <span class="platform-name">{{ platform.name }}</span>
+                    @if (platform.releases.length > 0) {
+                      @for (release of platform.releases; track release.date) {
+                        <div class="release-entry">
+                          <span class="release-date-text">
+                            📅 {{ release.date | date:'mediumDate' }}
+                          </span>
+                        </div>
+                      }
+                    } @else {
+                      <p class="empty-state">No dates available</p>
+                    }
+                  </div>
+                }
+              </div>
             </div>
-          </div>
-        }
+          }
+
+          @if (game.trailerUrl) {
+            <div class="trailer-section">
+              <div class="trailer-wrapper">
+                <iframe
+                  [src]="safeTrailerUrl"
+                  title="Game trailer"
+                  frameborder="0"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowfullscreen>
+                </iframe>
+              </div>
+            </div>
+          }
+
+        </div>
         
 
         <!-- INFORMACIÓN ADICIONAL -->
