@@ -8,30 +8,31 @@
       <div class="header-content">
         <h1>{{ game.name }}</h1>
 
+
       <div class="meta-info">
+        <div class="meta-stat" *ngIf="game.rating">
+          <span class="stat-label">Rating</span>
+          <span class="stat-value">⭐ {{ game.rating | number:'1.1-1' }}</span>
+        </div>
+      
+        <div class="meta-divider"></div>
+         <div class="meta-stat" *ngIf="averageTimes?.hastily">
+            <span class="stat-label">Rushed</span>
+            <span class="stat-value rushed">{{ averageTimes?.hastily }}h</span>
+          </div>
 
-        <span class="rating-badge" *ngIf="game.rating">
-          <img src="assets/images/icons/star-filled.svg" alt="⭐">
-          {{ game.rating | number:'1.1-1' }}/5
-        </span>
+          <div class="meta-stat" *ngIf="averageTimes?.normally">
+            <span class="stat-label">Normal</span>
+            <span class="stat-value normal">{{ averageTimes?.normally }}h</span>
+          </div>
 
-        <span class="playtime-info">
-          <span class="time rushed">
-            ⏱ Rushed ~ <strong>{{ averageTimes?.hastily ?? 'N/A' }}h</strong>
-          </span>
-
-          <span class="time normal">
-            🎮 Normal ~ <strong>{{ averageTimes?.normally ?? 'N/A' }}h</strong>
-          </span>
-
-          <span class="time complete">
-            🏆 100% ~ <strong>{{ averageTimes?.completely ?? 'N/A' }}h</strong>
-          </span>
-        </span>
-
+          <div class="meta-stat" *ngIf="averageTimes?.completely">
+            <span class="stat-label">100%</span>
+            <span class="stat-value complete">{{ averageTimes?.completely }}h</span>
+          </div>
+        </div>
       </div>
-        
-      </div>
+
     </div>
 
     <!-- ACCIONES Y BOTONES -->
@@ -78,9 +79,6 @@
         <!-- DESCRIPCIÓN -->
         <div class="description-section">
           <h2>About</h2>
-        <span class="release-date" *ngIf="game.released">
-          <span>Released:</span> {{ game.released | date:'mediumDate' }}
-        </span>
           <p [innerHTML]="game.description || 'No description available.'"></p>
         </div>
 

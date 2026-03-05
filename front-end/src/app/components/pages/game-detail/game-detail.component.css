@@ -1,12 +1,18 @@
 /* ==============================
-   TIPOGRAFÍA GENERAL
+  TIPOGRAFÍA GENERAL
 ============================== */
 p {
   color: var(--text-secondary);
+  margin: 0;
 }
 
 h2, h3, h4 {
   color: var(--text-main);
+}
+
+h2 {
+  font-size: 1.5rem;
+  margin-block: 0 1.5rem;
 }
 
 .game-detail {
@@ -60,8 +66,10 @@ h2, h3, h4 {
   text-shadow: 0 2px 8px rgba(0, 0, 0, 0.8);
 }
 
-.meta-info {
-  display: inline-flex;   /* 👈 clave */
+/* META INFO */
+
+/* .meta-info {
+  display: inline-flex;
   flex-wrap: wrap;
   gap: 0.6rem;
   align-items: center;
@@ -90,7 +98,50 @@ h2, h3, h4 {
   padding: 0.3rem 0.8rem;
   border-radius: 20px;
   font-weight: 600;
+} 
+*/
+.meta-info {
+  display: inline-flex;
+  align-items: center;
+  gap: 1.2rem;
+  padding: 0.6rem 1.2rem;
+  border-radius: 12px;
+  background: rgba(0,0,0,0.45);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255,255,255,0.08);
 }
+
+.meta-stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+.stat-label {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: rgba(255,255,255,0.4);
+  font-weight: 500;
+}
+
+.stat-value {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: white;
+}
+
+.stat-value.rushed   { color: var(--secondary-color); }
+.stat-value.normal   { color: var(--success-color); }
+.stat-value.complete { color: var(--primary-color); }
+
+.meta-divider {
+  width: 1px;
+  height: 28px;
+  background: rgba(255,255,255,0.15);
+}
+
 
 
 /*
@@ -179,7 +230,6 @@ h2, h3, h4 {
 /* =========================
   RELEASE DATE BADGE
 ========================= */
-.release-date,
 .rating-badge,
 .playtime-info {
   display: inline-flex;
@@ -331,15 +381,6 @@ h2, h3, h4 {
 ============================== */
 .overview-content {
   padding: 1rem 2rem;
-}
-
-.description-section {
-  margin-bottom: 2rem;
-}
-
-.description-section h2 {
-  font-size: 1.5rem;
-  margin-bottom: 0.5rem;
 }
 
 .description-section p {
