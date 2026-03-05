@@ -32,22 +32,16 @@
         required
       />
 
-      <span
-        class="eye-icon"
-        (mousedown)="showPassword = true"
-        (mouseup)="showPassword = false"
-        (mouseleave)="showPassword = false"
-        (touchstart)="showPassword = true"
-        (touchend)="showPassword = false"
-      >
-        @if (showPassword) {
-          <!-- 👁 OJO ABIERTO -->
-          <img class="eye" src="/assets/images/icons/eye-show-svgrepo-com.svg" alt="">
-        } @else {
-          <!-- 🙈 OJO CERRADO -->
-          <img class="eye" src="/assets/images/icons/eye-off-svgrepo-com.svg" alt="">
-        }
-      </span>
+    <span
+      class="eye-icon"
+      (click)="showPassword = !showPassword"
+    >
+      @if (showPassword) {
+        <img class="eye" src="/assets/images/icons/eye-show-svgrepo-com.svg" alt="">
+      } @else {
+        <img class="eye" src="/assets/images/icons/eye-off-svgrepo-com.svg" alt="">
+      }
+    </span>
     </div>
       @if (!isLoginMode) {
         <input
