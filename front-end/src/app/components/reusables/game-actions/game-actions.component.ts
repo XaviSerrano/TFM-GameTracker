@@ -91,7 +91,7 @@ export class GameActionsComponent implements OnInit {
     }
 
     const gameId = this.getGameId();
-    if (!gameId) return; // 🛡️ evita NaN
+    if (!gameId) return;
 
     const action$ = this.isBookmarked
       ? this.wishlistService.removeFromWishlist(gameId)

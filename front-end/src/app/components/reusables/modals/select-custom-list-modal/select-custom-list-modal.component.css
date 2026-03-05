@@ -85,7 +85,7 @@
 /* RIGHT SIDE */
 .modal-right {
   flex: 1;
-  padding: 1rem 1.5rem;
+  padding: 1rem 1.8rem;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -93,7 +93,22 @@
 
 .modal-right h3 {
   margin: 0;
+  font-size: 1rem;
+  color: var(--text-primary); /* ✅ título más sutil */
+  font-weight: 500;
+  letter-spacing: 0.05em;
 }
+
+/* modal header */
+
+.modal-header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
 
 /* LISTS CONTAINER (para scroll cuando hay muchas listas) */
 .lists-container {
@@ -128,7 +143,9 @@
 
 .modal li {
   background-color: var(--background-secondary-dark);
+  color: var(--text-secondary);
   padding: 0.6rem;
+  font-weight: 600;
   border-radius: 6px;
   cursor: pointer;
   transition: 0.2s;
@@ -136,12 +153,12 @@
 
 .modal li:hover {
   background-color: var(--hover-color);
+  color: var(--text-primary);
 }
 
-li.selected {
-  background-color: var(--success-color) !important;
-  color: var(--text-main);
-  font-weight: bold;
+.modal li.selected {
+  background-color: var(--success-color);
+  color: var(--text-primary);
 }
 
 /* ACTION BUTTONS */
@@ -168,21 +185,23 @@ li.selected {
   background-color: var(--error-color);
 }
 
-/* NEW BUTTON */
+/* NEW BUTTON — más compacto y sutil */
 .new-btn {
-  background-color: var(--primary-color);
   color: var(--text-main);
   border: none;
-  padding: 0.5rem 1rem;
-  border-radius: 6px;
+  border-radius: none;
+  font-size: 0.8rem;
   font-weight: 600;
+  padding: 0.5rem 1rem;
   cursor: pointer;
   transition: all 0.2s ease-in-out;
+  white-space: nowrap;
+  }
+  
+  .new-btn:hover {
+  color: var(--primary-color);
 }
 
-.new-btn:hover {
-  background-color: var(--hover-color);
-}
 
 /* RESPONSIVE */
 @media (max-width: 768px) {

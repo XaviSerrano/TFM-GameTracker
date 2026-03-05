@@ -48,7 +48,6 @@ export class SelectCustomListModalComponent implements OnChanges {
       
       console.log('[CustomListModal] game.id:', this.game?.id);
 
-
       lists.forEach(list => {
         if (list.games?.some(g => g.gameId === this.game.id)) {
           this.selectedListIds.add(list.id);
