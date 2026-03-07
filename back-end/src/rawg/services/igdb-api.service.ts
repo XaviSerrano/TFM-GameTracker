@@ -144,6 +144,17 @@ export class IgdbApiService {
     `;
 
     const results = await this.query('game_time_to_beats', body);
-    return results[0] || {}; // Retorna objeto vacío si no hay datos
+    return results[0] || {};
+  }
+
+  // En igdb-api.service.ts
+  async getSimilarGames(gameId: number): Promise<any> {
+    const body = `
+      fields similar_games.name, similar_games.cover.*, 
+      similar_games.rating, similar_games.genres.*;
+      where id = ${gameId};
+    `;
+    const results = await this.query('games', body);
+    return results[0]?.similar_games || [];
   }
 }

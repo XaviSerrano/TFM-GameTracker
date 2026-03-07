@@ -60,4 +60,38 @@ export class GamesService {
     return this.igdbApi.query('release_dates', body);
   }
 
+  async getSimilarGames(gameId: number): Promise<NormalizedGameList> {
+    try {
+      const rawSimilar = await this.igdbApi.getSimilarGames(gameId);
+
+      // Si IGDB devuelve menos de 4, complementa con juegos del mismo género
+      if (rawSimilar.length < 4) {
+        const rawGame = await this.igdbApi.getGameById(gameId);
+        const genreIds = rawGame?.genres?.map((g: any) => g.id) || [];
+
+        if (genreIds.length > 0) {
+          const body = `
+            fields name, summary, rating, rating_count, first_release_date,
+                  cover.*, platforms.*, genres.*;
+            where genres = (${genreIds.join(',')}) 
+                  & id != ${gameId} 
+                  & rating != null 
+                  & rating_count >= 20;
+            sort rating desc;
+            limit 10;
+          `;
+          const rawByGenre = await this.igdbApi.query('games', body);
+          const combined = [...rawSimilar, ...rawByGenre]
+            .filter((g, i, arr) => arr.findIndex(x => x.id === g.id) === i) // deduplica
+            .slice(0, 10);
+          return this.igdbAdapter.normalizeGameList(combined);
+        }
+      }
+
+      return this.igdbAdapter.normalizeGameList(rawSimilar);
+    } catch (error) {
+      console.error(`Error getting similar games for ${gameId}:`, error);
+      return { results: [], count: 0 };
+    }
+  }
 }

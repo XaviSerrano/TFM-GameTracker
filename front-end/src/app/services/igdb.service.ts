@@ -94,4 +94,8 @@ export class IgdbService {  // ✅ Renombrado de RawgService a IgdbService
     return this.http.get<any>(`${this.apiUrl}/${gameId}/release-dates`);
   }
 
+  getSimilarGames(gameId: number): Observable<NormalizedGameList> {
+    return this.http.get<NormalizedGameList>(`${this.apiUrl}/${gameId}/similar`);
+  }
+
 }

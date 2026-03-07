@@ -1,6 +1,6 @@
 import { Component, OnInit, HostListener } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { IgdbService } from '../../../services/igdb.service';
+import { ActivatedRoute, RouterLink } from '@angular/router';
+import { IgdbService, NormalizedGameList } from '../../../services/igdb.service';
 import { CommonModule } from '@angular/common';
 import { ModalManagerService } from '../../../services/modal-manager.service';
 import { ReviewService } from '../../../services/reviews.service';
@@ -10,11 +10,12 @@ import { ProfileSyncService } from '../../../services/profile-sync.service';
 import { UserGameService } from '../../../services/user-game.service';
 import { GameActionsComponent } from '../../reusables/game-actions/game-actions.component';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser'; // ✅ AÑADE ESTO
+import { NormalizedGame } from '../../../services/igdb.service';
 
 @Component({
   selector: 'app-game-detail',
   standalone: true,
-  imports: [CommonModule, GameActionsComponent],
+  imports: [CommonModule, GameActionsComponent, RouterLink],
   templateUrl: './game-detail.component.html',
   styleUrls: ['./game-detail.component.css']
 })
@@ -27,6 +28,7 @@ export class GameDetailComponent implements OnInit {
   loading = true;
 
   platformVersions: any[] = [];
+  similarGames: NormalizedGame[] = [];
   
   activeTab: 'overview' | 'media' | 'reviews' = 'overview';
   
@@ -175,12 +177,26 @@ export class GameDetailComponent implements OnInit {
             this.averageTimes = {};
           }
         });
+        // Cargar juegos similares
+        this.igdbService.getSimilarGames(this.gameId).subscribe({
+          next: (data: NormalizedGameList) => {
+            console.log('📦 Raw similar games response:', data);
+            console.log('📦 Results array:', data?.results);
+            console.log('📦 Results length:', data?.results?.length);
+            this.similarGames = data.results.slice(0, 8);
+            console.log('🎮 Similar games set to:', this.similarGames);
+          },
+          error: (err: any) => {
+            console.error('❌ Error loading similar games:', err);
+          }
+        });
       },
       error: (err) => {
         console.error('❌ Error loading game:', err);
         this.loading = false;
         this.averageTimes = {};
       }
+      
     });
   }
 

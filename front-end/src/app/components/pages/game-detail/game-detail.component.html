@@ -279,4 +279,34 @@
       {{ currentScreenshotIndex + 1 }} / {{ game.screenshots.length }}
     </div>
   </div>
+
+
+
 }
+
+  <!-- JUEGOS SIMILARES -->
+  @if (similarGames.length > 0) {
+    <div class="similar-games-section">
+      <h2>More Like This</h2>
+      <div class="similar-games-grid">
+        @for (similar of similarGames; track similar.id) {
+          <div class="similar-game-card" [routerLink]="['/detail', similar.id]">
+            <div class="similar-game-img">
+              <img 
+                [src]="similar.backgroundImage || 'assets/images/placeholder.jpg'" 
+                [alt]="similar.name"
+                loading="lazy"
+              />
+              <div class="similar-game-overlay"></div>
+            </div>
+            <div class="similar-game-info">
+              <p class="similar-game-name">{{ similar.name }}</p>
+              <span class="similar-game-rating" *ngIf="similar.rating">
+                ⭐ {{ similar.rating | number:'1.1-1' }}
+              </span>
+            </div>
+          </div>
+        }
+      </div>
+    </div>
+  }

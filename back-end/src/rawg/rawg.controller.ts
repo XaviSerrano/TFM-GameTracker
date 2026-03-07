@@ -26,10 +26,7 @@ export class IgdbController {
     return this.gamesService.getGamesByName(query);
   }
 
-  @Get(':id')
-  getById(@Param('id') id: string) {
-    return this.gamesService.getGameById(Number(id));
-  }
+
 
   // ✅ ENDPOINT CORREGIDO - Usa GamesService, NO igdbApiService directamente
   @Get(':id/time-to-beat')
@@ -47,5 +44,16 @@ export class IgdbController {
   @Get(':id/release-dates')
   async getReleaseDates(@Param('id') id: string) {
     return this.gamesService.getPlatformVersionsByPlatform(Number(id));
+  }
+
+  @Get(':id/similar')
+  async getSimilarGames(@Param('id') id: string) {
+    console.log('🔍 getSimilarGames called with id:', id);
+    return this.gamesService.getSimilarGames(Number(id));
+  }
+
+  @Get(':id')
+  getById(@Param('id') id: string) {
+    return this.gamesService.getGameById(Number(id));
   }
 }
