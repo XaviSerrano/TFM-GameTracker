@@ -11,11 +11,12 @@ import { UserGameService } from '../../../services/user-game.service';
 import { GameActionsComponent } from '../../reusables/game-actions/game-actions.component';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser'; // ✅ AÑADE ESTO
 import { NormalizedGame } from '../../../services/igdb.service';
+import { GameCardComponent } from '../../reusables/game-card/game-card.component';
 
 @Component({
   selector: 'app-game-detail',
   standalone: true,
-  imports: [CommonModule, GameActionsComponent, RouterLink],
+  imports: [CommonModule, GameActionsComponent, GameCardComponent],
   templateUrl: './game-detail.component.html',
   styleUrls: ['./game-detail.component.css']
 })
@@ -113,6 +114,7 @@ export class GameDetailComponent implements OnInit {
   }
 
   loadGame() {
+    window.scrollTo({ top: 0, behavior: 'instant' });
     this.igdbService.getGameById(this.gameId).subscribe({
       next: (data: any) => {
         this.game = data;

@@ -11,9 +11,26 @@ h2, h3, h4 {
 }
 
 h2 {
-  font-size: 1.5rem;
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
   margin-block: 0 1.5rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
 }
+
+h2::before {
+  content: "";
+  display: inline-block;
+  width: 3px;
+  height: 1rem;
+  background: var(--secondary-color);
+  border-radius: 4px;
+}
+
 
 .game-detail {
   margin: 0 auto;
@@ -891,7 +908,7 @@ h2 {
 
 
 /* ==============================
-   SIMILAR GAMES
+  SIMILAR GAMES
 ============================== */
 .similar-games-section {
   background: var(--background-secondary-dark);
@@ -899,101 +916,12 @@ h2 {
   padding: 2.5rem 2rem;
 }
 
-.similar-games-inner {
-  max-width: 100%;
-}
-
-.similar-games-section h2 {
-  font-size: 1.1rem;
-  font-weight: 700;
-  margin-bottom: 1.5rem;
-  margin-block: 0 1.5rem;
-  color: var(--text-secondary);
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  display: flex;
-  align-items: center;
-  gap: 0.6rem;
-}
-
-.similar-games-section h2::before {
-  content: "";
-  display: inline-block;
-  width: 3px;
-  height: 1rem;
-  background: var(--secondary-color);
-  border-radius: 4px;
-}
-
 .similar-games-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-  gap: 0.8rem;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 1rem;
 }
 
-.similar-game-card {
-  cursor: pointer;
-  border-radius: 8px;
-  overflow: hidden;
-  background: var(--background-secondary);
-  border: 1px solid rgba(255, 255, 255, 0.05);
-  transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
-}
-
-.similar-game-card:hover {
-  transform: translateY(-3px);
-  border-color: var(--primary-color);
-  box-shadow: 0 8px 20px rgba(6, 130, 157, 0.2);
-}
-
-.similar-game-img {
-  position: relative;
-  aspect-ratio: 16/9;
-  overflow: hidden;
-}
-
-.similar-game-img img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transition: transform 0.3s ease;
-  filter: brightness(0.85);
-}
-
-.similar-game-card:hover .similar-game-img img {
-  transform: scale(1.06);
-  filter: brightness(1);
-}
-
-.similar-game-overlay {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(to top, rgba(0,0,0,0.75) 0%, transparent 55%);
-  display: flex;
-  align-items: flex-end;
-  padding: 0.5rem 0.6rem;
-}
-
-.similar-game-rating {
-  font-size: 0.72rem;
-  font-weight: 600;
-  color: var(--secondary-color);
-}
-
-.similar-game-info {
-  padding: 0.5rem 0.7rem;
-  background: var(--background-secondary);
-}
-
-.similar-game-name {
-  font-size: 0.78rem;
-  font-weight: 600;
-  color: var(--text-main);
-  margin: 0;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
 
 @media (max-width: 768px) {
   .similar-games-section {

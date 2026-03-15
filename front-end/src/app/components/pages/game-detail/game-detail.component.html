@@ -87,7 +87,7 @@
 
           @if (platformVersions.length > 0) {
             <div class="platform-release-dates">
-              <h3>Release Dates</h3>
+              <h2>Release Dates</h2>
               <div class="platform-versions-grid">
                 @for (platform of platformVersions; track platform.id) {
                   <div class="platform-version-card">
@@ -152,7 +152,6 @@
             </div>
           </div>
           }
-
 
           @if (game.metacritic) {
             <div class="info-card">
@@ -287,25 +286,10 @@
   <!-- JUEGOS SIMILARES -->
   @if (similarGames.length > 0) {
     <div class="similar-games-section">
-      <h2>More Like This</h2>
+      <h2>Similar games</h2>
       <div class="similar-games-grid">
         @for (similar of similarGames; track similar.id) {
-          <div class="similar-game-card" [routerLink]="['/detail', similar.id]">
-            <div class="similar-game-img">
-              <img 
-                [src]="similar.backgroundImage || 'assets/images/placeholder.jpg'" 
-                [alt]="similar.name"
-                loading="lazy"
-              />
-              <div class="similar-game-overlay"></div>
-            </div>
-            <div class="similar-game-info">
-              <p class="similar-game-name">{{ similar.name }}</p>
-              <span class="similar-game-rating" *ngIf="similar.rating">
-                ⭐ {{ similar.rating | number:'1.1-1' }}
-              </span>
-            </div>
-          </div>
+          <app-game-card [game]="similar"></app-game-card>
         }
       </div>
     </div>
