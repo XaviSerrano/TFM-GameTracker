@@ -111,6 +111,7 @@ export class NavComponent implements OnInit {
 
   toggleDropdown() {
     this.isDropdownOpen = !this.isDropdownOpen;
+    document.body.style.overflow = this.isDropdownOpen ? 'hidden': '';
   }
 
   closeDropdown() {

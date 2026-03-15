@@ -80,7 +80,7 @@
 ========================= */
 .home-content {
   flex: 1;
-  margin-top: 10px;
+  margin-top: 20px;
   padding: 0 1rem;
   
   transition:
@@ -103,7 +103,7 @@
 .hamburger {
   position: absolute;
   top: 0.5rem;
-  left: 2.5rem;
+  left: 2rem;
   z-index: 1001;
 
   background: var(--background-secondary);
@@ -216,31 +216,38 @@
 
 
 /* =========================
-   MOBILE
+  MOBILE
 ========================= */
-@media (max-width: 1024px) {
 
-  .home-sidebar {
-    position: fixed;
-    top: 0;
-    left: 0;
-    height: 100vh;
-    width: var(--sidebar-width);
+
+@media (max-width: 768px) {
+
+    .home-sidebar {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    background-color: var(--background-secondary-dark);
+    
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 
     transform: translateX(-100%);
     opacity: 0;
     visibility: hidden;
-
-    z-index: 1000;
-    padding-top: 5rem;
-
-    box-shadow: 2px 0 20px rgba(0,0,0,0.35);
-
-    /* Transición más fluida en mobile */
     transition:
       transform var(--anim-smooth),
       opacity var(--anim-smooth),
-      visibility 0ms var(--anim-smooth); /* Delay en visibility al cerrar */
+      visibility 0ms var(--anim-smooth);
+
+    z-index: 9999;
+    padding: 2rem;
+    box-shadow: none;
   }
 
   .home-sidebar.open {
@@ -250,37 +257,33 @@
     transition:
       transform var(--anim-smooth),
       opacity var(--anim-smooth),
-      visibility 0ms 0ms; /* Sin delay al abrir */
+      visibility 0ms 0ms;
   }
 
-  /* Contenido aparece con delay en mobile */
   .home-sidebar ul {
-    opacity: 0;
-    transform: translateX(-30px);
-    transition:
-      opacity var(--anim-fast) 100ms, /* Delay de 100ms */
-      transform var(--anim-fast) 100ms;
-  }
-
-  .home-sidebar.open ul {
-    opacity: 1;
-    transform: translateX(0);
-    transition:
-      opacity var(--anim-fast) 150ms, /* Aparece después que el sidebar */
-      transform var(--anim-smooth) 150ms;
-  }
-
-  .home-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 0;
     width: 100%;
-    padding: 0 1rem;
   }
 
-  /* Animación del icono hamburger en mobile */
-  .home-sidebar.open ~ .hamburger img {
-    transform: rotate(90deg);
+  .home-sidebar li {
+    width: 100%;
+    text-align: center;
+    font-size: 1.1rem;
+    padding: 14px 0;
+  }
+
+  .hamburger {
+    z-index: 10000;
+  }
+
+  .sidebar-overlay {
+    display: none;
   }
 }
-
 
 /* =========================
   OVERLAY MOBILE

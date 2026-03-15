@@ -624,7 +624,7 @@ h2::before {
 }
 
 /* ==============================
-   LIGHTBOX
+  LIGHTBOX
 ============================== */
 .lightbox {
   position: fixed;
@@ -689,7 +689,7 @@ h2::before {
 }
 
 /* ==============================
-   EMPTY STATES / LOADING
+  EMPTY STATES / LOADING
 ============================== */
 .empty-state {
   text-align: center;
@@ -710,7 +710,7 @@ h2::before {
 }
 
 /* ==============================
-   RESPONSIVE
+  RESPONSIVE
 ============================== */
 @media (max-width: 768px) {
   .header {
@@ -918,7 +918,7 @@ h2::before {
 
 .similar-games-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
   gap: 1rem;
 }
 
