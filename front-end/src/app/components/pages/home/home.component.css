@@ -1,5 +1,5 @@
 /* =========================
-   VARIABLES
+  VARIABLES
 ========================= */
 :root {
   --sidebar-width: 260px;
@@ -10,7 +10,7 @@
 
 
 /* =========================
-   LAYOUT PRINCIPAL
+  LAYOUT PRINCIPAL
 ========================= */
 .home-container {
   display: flex;
@@ -24,13 +24,14 @@
 
 
 /* =========================
-   SIDEBAR
+  SIDEBAR
 ========================= */
 .home-sidebar {
   flex: 0 0 var(--sidebar-width);
   width: var(--sidebar-width);
   padding: 0.2rem 1rem;
-  background-color: var(--background-main);
+  /* background-color: var(--background-main); */
+  background-color: #66666600;
   border-right: 1px solid var(--border-color);
   overflow: hidden;
   
@@ -76,7 +77,7 @@
 
 
 /* =========================
-   CONTENIDO
+  CONTENIDO
 ========================= */
 .home-content {
   flex: 1;
@@ -98,13 +99,13 @@
 
 
 /* =========================
-   HAMBURGER
+  HAMBURGER
 ========================= */
 .hamburger {
   position: absolute;
   top: 0.5rem;
-  left: 2rem;
-  z-index: 1001;
+  left: 1.6rem;
+  z-index: 998;
 
   background: var(--background-secondary);
   border: 1px solid var(--border-color);
@@ -119,10 +120,7 @@
 
   border-radius: 10px;
 
-  transition:
-    transform var(--anim-fast),
-    box-shadow var(--anim-fast),
-    background-color var(--anim-fast);
+  transition: all .2s ease-in-out
 }
 
 .hamburger img {
@@ -134,9 +132,8 @@
 }
 
 .hamburger:hover {
-  transform: translateY(-1px);
   box-shadow: 0 6px 14px rgba(0,0,0,0.25);
-  background-color: var(--background-main);
+  background-color: var(--background-secondary-dark);
 }
 
 .hamburger:active {
@@ -218,11 +215,22 @@
 /* =========================
   MOBILE
 ========================= */
-
-
 @media (max-width: 768px) {
 
-    .home-sidebar {
+  .home-content {
+    margin-top: 0px;
+  }
+
+  .hamburger {
+    left: auto;
+    right: 1.6rem;
+  }
+
+}
+
+@media (max-width: 900px) {
+
+  .home-sidebar {
     position: fixed !important;
     top: 0 !important;
     left: 0 !important;
@@ -254,6 +262,7 @@
     transform: translateX(0);
     opacity: 1;
     visibility: visible;
+    background-color: #383838f5;
     transition:
       transform var(--anim-smooth),
       opacity var(--anim-smooth),

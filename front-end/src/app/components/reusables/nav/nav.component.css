@@ -196,18 +196,6 @@
   }
 }
 
-@media (max-width: 1200px) {
-  .nav {
-    justify-content: center;
-    text-align: center;
-  }
-
-  .search-bar,
-  .user-section {
-    margin-top: 10px;
-  }
-}
-
 @media (max-width: 768px) {
   .nav {
     flex-direction: column;
@@ -237,7 +225,7 @@
   .dropdown-menu,
   .dropdown-menu.show {
     position: fixed !important;
-    top: 255px !important;
+    top: 235px !important;
     left: 0 !important;
     right: 0 !important;
     bottom: 0 !important;
@@ -253,7 +241,7 @@
     align-items: center;
     justify-content: center;
     gap: 0.5rem;
-    z-index: 9999 !important;
+    z-index: 10001 !important;
   }
 
   .dropdown-menu a {

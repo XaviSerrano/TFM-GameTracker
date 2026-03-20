@@ -26,11 +26,11 @@ export class HomeComponent {
   
   isMobileSidebarOpen = false;
   
-  isMobile = window.innerWidth <= 768;
+  isMobile = window.innerWidth <= 900;
 
   @HostListener('window:resize', ['$event'])
   onResize(event: any) {
-    this.isMobile = window.innerWidth <= 768;
+    this.isMobile = window.innerWidth <= 900;
     if (!this.isMobile) {
       this.isMobileSidebarOpen = false;
     }

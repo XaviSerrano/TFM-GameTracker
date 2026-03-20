@@ -262,3 +262,64 @@
   height: 4px;
   background-color: var(--primary-color);
 }
+
+@media (max-width: 900px) {
+  .public-profile {
+    flex-direction: column;
+    align-items: flex-start;
+    margin: 30px 20px;
+    gap: 1.5rem;
+  }
+
+  .profile-right {
+    margin-right: 0;
+    width: 100%;
+    justify-content: space-around;
+  }
+}
+
+@media (max-width: 600px) {
+  .public-profile {
+    margin: 20px 16px;
+  }
+
+  .profile-picture img {
+    width: 80px;
+    height: 80px;
+  }
+
+  .profile-info p:first-child {
+    font-size: 22px;
+  }
+
+  .profile-right {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0;
+    width: 100%;
+  }
+
+  .btn-action {
+    padding: 10px;
+  }
+
+  .btn-action .count {
+    font-size: 16px;
+  }
+
+  .ratings-reviews-nav {
+    padding: 0.5rem 1rem;
+  }
+
+  .ratings-reviews-nav ul {
+    gap: 0;
+    width: 100%;
+  }
+
+  .ratings-reviews-nav li {
+    flex: 1;
+    text-align: center;
+    font-size: 0.95rem;
+    padding: 10px 0;
+  }
+}

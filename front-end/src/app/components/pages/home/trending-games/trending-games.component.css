@@ -19,13 +19,25 @@ h2 {
   }
 }
 
-@media (max-width: 1200px) {
+@media (max-width: 1400px) {
   .games-grid {
     grid-template-columns: repeat(4, 1fr);
   }
 }
 
-@media (max-width: 768px) {
+@media (max-width: 1200px) {
+  .games-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 900px) {
+  .games-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 650px) {
   .games-grid {
     grid-template-columns: repeat(2, 1fr);
   }
