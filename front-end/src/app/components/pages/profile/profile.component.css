@@ -263,6 +263,14 @@
   background-color: var(--primary-color);
 }
 
+@media (max-width: 768px) {
+  .profile-right {
+    margin-right: 0;
+    width: 100%;
+    justify-content: space-around;
+  }
+}
+
 @media (max-width: 900px) {
   .public-profile {
     flex-direction: column;
@@ -272,7 +280,7 @@
   }
 
   .profile-right {
-    margin-right: 0;
+    margin-right: 0; /* mantenerlo aquí también */
     width: 100%;
     justify-content: space-around;
   }
