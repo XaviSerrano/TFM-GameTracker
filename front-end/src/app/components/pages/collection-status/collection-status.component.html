@@ -2,6 +2,7 @@
   <h2>{{ userName }}'s Collection</h2>
 
   <app-collection-status-chart
+    *ngIf="chartReady"
     [counts]="statusCounts"
     (statusSelected)="selectTab($event)">
   </app-collection-status-chart>

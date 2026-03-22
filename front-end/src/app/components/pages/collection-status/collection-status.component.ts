@@ -91,6 +91,23 @@ export class CollectionStatusComponent implements OnInit, OnDestroy {
     this.destroy$.complete();
   }
 
+  private assignGames(statusKey: string, games: any[]) {
+    this.gamesByStatus[statusKey] = games.map(g => ({
+      id: g.game.id,
+      name: g.gameName,
+      backgroundImage: g.backgroundImage ?? '',
+      rating: g.game.rating ?? null,
+    }));
+
+    this.statusCounts[statusKey] = games.length;
+
+    // Nueva referencia para que OnChanges se dispare
+    this.statusCounts = { ...this.statusCounts };
+
+    const total = Object.values(this.statusCounts).reduce((a, b) => a + b, 0);
+    this.chartReady = total > 0;
+  }
+
   // ===== CARGAS =====
 
   loadPrivateCollection() {
@@ -130,24 +147,7 @@ export class CollectionStatusComponent implements OnInit, OnDestroy {
     });
   }
 
-  private assignGames(statusKey: string, games: any[]) {
-    console.log('[Collection] token:', this.authService.getToken() ? 'EXISTS' : 'MISSING');
 
-    console.log('[Collection] raw games from backend:', games); // ← AÑADE
-    console.log('[Collection] first game raw:', games[0]); // ← VER TODOS LOS CAMPOS
-
-    this.gamesByStatus[statusKey] = games.map(g => ({
-      id: g.game.id,
-      name: g.gameName,
-      backgroundImage: g.backgroundImage ?? '',
-      rating: g.game.rating ?? null,  // 👈 RATING IGDB CORRECTO
-    }));
-
-    this.statusCounts[statusKey] = games.length;
-
-    const total = Object.values(this.statusCounts).reduce((a, b) => a + b, 0);
-    this.chartReady = total > 0;
-  }
 
   // ===== UI =====
 
