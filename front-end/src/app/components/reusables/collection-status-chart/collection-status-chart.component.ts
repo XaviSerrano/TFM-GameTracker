@@ -6,8 +6,9 @@ import {
   ViewChild, 
   ElementRef, 
   OnChanges, 
-  SimpleChanges, 
-  AfterViewInit 
+  SimpleChanges,
+  AfterViewInit,
+  OnDestroy 
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import * as echarts from 'echarts';
@@ -19,7 +20,7 @@ import * as echarts from 'echarts';
   templateUrl: './collection-status-chart.component.html',
   styleUrls: ['./collection-status-chart.component.css']
 })
-export class CollectionStatusChartComponent implements AfterViewInit, OnChanges {
+export class CollectionStatusChartComponent implements AfterViewInit, OnChanges, OnDestroy {
 
   @Input() counts!: Record<string, number>;
   @Output() statusSelected = new EventEmitter<string>();
@@ -28,16 +29,28 @@ export class CollectionStatusChartComponent implements AfterViewInit, OnChanges 
   chartRef!: ElementRef<HTMLDivElement>;
 
   private chart!: echarts.ECharts;
+  private resizeObserver!: ResizeObserver;
 
   ngAfterViewInit() {
     this.chart = echarts.init(this.chartRef.nativeElement);
     this.updateChart();
+
+    // ResizeObserver en lugar de window resize — más preciso
+    this.resizeObserver = new ResizeObserver(() => {
+      this.chart?.resize();
+    });
+    this.resizeObserver.observe(this.chartRef.nativeElement);
   }
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes['counts'] && this.chart) {
       this.updateChart();
     }
+  }
+  
+  ngOnDestroy() {
+    this.resizeObserver?.disconnect();
+    this.chart?.dispose();
   }
 
   private statusColors: Record<string, string> = {
