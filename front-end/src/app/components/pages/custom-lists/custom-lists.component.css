@@ -36,12 +36,12 @@ h2 {
   gap: 1.5rem;
 }
 
-
 .list-card {
   position: relative;
   background: var(--background-secondary);
   border-radius: 8px;
   padding: 1rem;
+  padding-bottom: 2.5rem;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   cursor: pointer;
   filter: opacity(0.8);
@@ -125,53 +125,46 @@ h2 {
 
 /* BUTTONS */
 
-.delete-btn {
+.card-actions {
   position: absolute;
   bottom: 8px;
   right: 8px;
   display: flex;
   align-items: center;
-  justify-content: center;
-  gap: 6px;
-  background: transparent;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  font-size: 14px;
+  gap: 3px;
 }
 
-.delete-btn img {
-  width: 20px;
-  height: 20px;
-  opacity: 0.7;
-}
-
-.delete-btn img:hover {
-  opacity: 1;
-  filter: brightness(0) saturate(100%) invert(33%) sepia(89%) saturate(7491%) hue-rotate(356deg);
-}
-
+.delete-btn,
 .edit-btn {
-  position: absolute;
-  bottom: 8px;
-  right: 30px;
+  position: static;
   display: flex;
   align-items: center;
   justify-content: center;
   background: transparent;
   border: none;
   cursor: pointer;
+  padding: 4px;
+  border-radius: 6px;
   opacity: 0.7;
+  transition: opacity 0.2s;
 }
 
+.delete-btn:hover,
 .edit-btn:hover {
   opacity: 1;
 }
 
+.delete-btn img,
 .edit-btn img {
   width: 18px;
   height: 18px;
+}
+.edit-btn img {
   filter: invert(1);
+}
+
+.delete-btn img:hover {
+  filter: brightness(0) saturate(100%) invert(33%) sepia(89%) saturate(7491%) hue-rotate(356deg);
 }
 
 /* DELETE CUSTOM LIST MODAL */
@@ -289,6 +282,47 @@ h2 {
   }
 }
 
+/* RESPONSIVE */
+
+@media (max-width: 900px) {
+  .lists-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 600px) {
+  .custom-lists {
+    padding: 1rem;
+  }
+
+  .lists-grid {
+    gap: 1rem;
+  }
+
+  .lists-header {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.75rem;
+  }
+
+  .new-btn {
+    width: 100%;
+  }
+
+  .list-card h3 {
+    font-size: 1.05rem;
+  }
+
+  .list-card p {
+    font-size: 0.9rem;
+  }
+
+  .game-cover {
+    width: 70px;
+    height: 70px;
+  }
+}
+
 @media (max-width: 480px) {
   .confirm-modal {
     padding: 1.5rem;
@@ -306,38 +340,13 @@ h2 {
   }
 }
 
-@media (max-width: 600px) {
-  .lists-header {
-    flex-direction: column;
-    align-items: stretch;
-    gap: 0.75rem;
-  }
-
-  .new-btn {
-    width: 100%;
-  }
-
-  .game-cover,
-  .extra-count {
-    width: 70px;
-    height: 70px;
+@media (max-width: 400px) {
+  .game-cover {
+    width: 56px;
+    height: 56px;
   }
 
   .list-card h3 {
-    font-size: 1.05rem;
-  }
-
-  .list-card p {
-    font-size: 0.9rem;
-  }
-
-  .delete-btn {
-    padding: 6px;
-    border-radius: 50%;
-  }
-
-  .delete-btn img {
-    width: 18px;
-    height: 18px;
+    font-size: 1rem;
   }
 }

@@ -10,23 +10,15 @@
       *ngFor="let list of lists; trackBy: trackById"
       [routerLink]="['/custom-lists', list.id]"
     >
-      <!-- DELETE BUTTON -->
-      <button
-        class="delete-btn"
-        (click)="openDeleteModal(list, $event)"
-        title="Delete list"
-      >
-        <img src="../../../../assets/images/icons/delete.svg" alt="🗑">
-      </button>
-
-      <!-- EDIT BUTTON -->
-      <button
-        class="edit-btn"
-        (click)="editList(list, $event)"
-        title="Edit list"
-      >
-        <img src="../../../../assets/images/icons/review.svg" alt="✏️">
-      </button>
+      <!-- ACTION BUTTONS -->
+      <div class="card-actions">
+        <button class="edit-btn" (click)="editList(list, $event)" title="Edit list">
+          <img src="../../../../assets/images/icons/review.svg" alt="✏️">
+        </button>
+        <button class="delete-btn" (click)="openDeleteModal(list, $event)" title="Delete list">
+          <img src="../../../../assets/images/icons/delete.svg" alt="🗑">
+        </button>
+      </div>
       
       <h3>{{ list.title }}</h3>
 
