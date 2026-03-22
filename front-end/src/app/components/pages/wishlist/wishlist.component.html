@@ -1,13 +1,21 @@
 <div class="wishlist-container">
-  <h2>
-    {{ userName === 'My' ? 'My Wishlist' : userName + "'s Wishlist" }}
-  </h2>
+  <div class="wishlist-header">
+    <h2>
+      {{ userName === 'My' ? 'My Wishlist' : userName + "'s Wishlist" }}
+    </h2>
 
-  <app-filters
-    [genres]="availableGenres"
-    [platforms]="availablePlatforms"
-    (filtersChanged)="onFiltersChanged($event)"
-  ></app-filters>
+    <button class="btn-filters" (click)="toggleFilters()">
+      {{ showFilters ? 'Hide Filters' : 'Filters' }}
+    </button>
+  </div>
+
+  <div class="filters-wrapper" [class.open]="showFilters">
+    <app-filters
+      [genres]="availableGenres"
+      [platforms]="availablePlatforms"
+      (filtersChanged)="onFiltersChanged($event)"
+    ></app-filters>
+  </div>
 
   <div *ngIf="loading">
     <p>Cargando juegos...</p>

@@ -18,6 +18,7 @@ export class WishlistComponent implements OnInit {
   allGames: any[] = []; // ← lista completa sin filtrar
   wishlist: any[] = []; // ← lista filtrada que se muestra
   loading = true;
+  showFilters = false;
   error = '';
   userName = '';
   visitedUserId: number | null = null;
@@ -166,18 +167,6 @@ private mapGames(data: any[]): any[] {
     });
   }
 
-  // REMOVE (solo si es wishlist propia)
-  // removeFromWishlist(game: any) {
-  //   if (this.visitedUserId) return;
-
-  //   this.wishlistService.removeFromWishlist(game.gameId).subscribe({
-  //     next: () => {
-  //       this.wishlist = this.wishlist.filter(g => g.gameId !== game.gameId);
-  //     },
-  //     error: (err) => console.error(err)
-  //   });
-  // }
-
   removeFromWishlist(game: any) {
     if (this.visitedUserId) return;
     this.wishlistService.removeFromWishlist(game.id).subscribe({
@@ -192,5 +181,9 @@ private mapGames(data: any[]): any[] {
 
   trackById(index: number, game: any) {
     return game.gameId;
+  }
+
+  toggleFilters() {
+    this.showFilters = !this.showFilters;
   }
 }
