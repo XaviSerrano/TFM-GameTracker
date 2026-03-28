@@ -138,3 +138,43 @@ li.selected {
   border: none;
   padding: 0;
 }
+
+@media (max-width: 768px) {
+  .modal {
+    width: 95vw;
+  }
+
+  .modal li {
+    background-color: var(--background-secondary-dark);
+    padding: 0.4rem 0.6rem;
+    font-size: 0.9rem;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: 0.2s;
+  }
+
+  .modal-content {
+    flex-direction: column;
+    height: auto;
+    max-height: 85vh;
+  }
+
+  .modal-left {
+    width: 100%;
+    height: 150px;
+    border-radius: 10px 10px 0 0;
+  }
+
+  .modal-right {
+    flex: 1;
+    min-height: 300px;
+  }
+
+  .action-btns {
+    gap: 0.5rem;
+  }
+
+  .action-btn {
+    flex: 1;
+  }
+}

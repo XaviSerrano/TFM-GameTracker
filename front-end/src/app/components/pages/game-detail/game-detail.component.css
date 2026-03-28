@@ -84,39 +84,6 @@ h2::before {
 }
 
 /* META INFO */
-
-/* .meta-info {
-  display: inline-flex;
-  flex-wrap: wrap;
-  gap: 0.6rem;
-  align-items: center;
-
-  padding: 8px 12px;
-  border-radius: 12px;
-
-  background: rgba(0,0,0,0.35);
-  backdrop-filter: blur(8px);
-  border: 1px solid rgba(255,255,255,0.08);
-}
-
-
-.meta-info span {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-
-.meta-info img {
-  width: 20px;
-  height: 20px;
-}
-
-.rating-badge {
-  padding: 0.3rem 0.8rem;
-  border-radius: 20px;
-  font-weight: 600;
-} 
-*/
 .meta-info {
   display: inline-flex;
   align-items: center;
@@ -160,95 +127,10 @@ h2::before {
 }
 
 
-
-/*
-  PLAYTIME INFO
-*/
-
-/* =========================
-  PLAYTIME INFO CONTAINER
-========================= */
-.playtime-info {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.6rem;
-
-  padding: 6px 10px;
-  margin-left: 0.5rem;
-
-  font-size: 0.85rem;
-  color: var(--text-main);
-
-  transition: all 0.25s ease;
-}
-
-.playtime-info .time + .time::before {
-  content: "";
-  width: 1px;
-  height: 16px;
-  background: rgba(255, 255, 255, 0.25);
-  margin: 0 8px;
-  display: inline-block;
-}
-
-/* =========================
-  CADA TIEMPO
-========================= */
-.playtime-info .time {
-  display: flex;
-  align-items: center;
-  gap: 0.25rem;
-
-  padding: 2px 6px;
-  border-radius: 6px;
-
-  white-space: nowrap;
-
-  transition: background 0.2s ease, transform 0.2s ease;
-}
-
-.playtime-info .time strong {
-  font-weight: 600;
-  margin-left: 2px;
-}
-
-
-/* =========================
-  COLORES POR TIPO
-========================= */
-.playtime-info .rushed {
-  color: #9aa4ff;
-}
-
-.playtime-info .normal {
-  color: #7be0a2;
-}
-
-.playtime-info .complete {
-  color: #ffd36b;
-}
-
-/* =========================
-  RESPONSIVE
-========================= */
-@media (max-width: 768px) {
-  .playtime-info {
-    flex-wrap: wrap;
-    gap: 0.3rem;
-    font-size: 0.8rem;
-  }
-
-  .playtime-info .time {
-    padding: 2px 4px;
-  }
-}
-
-
 /* =========================
   RELEASE DATE BADGE
 ========================= */
-.rating-badge,
-.playtime-info {
+.rating-badge {
   display: inline-flex;
   align-items: center;
   gap: 0.4rem;
@@ -284,11 +166,6 @@ h2::before {
 .rating-badge {
   color: var(--secondary-color);
 }
-
-.playtime-info {
-  color: var(--text-main);
-}
-
 
 
 /* ==============================
@@ -372,6 +249,7 @@ h2::before {
   margin-bottom: 0rem;
   padding-right: 2rem;
   border-bottom: 2px solid var(--border-color);
+  overflow: hidden;
 }
 
 .tab {
@@ -469,6 +347,7 @@ h2::before {
   display: inline-flex;
   flex-wrap: wrap;
   align-items: center;
+  justify-content: center;
   gap: 0.4rem;
 
   padding: 6px 10px;
@@ -722,13 +601,15 @@ h2::before {
   }
 
   .meta-info {
-    flex-direction: column;
+    flex-direction: row;
     align-items: flex-start;
     gap: 0.5rem;
   }
-
-  .tabs {
-    overflow-x: auto;
+  
+  .actions-bar {
+    flex-direction: column;
+    gap: 8px;
+    padding: 1rem;
   }
 
   .tab {
@@ -759,15 +640,6 @@ h2::before {
     height: 35vh;
   }
 
-  .actions-bar {
-    flex-direction: column;
-    gap: 8px;
-    padding: 1rem;
-  }
-
-  .tabs {
-    flex-direction: column;
-  }
 }
 
 /* ==============================
@@ -781,9 +653,10 @@ h2::before {
 .trailer-wrapper {
   position: relative;
   width: 100%;
-  max-width: 1200px; /* Ancho máximo del video */
-  margin: 0 auto; /* Centra el contenedor */
-  padding-bottom: 30%; /* 🎯 Reducido de 56.25% (16:9) a 45% - más rectangular */
+  max-width: 1200px;
+  margin: 0 auto;
+  height: 400px;
+  padding-bottom: 30%;
   background: #000;
   border-radius: 12px;
   overflow: hidden;
@@ -883,7 +756,7 @@ h2::before {
 }
 
 /* ==============================
-   MEDIA ROW (Dates + Trailer)
+  MEDIA ROW (Dates + Trailer)
 ============================== */
 .media-row {
   display: flex;
@@ -923,30 +796,65 @@ h2::before {
 }
 
 
+/* RESPONSIVE */
+
+@media (max-width: 1024px) {
+  .trailer-wrapper {
+    max-width: 900px;
+  }
+}
+
+@media (max-width: 900px) {
+  .media-row {
+    flex-direction: column-reverse;
+  }
+
+  .media-row .platform-release-dates {
+    width: 100%;
+    flex: none;
+  }
+
+  .media-row .trailer-section {
+    width: 100%;
+    flex: none;
+  }
+  
+  .info-grid {
+    display: flex;
+    flex-direction: column-reverse;
+  }
+
+  .info-card + .info-card::before {
+    display: none;
+  }
+
+  .info-card:not(:first-child)::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 10%;
+    width: 80%;
+    height: 1px;
+    background: rgba(255, 255, 255, 0.15);
+  }
+}
+
 @media (max-width: 768px) {
   .similar-games-section {
     padding: 1.5rem 1rem;
   }
 
   .similar-games-grid {
-    grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
-  }
-}
-
-@media (max-width: 768px) {
-  .media-row {
-    flex-direction: column;
+    grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
   }
 
-  .media-row .platform-release-dates {
-    flex: none;
-    width: 100%;
+  .trailer-section {
+    margin: 1.5rem 0;
   }
-}
 
-@media (max-width: 768px) {
-  .platform-versions-grid {
-    grid-template-columns: 1fr 1fr;
+  .trailer-wrapper {
+    max-width: 100%;
+    border-radius: 8px;
   }
 }
 
@@ -954,38 +862,14 @@ h2::before {
   .platform-versions-grid {
     grid-template-columns: 1fr;
   }
-}
 
-
-/* ==============================
-  RESPONSIVE TRAILER
-============================== */
-@media (max-width: 1024px) {
-  .trailer-wrapper {
-    max-width: 900px;
-    padding-bottom: 48%; /* Ligeramente más alto en tablets */
-  }
-}
-
-@media (max-width: 768px) {
-  .trailer-section {
-    margin: 1.5rem 0;
-  }
-  
-  .trailer-wrapper {
-    max-width: 100%;
-    padding-bottom: 56.25%; /* Vuelve a 16:9 en móviles para mejor visualización */
-    border-radius: 8px;
-  }
-}
-
-@media (max-width: 480px) {
   .trailer-section h2 {
     font-size: 1.2rem;
     margin-bottom: 1rem;
   }
-  
+
   .trailer-wrapper {
     border-radius: 6px;
   }
+  
 }

@@ -1,4 +1,4 @@
-<div class="modal-backdrop" *ngIf="showReview">
+<div class="modal-backdrop" *ngIf="showReview" (click)="onBackdropClick($event)">
   <div class="modal">
     <h2>Write your review</h2>
 

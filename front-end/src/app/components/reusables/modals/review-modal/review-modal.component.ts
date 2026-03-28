@@ -39,4 +39,8 @@ export class ReviewModalComponent {
 
     this.close.emit();
   }
+  
+  onBackdropClick(event: MouseEvent) {
+    this.close.emit();
+  }
 }
