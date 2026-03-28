@@ -63,3 +63,20 @@ span {
   opacity: 0.5;
   cursor: not-allowed;
 }
+
+@media (max-width: 768px) {
+  .email-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .email-actions {
+    max-width: 50%;
+  }
+
+  .update-btn {
+    align-self: center;
+  }
+}

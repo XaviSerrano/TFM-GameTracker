@@ -101,8 +101,10 @@
 
 @media (max-width: 768px) {
   .user-profile {
-    grid-template-columns: 1fr;
+    display: flex;
+    flex-direction: column;
     text-align: center;
+    align-items: center;
   }
 
   .profile-form button {

@@ -203,16 +203,23 @@
 
 @media (max-width: 768px) {
   .user-account {
-    grid-template-columns: 1fr;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     text-align: center;
   }
-
-  .delete-section {
-    align-items: center;
+  
+  .account-container {
+    width: 100%;
+    height: auto;
+    gap: 2rem;
   }
 
   .username-actions {
     width: 100%;
-    justify-content: center;
+  }
+
+  .delete-section {
+    align-items: center;
   }
 }
