@@ -8,31 +8,30 @@
       <div class="header-content">
         <h1>{{ game.name }}</h1>
 
+        <div class="meta-info">
+          <div class="meta-stat">
+            <span class="stat-label">Rating</span>
+            <span class="stat-value">⭐ {{ game.rating ? (game.rating | number:'1.1-1') : 'N/A' }}</span>
+          </div>
 
-      <div class="meta-info">
-        <div class="meta-stat" *ngIf="game.rating">
-          <span class="stat-label">Rating</span>
-          <span class="stat-value">⭐ {{ game.rating | number:'1.1-1' }}</span>
-        </div>
-      
-        <div class="meta-divider"></div>
-         <div class="meta-stat" *ngIf="averageTimes?.hastily">
+          <div class="meta-divider"></div>
+
+          <div class="meta-stat">
             <span class="stat-label">Rushed</span>
-            <span class="stat-value rushed">{{ averageTimes?.hastily }}h</span>
+            <span class="stat-value rushed">{{ averageTimes?.hastily ? averageTimes?.hastily + 'h' : 'N/A' }}</span>
           </div>
 
-          <div class="meta-stat" *ngIf="averageTimes?.normally">
+          <div class="meta-stat">
             <span class="stat-label">Normal</span>
-            <span class="stat-value normal">{{ averageTimes?.normally }}h</span>
+            <span class="stat-value normal">{{ averageTimes?.normally ? averageTimes?.normally + 'h' : 'N/A' }}</span>
           </div>
 
-          <div class="meta-stat" *ngIf="averageTimes?.completely">
+          <div class="meta-stat">
             <span class="stat-label">100%</span>
-            <span class="stat-value complete">{{ averageTimes?.completely }}h</span>
+            <span class="stat-value complete">{{ averageTimes?.completely ? averageTimes?.completely + 'h' : 'N/A' }}</span>
           </div>
         </div>
       </div>
-
     </div>
 
     <!-- ACCIONES Y BOTONES -->
@@ -74,8 +73,8 @@
 
     <!-- TAB: OVERVIEW -->
     @if (activeTab === 'overview') {
-
       <div class="overview-content">
+
         <!-- DESCRIPCIÓN -->
         <div class="description-section">
           <h2>About</h2>
@@ -124,32 +123,29 @@
           }
 
         </div>
-        
 
         <!-- INFORMACIÓN ADICIONAL -->
         <div class="info-grid">
           @if (game.platforms && game.platforms.length > 0) {
-          <div class="info-card">
-            <h3>Platforms</h3>
-
-            <div class="platforms-info">
-              @for (platform of game.platforms; track platform.id) {
-                <span class="platform">{{ platform.name }}</span>
-              }
+            <div class="info-card">
+              <h3>Platforms</h3>
+              <div class="platforms-info">
+                @for (platform of game.platforms; track platform.id) {
+                  <span class="platform">{{ platform.name }}</span>
+                }
+              </div>
             </div>
-          </div>
           }
 
           @if (game.genres && game.genres.length > 0) {
-          <div class="info-card">
-            <h3>Genres</h3>
-
-            <div class="genres-info">
-              @for (genre of game.genres; track genre) {
-                <span class="genre">{{ genre }}</span>
-              }
+            <div class="info-card">
+              <h3>Genres</h3>
+              <div class="genres-info">
+                @for (genre of game.genres; track genre) {
+                  <span class="genre">{{ genre }}</span>
+                }
+              </div>
             </div>
-          </div>
           }
 
           @if (game.metacritic) {
@@ -165,7 +161,6 @@
     <!-- TAB: MEDIA -->
     @if (activeTab === 'media') {
       <div class="media-content">
-        <!-- SCREENSHOTS -->
         @if (game.screenshots && game.screenshots.length > 0) {
           <div class="screenshots-section">
             <h2>Screenshots</h2>
@@ -277,19 +272,16 @@
       {{ currentScreenshotIndex + 1 }} / {{ game.screenshots.length }}
     </div>
   </div>
-
-
-
 }
 
-  <!-- JUEGOS SIMILARES -->
-  @if (similarGames.length > 0) {
-    <div class="similar-games-section">
-      <h2>Similar games</h2>
-      <div class="similar-games-grid">
-        @for (similar of similarGames; track similar.id) {
-          <app-game-card [game]="similar"></app-game-card>
-        }
-      </div>
+<!-- JUEGOS SIMILARES -->
+@if (similarGames.length > 0) {
+  <div class="similar-games-section">
+    <h2>Similar games</h2>
+    <div class="similar-games-grid">
+      @for (similar of similarGames; track similar.id) {
+        <app-game-card [game]="similar"></app-game-card>
+      }
     </div>
-  }
+  </div>
+}
