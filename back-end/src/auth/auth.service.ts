@@ -2,7 +2,8 @@ import { Injectable, UnauthorizedException, BadRequestException } from '@nestjs/
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcryptjs';
 import { UserService } from '../user/user.service';
-import { MailService } from 'src/modules/mail/mail.service';
+// import { MailService } from 'src/modules/mail/mail.service';
+import { MailService } from '../modules/mail/mail.service
 import { randomBytes } from 'crypto';
 
 @Injectable()
@@ -43,7 +44,7 @@ export class AuthService {
     // Solicitar reset
   async forgotPassword(email: string): Promise<void> {
     const user = await this.userService.findByEmail(email);
-    if (!user) return; // No revelamos si el email existe
+    if (!user) return;
 
     const token = randomBytes(32).toString('hex');
     await this.userService.setResetToken(user.id, token);
