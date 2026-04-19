@@ -56,6 +56,8 @@ async function bootstrap() {
         'capacitor://localhost',
         'https://localhost',
         'http://localhost',
+        'http://192.168.1.140:4200',
+        'http://192.168.1.140:3000',
         /\.vercel\.app$/,
         /\.onrender\.com$/,
         'https://tu-app-frontend.vercel.app',
