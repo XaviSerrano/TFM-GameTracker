@@ -2,8 +2,7 @@ import { Injectable, UnauthorizedException, BadRequestException } from '@nestjs/
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcryptjs';
 import { UserService } from '../user/user.service';
-// import { MailService } from 'src/modules/mail/mail.service';
-import { MailService } from '../modules/mail/mail.service
+import { MailService } from '../modules/mail/mail.service'
 import { randomBytes } from 'crypto';
 
 @Injectable()
