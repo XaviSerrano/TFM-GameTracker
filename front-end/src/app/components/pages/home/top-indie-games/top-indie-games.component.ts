@@ -49,7 +49,7 @@ export class TopIndieGamesComponent implements OnInit {
   }
 
   seeGameDetail(gameId: number) {
-    this.router.navigate(['/detail', gameId]);
+    this.router.navigate(['/detail', gameId], {replaceUrl: true});
   }
 
   loadMore() {
