@@ -34,8 +34,12 @@ export class AppComponent {
     public alertService: AlertService,
     private platform: Platform
   ) {
-    // Detectar si es app nativa (Capacitor)
     this.isMobile = this.platform.is('capacitor');
+
+    // Añade clase al body si es app nativa
+    if (this.isMobile) {
+      document.body.classList.add('is-native');
+    }
 
     this.router.events
       .pipe(filter((event) => event instanceof NavigationEnd))

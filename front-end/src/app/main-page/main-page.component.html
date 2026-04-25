@@ -1,24 +1,27 @@
-<div class="user-icon" (click)="toggleAuthModal()">
-  <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="currentColor" viewBox="0 0 24 24">
-    <path d="M12 12c2.7 0 5-2.3 5-5s-2.3-5-5-5-5 2.3-5 5 2.3 5 5 5zm0 2c-3.3 0-10 1.7-10 5v3h20v-3c0-3.3-6.7-5-10-5z"/>
-  </svg>
-</div>
-
-@if (showAuthModal) {
-  <app-auth-modal (close)="toggleAuthModal()"></app-auth-modal>
-}
-
-<div [@fadeAnimation]>
-  <div class="main-container">
-    <h1 class="title">
-      <span>Game</span><br>
-      <span>Tracker</span>
-    </h1>
-
-    <div class="square">
-      <img src="assets/images/kratos.png" alt="Kratos">
-    </div>
-
-    <button class="start-btn" (click)="startTracking()">Start Tracking</button>
+@if (!isChecking) {
+  <div class="user-icon" (click)="toggleAuthModal()">
+    <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="currentColor" viewBox="0 0 24 24">
+      <path d="M12 12c2.7 0 5-2.3 5-5s-2.3-5-5-5-5 2.3-5 5 2.3 5 5 5zm0 2c-3.3 0-10 1.7-10 5v3h20v-3c0-3.3-6.7-5-10-5z"/>
+    </svg>
   </div>
-</div>
+
+  @if (showAuthModal) {
+    <app-auth-modal 
+      (close)="toggleAuthModal()"
+      (loginSuccess)="onLoginSuccess()">
+    </app-auth-modal>
+  }
+
+  <div [@fadeAnimation]>
+    <div class="main-container">
+      <h1 class="title">
+        <span>Game</span><br>
+        <span>Tracker</span>
+      </h1>
+      <div class="square">
+        <img src="assets/images/kratos.png" alt="Kratos">
+      </div>
+      <button class="start-btn" (click)="startTracking()">Start Tracking</button>
+    </div>
+  </div>
+}

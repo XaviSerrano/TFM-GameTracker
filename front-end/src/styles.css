@@ -52,3 +52,8 @@ body::-webkit-scrollbar {
 * {
   box-sizing: border-box
 }
+
+body.is-native .game-info {
+  opacity: 1 !important;
+  transform: none !important;
+}

@@ -114,6 +114,16 @@ export class GameDetailComponent implements OnInit {
   }
 
   loadGame() {
+
+    // Version movil
+    const ionContent = document.querySelector('ion-content');
+    if (ionContent) {
+      (ionContent as any).scrollToTop(0);
+    } else {
+      window.scrollTo({ top: 0, behavior: 'instant' });
+    }
+  
+
     window.scrollTo({ top: 0, behavior: 'instant' });
     this.igdbService.getGameById(this.gameId).subscribe({
       next: (data: any) => {

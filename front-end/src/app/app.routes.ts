@@ -16,9 +16,10 @@ import { SuggestionsComponent } from './components/footer/suggestions/suggestion
 import { HomeComponent } from './components/pages/home/home.component';
 import { ForgotPasswordComponent } from './auth/forgot-password/forgot-password.component';
 import { ResetPasswordComponent } from './auth/reset-password/reset-password.component';
+import { authRedirectGuard } from './guards/auth-redirect.guard';
 
 export const routes: Routes = [
-  { path: '', component: MainPageComponent },
+  { path: '', component: MainPageComponent, canActivate: [authRedirectGuard] },
   { path: 'home', component: HomeComponent },
   { path: 'trending', component: TrendingGamesComponent },
   { path: 'search/:query', component: SearchResultsComponent },

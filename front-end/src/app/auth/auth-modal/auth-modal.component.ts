@@ -15,6 +15,7 @@ import { ChangeDetectorRef } from '@angular/core';
 export class AuthModalComponent {
 
   @Output() close = new EventEmitter<void>()
+  @Output() loginSuccess = new EventEmitter<void>();
 
   email = '';
   password = '';
@@ -43,8 +44,9 @@ export class AuthModalComponent {
         next: () => {
           this.message = '✅ Login successful!';
           this.cd.markForCheck();
-          setTimeout(() => this.close.emit(), 800);
-          setTimeout(() => this.router.navigate(['/home']), 800);
+          this.close.emit();
+          this.loginSuccess.emit(); // emitir evento
+          this.router.navigate(['/home'], { replaceUrl: true });
         },
         error: () => this.message = '❌ Invalid credentials'
       });
