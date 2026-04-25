@@ -1,5 +1,5 @@
 <div class="modal-backdrop" *ngIf="showReview" (click)="onBackdropClick($event)">
-  <div class="modal">
+  <div class="modal" (click)="$event.stopPropagation()">
     <h2>Write your review</h2>
 
     <textarea [(ngModel)]="reviewText" maxlength="500"></textarea>

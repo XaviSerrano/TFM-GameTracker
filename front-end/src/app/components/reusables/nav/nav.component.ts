@@ -23,7 +23,7 @@ import { UserService } from '../../../services/user.service';
 })
 export class NavComponent implements OnInit {
   query = '';
-  searchResults: (NormalizedGame | any)[] = []; // ✅ Tipo más específico
+  searchResults: (NormalizedGame | any)[] = [];
   searchingUsers = false;
   showSuggestions = false;
 
@@ -111,7 +111,7 @@ export class NavComponent implements OnInit {
 
   toggleDropdown() {
     this.isDropdownOpen = !this.isDropdownOpen;
-    document.body.style.overflow = this.isDropdownOpen ? 'hidden': '';
+    document.body.style.overflow = this.isDropdownOpen ? 'hidden' : '';
   }
 
   closeDropdown() {
@@ -137,5 +137,9 @@ export class NavComponent implements OnInit {
     if (user) {
       this.auth.updateCurrentUser({ profileImage: null });
     }
+  }
+
+  goHome() {
+    this.router.navigate(['/home'], { replaceUrl: true });
   }
 }
