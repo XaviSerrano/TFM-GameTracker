@@ -7,7 +7,7 @@ const config: CapacitorConfig = {
   appName: 'GameTracker',
   webDir: 'dist/front-end/browser',
   server: isDev ? {
-    url:'http://192.168.1.140:4200/',
+    url:'http://192.168.1.134:4200/',
     cleartext: true
   } : {
     androidScheme: 'https'

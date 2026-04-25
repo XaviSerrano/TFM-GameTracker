@@ -57,6 +57,7 @@ async function bootstrap() {
         'https://localhost',
         'http://localhost',
         'http://192.168.1.140:4200',
+        'http://192.168.1.134:4200',
         'http://192.168.1.140:3000',
         /\.vercel\.app$/,
         /\.onrender\.com$/,
