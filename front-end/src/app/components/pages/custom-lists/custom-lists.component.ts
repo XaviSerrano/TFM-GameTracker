@@ -104,4 +104,8 @@ export class CustomListsComponent implements OnInit {
       this.closeModal();
     });
   }
+
+  goToList(id: number) {
+    this.router.navigate(['/custom-lists', id], { replaceUrl: true });
+  }
 }

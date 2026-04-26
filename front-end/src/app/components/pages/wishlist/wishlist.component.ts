@@ -15,8 +15,8 @@ import { FiltersComponent, GameFilters } from '../../reusables/filters/filters.c
 })
 export class WishlistComponent implements OnInit {
 
-  allGames: any[] = []; // ← lista completa sin filtrar
-  wishlist: any[] = []; // ← lista filtrada que se muestra
+  allGames: any[] = [];
+  wishlist: any[] = [];
   loading = true;
   showFilters = false;
   error = '';

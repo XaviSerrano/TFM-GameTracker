@@ -8,7 +8,7 @@
     <div 
       class="list-card"
       *ngFor="let list of lists; trackBy: trackById"
-      [routerLink]="['/custom-lists', list.id]"
+      (click)="goToList(list.id)"
     >
       <!-- ACTION BUTTONS -->
       <div class="card-actions">

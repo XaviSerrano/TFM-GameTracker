@@ -267,3 +267,14 @@
   }
 }
 
+
+@media (max-width: 480px) {
+  .nav {
+    padding-block: 2rem;
+  }
+
+  .dropdown-menu,
+  .dropdown-menu.show {
+    top: 270px !important;
+  }
+}

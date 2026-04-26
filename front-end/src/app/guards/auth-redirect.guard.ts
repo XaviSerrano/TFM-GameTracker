@@ -8,7 +8,7 @@ export const authRedirectGuard: CanActivateFn = () => {
 
   if (authService.isLoggedIn()) {
     router.navigate(['/home'], { replaceUrl: true });
-    return false; // bloquea la carga del componente
+    return false;
   }
-  return true; // permite cargar MainPage solo si NO está logueado
+  return true; 
 };

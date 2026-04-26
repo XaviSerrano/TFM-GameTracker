@@ -100,22 +100,27 @@ export class NavComponent implements OnInit {
     this.showSuggestions = false;
   }
 
-  logout() {
-    this.auth.logout();
-    this.router.navigate(['/']);
-  }
-
+  
   toggleAuthModal() {
     this.showAuthModal = !this.showAuthModal;
   }
-
+  
   toggleDropdown() {
     this.isDropdownOpen = !this.isDropdownOpen;
-    document.body.style.overflow = this.isDropdownOpen ? 'hidden' : '';
   }
-
+  
   closeDropdown() {
     this.isDropdownOpen = false;
+  }
+
+  navigateTo(path: string) {
+    this.closeDropdown();
+    this.router.navigate([path], { replaceUrl: true });
+  }
+
+  logout() {
+    this.auth.logout();
+    this.router.navigate(['/'], { replaceUrl: true });
   }
 
   @HostListener('document:click', ['$event'])

@@ -52,12 +52,12 @@
         </svg>
       </button>
 
-      <ul *ngIf="isDropdownOpen" class="dropdown-menu show" (click)="closeDropdown()">
-        <li><a class="dropdown-item" routerLink="/profile">Profile</a></li>
-        <li><a class="dropdown-item" routerLink="/wishlist">Wishlist</a></li>
-        <li><a class="dropdown-item" routerLink="/collection">Collection Status</a></li>
-        <li><a class="dropdown-item" routerLink="/custom-lists">Lists</a></li>
-        <li><a class="dropdown-item" routerLink="/settings">Settings</a></li>
+      <ul *ngIf="isDropdownOpen" class="dropdown-menu show">
+        <li><a class="dropdown-item" (click)="navigateTo('/profile')">Profile</a></li>
+        <li><a class="dropdown-item" (click)="navigateTo('/wishlist')">Wishlist</a></li>
+        <li><a class="dropdown-item" (click)="navigateTo('/collection')">Collection Status</a></li>
+        <li><a class="dropdown-item" (click)="navigateTo('/custom-lists')">Lists</a></li>
+        <li><a class="dropdown-item" (click)="navigateTo('/settings')">Settings</a></li>
         <li><hr class="dropdown-divider"></li>
         <li><a class="dropdown-item" (click)="logout()">Logout</a></li>
       </ul>
